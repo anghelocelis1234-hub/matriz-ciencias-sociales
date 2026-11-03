@@ -391,32 +391,44 @@
     .zone-quick-btn {
       display: flex;
       align-items: center;
-      gap: 8px;
+      justify-content: center;
+      gap: 6px;
       padding: 11px 10px;
       min-height: 52px;
       background-color: var(--bg-white);
       border: 2px solid var(--border-neutral);
       border-radius: var(--radius-sm);
-      text-align: left;
+      text-align: center;
       cursor: pointer;
       color: var(--text-black);
       font-weight: 800;
       font-size: 0.86rem;
-      line-height: 1.22;
-      transition: background-color 0.15s ease, transform 0.1s ease;
+      line-height: 1.25;
+      transition: filter 0.15s ease, transform 0.1s ease;
     }
 
     .zone-quick-btn:active {
       transform: scale(0.98);
-      background-color: var(--bg-green-tint);
     }
 
-    .zone-dot-indicator {
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      flex-shrink: 0;
-      border: 2px solid #000000;
+    .zone-btn-red {
+      border-color: #DC2626;
+      background-color: #FEF2F2;
+    }
+
+    .zone-btn-yellow {
+      border-color: #CA8A04;
+      background-color: #FEFCE8;
+    }
+
+    .zone-btn-green {
+      border-color: #15803D;
+      background-color: #F0FDF4;
+    }
+
+    .zone-btn-blue {
+      border-color: #1D4ED8;
+      background-color: #EFF6FF;
     }
 
     /* ==========================================================================
@@ -1244,6 +1256,120 @@
       opacity: 1;
       transform: translateX(-50%) translateY(0);
     }
+
+    /* ==========================================================================
+       ESCALA Y LECTURA EXCLUSIVA PARA PC / ESCRITORIO (>= 1024px • MÓVIL INTACTO)
+       ========================================================================== */
+    @media (min-width: 1024px) {
+      body {
+        font-size: 1.15rem;
+        line-height: 1.7;
+      }
+
+      .app-container {
+        max-width: 1160px;
+        padding: 0 28px;
+      }
+
+      .hero-header {
+        padding: 28px 32px;
+      }
+
+      .hero-header h1 {
+        font-size: 2.15rem;
+      }
+
+      .hero-header p,
+      .thesis-box p,
+      .section-instruction,
+      .capsule-body-content p,
+      .inference-prompt-text {
+        font-size: 1.15rem;
+        line-height: 1.7;
+      }
+
+      .thesis-box {
+        padding: 20px 24px;
+      }
+
+      .section-card {
+        padding: 28px 30px;
+        margin-bottom: 30px;
+      }
+
+      .section-title-row h2 {
+        font-size: 1.75rem;
+      }
+
+      .zone-quick-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+        margin-top: 16px;
+      }
+
+      .zone-quick-btn {
+        font-size: 0.98rem;
+        min-height: 58px;
+        padding: 12px 14px;
+      }
+
+      .inference-textarea,
+      textarea.form-control {
+        font-size: 1.05rem;
+        padding: 12px;
+      }
+
+      .zone-modal-sheet {
+        max-width: 1040px;
+        max-height: 90vh;
+      }
+
+      .zone-modal-body {
+        padding: 24px 30px 32px;
+      }
+
+      .level-a-banner h3 {
+        font-size: 1.45rem;
+      }
+
+      .capsule-title-text {
+        font-size: 1.08rem;
+      }
+
+      .capsule-img-wrap img {
+        max-height: 360px;
+      }
+
+      .portrait-cards-grid {
+        grid-template-columns: repeat(2, minmax(240px, 340px));
+        justify-content: center;
+        gap: 20px;
+      }
+
+      .portrait-cards-grid.count-3 {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+
+      .portrait-card-name {
+        font-size: 1.15rem;
+      }
+
+      .portrait-card-summary {
+        font-size: 0.92rem;
+        line-height: 1.45;
+      }
+
+      .detail-hero-card {
+        grid-template-columns: 150px 1fr;
+        gap: 20px;
+        padding: 18px;
+      }
+
+      .detail-title-group h3 {
+        font-size: 1.55rem;
+      }
+    }
   </style>
 </head>
 <body>
@@ -1355,23 +1481,19 @@
         </button>
       </div>
 
-      <!-- ACCESO TÁCTIL CON UNA MANO A LAS 4 ZONAS -->
+      <!-- BOTONERA LIMPIA Y CENTRADA DE LAS 4 ZONAS (SIN DUPLICADOS) -->
       <div class="zone-quick-grid">
-        <button type="button" class="zone-quick-btn" data-zone="rojo">
-          <span class="zone-dot-indicator" style="background-color:#EF4444;"></span>
-          <span>🔴 Várzea y Riberas Fértiles (3 pueblos)</span>
+        <button type="button" class="zone-quick-btn zone-btn-red" data-zone="rojo">
+          🔴 Várzea y Riberas Fértiles
         </button>
-        <button type="button" class="zone-quick-btn" data-zone="amarillo">
-          <span class="zone-dot-indicator" style="background-color:#FACC15;"></span>
-          <span>🟡 Interfluvios y Selva Central (2 pueblos)</span>
+        <button type="button" class="zone-quick-btn zone-btn-yellow" data-zone="amarillo">
+          🟡 Interfluvios y Selva Central
         </button>
-        <button type="button" class="zone-quick-btn" data-zone="verde">
-          <span class="zone-dot-indicator" style="background-color:#22C55E;"></span>
-          <span>🟢 Alto Marañón y Pongos (2 pueblos)</span>
+        <button type="button" class="zone-quick-btn zone-btn-green" data-zone="verde">
+          🟢 Alto Marañón y Pongos
         </button>
-        <button type="button" class="zone-quick-btn" data-zone="azul">
-          <span class="zone-dot-indicator" style="background-color:#2563EB;"></span>
-          <span>🔵 Putumayo y el Caucho (2 pueblos)</span>
+        <button type="button" class="zone-quick-btn zone-btn-blue" data-zone="azul">
+          🔵 Putumayo y el Caucho
         </button>
       </div>
 
@@ -1484,9 +1606,16 @@
       <!-- PANEL DE CONFIRMACIÓN FINAL -->
       <div class="submission-success-card" id="submission-success-card" aria-live="polite">
         <div style="font-size:2.4rem;">✅</div>
-        <h3>¡Evaluación y Evidencia de la Semana 03 Enviadas!</h3>
+        <h3 id="submission-success-title">¡Evaluación y Evidencia de la Semana 03 Enviadas!</h3>
         <p id="submission-summary-text"></p>
         <a href="index.html" class="btn-return-final">⬅️ Volver a la Matriz Principal</a>
+        <button
+          type="button"
+          id="btn-enable-resubmit"
+          style="margin-top:10px; width:100%; min-height:46px; background:#FFFFFF; color:#15803D; border:2px solid #15803D; border-radius:12px; font-weight:800; font-size:0.95rem; cursor:pointer; padding:10px 16px;"
+        >
+          🔄 Corregir o actualizar mi entrega
+        </button>
       </div>
     </section>
 
@@ -1500,7 +1629,7 @@
       <div class="zone-modal-topbar">
         <span class="zone-modal-badge" id="modal-zone-badge">📍 Zona Territorial</span>
         <div class="topbar-actions">
-          <button type="button" class="btn-topbar-back" id="btn-topbar-back">↩️ Volver</button>
+          <button type="button" class="btn-topbar-back" id="btn-topbar-back">↩️ Volver a los pueblos</button>
           <button type="button" class="btn-close-map-modal" id="btn-close-zone-modal">✕ Cerrar</button>
         </div>
       </div>
@@ -1516,15 +1645,17 @@
 
           <div class="capsules-stack" id="zone-capsules-container"></div>
 
-          <p class="tree-section-label">👥 Nivel B • Pueblos Originarios (Toca un retrato para abrir su ficha y pregunta):</p>
-          <div class="portrait-cards-grid" id="portrait-cards-grid"></div>
+          <div id="contenedorTarjetasPueblos" style="scroll-margin-top: 12px;">
+            <p class="tree-section-label">👥 Nivel B • Pueblos Originarios (Toca un retrato para abrir su ficha y pregunta):</p>
+            <div class="portrait-cards-grid" id="portrait-cards-grid"></div>
+          </div>
         </div>
 
         <!-- NIVEL B: FICHAS PREMONTADAS DE LOS 9 PUEBLOS CON SUS TEXTAREAS PERSISTENTES -->
         <div class="modal-level-view" id="modal-level-2">
           <div class="nav-dual-row">
             <button type="button" class="btn-return-zone" id="btn-back-to-zone-top">
-              ↩️ Volver
+              ↩️ Volver a los pueblos
             </button>
             <button type="button" class="btn-close-inline" id="btn-close-inline-top">
               ✕ Cerrar
@@ -1535,7 +1666,7 @@
 
           <div class="nav-dual-row" style="margin-top:16px; margin-bottom:0;">
             <button type="button" class="btn-return-zone" id="btn-back-to-zone-bottom">
-              ↩️ Volver
+              ↩️ Volver a los pueblos
             </button>
             <button type="button" class="btn-close-inline" id="btn-close-inline-bottom">
               ✕ Cerrar
@@ -2220,6 +2351,11 @@
         card.classList.toggle("open", abriendo);
         btn.setAttribute("aria-expanded", abriendo ? "true" : "false");
         sonarEfecto(abriendo ? "capsula_abrir" : "capsula_cerrar");
+        if (abriendo) {
+          setTimeout(() => {
+            card.scrollIntoView({ behavior: "smooth", block: "center" });
+          }, 180);
+        }
       });
 
       card.appendChild(btn);
@@ -2436,7 +2572,13 @@
       btnTopbarBack.classList.remove("visible");
       level2View.classList.remove("active");
       level1View.classList.add("active");
-      modalScroll.scrollTop = 0;
+
+      requestAnimationFrame(() => {
+        const contenedorPueblos = document.getElementById("contenedorTarjetasPueblos");
+        if (contenedorPueblos) {
+          contenedorPueblos.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
     }
 
     function cerrarModalMapa() {
@@ -2610,28 +2752,15 @@
       }
     }
 
-    function construirResumenLecturaDocente(pueblo, justificacion, mapaRespuestas) {
-      const etiquetas = [
-        ["Omagua", mapaRespuestas.omagua],
-        ["Kukama-Kukamiria", mapaRespuestas.kukama],
-        ["Shipibo-Konibo", mapaRespuestas.shipibo],
-        ["Asháninka", mapaRespuestas.ashaninka],
-        ["Yanesha", mapaRespuestas.yanesha],
-        ["Awajún", mapaRespuestas.awajun],
-        ["Wampis", mapaRespuestas.wampis],
-        ["Huitoto (Murui-Muinane)", mapaRespuestas.huitoto],
-        ["Bora", mapaRespuestas.bora],
-        ["🌐 Síntesis Territorial", mapaRespuestas.sintesis_territorial]
-      ];
-
-      const bloqueInferencias = etiquetas
-        .map(([nom, val]) => `• ${nom}: ${val ? val.trim() : "(Sin respuesta)"}`)
-        .join("\n");
+    function construirResumenLecturaDocente(pueblo, justificacion, listaDetallada) {
+      const bloqueInferencias = listaDetallada
+        .map((item, idx) => `${idx + 1}. [${item.cultura}] ${item.pregunta}\n   ↳ Respuesta: ${item.respuesta}`)
+        .join("\n\n");
 
       return (
         `📌 PUEBLO ANALIZADO EN INFOGRAFÍA: ${pueblo}\n` +
         `📝 JUSTIFICACIÓN MATERIALISTA:\n${justificacion}\n\n` +
-        `✍️ RESPUESTAS DE INFERENCIA EN EL MAPA:\n${bloqueInferencias}`
+        `✍️ PREGUNTAS Y RESPUESTAS DE INFERENCIA EN EL MAPA:\n\n${bloqueInferencias}`
       );
     }
 
@@ -2666,38 +2795,131 @@
         sintesis_territorial: (document.getElementById("resp_sintesis")?.value ?? respuestasInferencia.sintesis_territorial ?? "").trim()
       };
 
+      const respuestasInferenciaDetalladas = [
+        {
+          cultura: "Omaguas",
+          pregunta: "¿Por qué crees que un pueblo del río necesitó almacenar animales vivos en corrales inundables en lugar de depender únicamente de la pesca diaria? Explica cómo influía la época de creciente.",
+          respuesta: paqueteInferencias.omagua || "Sin respuesta"
+        },
+        {
+          cultura: "Kukama-Kukamiria",
+          pregunta: "¿Qué consecuencias materiales habría sufrido su pueblo si hubiesen pescado sin control en las lagunas y cochas durante la vaciante?",
+          respuesta: paqueteInferencias.kukama || "Sin respuesta"
+        },
+        {
+          cultura: "Shipibo-Konibo",
+          pregunta: "¿Por qué la conservación de alimentos y bebidas fermentadas en grandes tinajas de alfarería fue fundamental para sostener sus poblados ribereños?",
+          respuesta: paqueteInferencias.shipibo || "Sin respuesta"
+        },
+        {
+          cultura: "Asháninka",
+          pregunta: "¿Cómo obligó la fragilidad del suelo de colina y el barbecho largo (descanso de hasta 40 años) a que las familias vivieran dispersas y no en una sola gran ciudad?",
+          respuesta: paqueteInferencias.ashaninka || "Sin respuesta"
+        },
+        {
+          cultura: "Yanesha",
+          pregunta: "¿Qué herramientas y materiales necesitaban obtener de los pueblos andinos a cambio de la sal para mejorar su trabajo en el bosque amazónico?",
+          respuesta: paqueteInferencias.yanesha || "Sin respuesta"
+        },
+        {
+          cultura: "Awajún",
+          pregunta: "¿Por qué la cerbatana larga con dardos de curare era una tecnología más eficaz para cazar en el dosel arbóreo que armas ruidosas?",
+          respuesta: paqueteInferencias.awajun || "Sin respuesta"
+        },
+        {
+          cultura: "Wampis",
+          pregunta: "¿De qué manera el conocimiento de las corrientes y cañones estrechos de los pongos fluviales se convirtió en su principal defensa territorial militar?",
+          respuesta: paqueteInferencias.wampis || "Sin respuesta"
+        },
+        {
+          cultura: "Huitoto",
+          pregunta: "¿Cómo utilizó la Casa Arana la prohibición de sembrar chacras y el hambre forzada como herramienta material para someterlos al acopio de caucho?",
+          respuesta: paqueteInferencias.huitoto || "Sin respuesta"
+        },
+        {
+          cultura: "Bora",
+          pregunta: "¿De qué forma el invento acústico del manguaré resolvió la comunicación y coordinación comunitaria a través de kilómetros de selva densa?",
+          respuesta: paqueteInferencias.bora || "Sin respuesta"
+        },
+        {
+          cultura: "Síntesis Territorial Macro",
+          pregunta: "¿Por qué la forma concreta en que cada pueblo obtiene sus medios de vida y trabaja la tierra determina cómo se organiza, vive y defiende su territorio?",
+          respuesta: paqueteInferencias.sintesis_territorial || "Sin respuesta"
+        }
+      ];
+
+      const userEmail = user && user.email ? user.email.toLowerCase() : "sin-correo";
       const nombreEstudianteFinal = user
         ? (user.displayName || nombrePerfilFirestore || "Estudiante")
-        : "Estudiante Registrado";
+        : "Estudiante";
 
-      const payloadEvaluacion = {
+      const payloadActualizado = {
         uid: user ? user.uid : "anonimo",
         estudiante_id: user ? user.uid : "anonimo",
         estudiante_nombre: nombreEstudianteFinal,
-        estudiante_email: user && user.email ? user.email.toLowerCase() : "sin-correo",
+        estudiante_email: userEmail,
         semana: "Semana 03",
         semana_numero: 3,
         fecha: firebase.firestore.FieldValue.serverTimestamp(),
         pueblo_analizado: puebloVal,
         texto_justificacion: justificacionVal,
-        texto_interpretacion: construirResumenLecturaDocente(puebloVal, justificacionVal, paqueteInferencias),
+        texto_interpretacion: construirResumenLecturaDocente(puebloVal, justificacionVal, respuestasInferenciaDetalladas),
         foto_infografia_base64: imagenComprimidaBase64,
         respuestas_inferencia: paqueteInferencias,
+        respuestas_inferencia_completas: respuestasInferenciaDetalladas,
         calificado_por_docente: false,
         nota_final_docente: null,
+        puntaje_vigesimal: null,
+        puntaje: null,
+        nivel_logro: null,
+        nivel: null,
         retroalimentacion_docente: ""
       };
 
       try {
-        await firebase.firestore().collection("evaluaciones").add(payloadEvaluacion);
+        let querySnapshot = null;
+        let docsExistentes = [];
+
+        if (userEmail !== "sin-correo") {
+          try {
+            querySnapshot = await firebase.firestore().collection("evaluaciones")
+              .where("estudiante_email", "==", userEmail)
+              .where("semana_numero", "==", 3)
+              .limit(1)
+              .get();
+            docsExistentes = querySnapshot.docs;
+          } catch (errIndice) {
+            const respaldoSnap = await firebase.firestore().collection("evaluaciones")
+              .where("estudiante_email", "==", userEmail)
+              .get();
+            docsExistentes = respaldoSnap.docs.filter((d) => {
+              const dt = d.data() || {};
+              return Number(dt.semana_numero) === 3 || dt.semana === "Semana 03";
+            });
+          }
+        }
+
+        const esActualizacion = docsExistentes.length > 0;
+        if (esActualizacion) {
+          const docIdExistente = docsExistentes[0].id;
+          await firebase.firestore().collection("evaluaciones").doc(docIdExistente).set(payloadActualizado, { merge: true });
+        } else {
+          await firebase.firestore().collection("evaluaciones").add(payloadActualizado);
+        }
 
         envioCompletado = true;
         try { localStorage.removeItem(STORAGE_KEY_INFERENCIA); } catch (errStorage) {}
 
         sonarEfecto("exito");
-        mostrarToast("¡Evaluación y evidencia de la Semana 03 registradas!");
+        mostrarToast(
+          esActualizacion
+            ? "¡Entrega de la Semana 03 actualizada correctamente!"
+            : "¡Evaluación y evidencia de la Semana 03 registradas!"
+        );
 
-        btnSubmit.textContent = "✅ Evaluación y Evidencia Enviadas";
+        btnSubmit.textContent = esActualizacion
+          ? "✅ Entrega Actualizada en Firestore"
+          : "✅ Evaluación y Evidencia Enviadas";
         hintEl.style.display = "none";
 
         ["puebloAnalizado", "textoJustificacion", "btn-trigger-camera", "btn-trigger-gallery", "resp_sintesis"].forEach((id) => {
@@ -2707,10 +2929,16 @@
 
         const cantInferencias = Object.values(paqueteInferencias).filter((v) => v.length > 0).length;
         const successCard = document.getElementById("submission-success-card");
+        const successTitle = document.getElementById("submission-success-title");
+        if (successTitle) {
+          successTitle.textContent = esActualizacion
+            ? "¡Entrega de la Semana 03 Actualizada!"
+            : "¡Evaluación y Evidencia de la Semana 03 Enviadas!";
+        }
         document.getElementById("submission-summary-text").innerHTML =
-          `Estudiante: <strong>${escaparHTML(payloadEvaluacion.estudiante_nombre)}</strong> (${escaparHTML(payloadEvaluacion.estudiante_email)})<br>` +
+          `Estudiante: <strong>${escaparHTML(payloadActualizado.estudiante_nombre)}</strong> (${escaparHTML(payloadActualizado.estudiante_email)})<br>` +
           `Pueblo analizado: <strong>${escaparHTML(puebloVal)}</strong> • Foto comprimida: <strong>${fotoPesoKB} KB</strong><br>` +
-          `Inferencias enviadas: <strong>${cantInferencias} / 10</strong> • Pendiente de calificación docente en la Matriz.`;
+          `Inferencias enviadas: <strong>${cantInferencias} / 10</strong> • Estado: <strong>${esActualizacion ? "Reenvío actualizado (sin duplicar registro)" : "Primera entrega registrada"}</strong> — Pendiente de calificación docente en la Matriz.`;
 
         successCard.classList.add("visible");
         successCard.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -2721,6 +2949,20 @@
         btnSubmit.textContent = "🚀 Enviar Evaluación y Evidencia de la Semana 3";
         mostrarToast("Error al guardar en Firestore: " + (err.message || "Intenta nuevamente"));
       }
+    });
+
+    document.getElementById("btn-enable-resubmit")?.addEventListener("click", () => {
+      sonarEfecto("volver");
+      envioCompletado = false;
+      ["puebloAnalizado", "textoJustificacion", "btn-trigger-camera", "btn-trigger-gallery", "resp_sintesis"].forEach((id) => {
+        const ctrl = document.getElementById(id);
+        if (ctrl) ctrl.disabled = false;
+      });
+      hintEl.style.display = "block";
+      document.getElementById("submission-success-card").classList.remove("visible");
+      btnSubmit.textContent = "🔄 Actualizar Evaluación y Evidencia de la Semana 3";
+      actualizarEstadoBotonEnvio();
+      document.getElementById("seccion-entrega")?.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   </script>
 </body>
