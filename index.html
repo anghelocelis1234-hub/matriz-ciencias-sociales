@@ -1,0 +1,3779 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matriz Educativa CNEB | Ciencias Sociales - I.E. Aplicación UNAP</title>
+<!-- Librería de partículas para celebración formativa -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+<style>
+  :root {
+    --azul-inst: #1a365d;
+    --azul-medio: #2563eb;
+    --azul-claro: #3b82f6;
+    --azul-oscuro: #0f274a;
+    --fondo-app: #F8FAFC;
+    --card-bg: #ffffff;
+    --texto-pri: #0f172a;
+    --texto-sec: #475569;
+    --borde: #e2e8f0;
+    --borde-focus: #93c5fd;
+    --sombra-card: 0 4px 14px rgba(15, 23, 42, 0.07);
+    --sombra-hover: 0 16px 32px rgba(15, 23, 42, 0.15);
+
+    /* Colores CNEB */
+    --cneb-ad: #1d4ed8;
+    --cneb-a:  #16a34a;
+    --cneb-b:  #d97706;
+    --cneb-c:  #dc2626;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--fondo-app);
+    color: var(--texto-pri);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  button { font-family: inherit; cursor: pointer; }
+
+  /* BANNER SUPERIOR (NO FIJO: Se desplaza al scrollear hacia abajo) */
+  header {
+    position: static;
+    background: linear-gradient(135deg, var(--azul-oscuro) 0%, #1e3a8a 55%, var(--azul-medio) 100%);
+    color: #ffffff;
+    padding: 24px 16px;
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.12);
+  }
+
+  .banner-container {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .banner-info { max-width: 800px; }
+
+  .banner-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.16);
+    backdrop-filter: blur(4px);
+    padding: 4px 12px;
+    border-radius: 9999px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+  }
+
+  .banner-info h1 {
+    font-size: 1.55rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    margin-bottom: 6px;
+  }
+
+  .banner-meta {
+    font-size: 0.88rem;
+    opacity: 0.94;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+  }
+
+  .banner-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .banner-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* BOTONES */
+  .btn {
+    border: none;
+    border-radius: 8px;
+    padding: 9px 16px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+  }
+
+  .btn-white {
+    background: #ffffff;
+    color: var(--azul-inst);
+  }
+  .btn-white:hover {
+    background: #eff6ff;
+    transform: translateY(-1px);
+  }
+
+  .btn-gold {
+    background: #f59e0b;
+    color: #111827;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.35);
+  }
+  .btn-gold:hover {
+    background: #fbbf24;
+    transform: translateY(-1px);
+  }
+
+  .btn-pri {
+    background: var(--azul-medio);
+    color: #ffffff;
+  }
+  .btn-pri:hover {
+    background: #1d4ed8;
+  }
+
+  .btn-outline {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #1e293b;
+  }
+  .btn-outline:hover {
+    background: #f1f5f9;
+    border-color: #94a3b8;
+  }
+
+  .btn-sm {
+    padding: 5px 10px;
+    font-size: 0.78rem;
+    border-radius: 6px;
+  }
+
+  /* CONTEXTO PEDAGÓGICO DE LA UNIDAD */
+  .context-bar {
+    max-width: 1240px;
+    margin: 18px auto 0;
+    padding: 0 16px;
+  }
+
+  .context-card {
+    background: #ffffff;
+    border-left: 4px solid var(--azul-medio);
+    padding: 14px 18px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .context-card strong {
+    color: #1e3a8a;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .context-card p {
+    font-size: 0.85rem;
+    color: #334155;
+  }
+
+  /* MAIN GRID (3 COLUMNAS DESKTOP / 1 COLUMNA MÓVIL) */
+  main {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 22px 16px 56px;
+  }
+
+  .section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .grid-semanas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  /* TARJETA DE CADA SEMANA */
+  .card-semana {
+    background: var(--card-bg);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: var(--sombra-card);
+    border: 1px solid var(--borde);
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .card-semana:hover {
+    transform: scale(1.028);
+    box-shadow: var(--sombra-hover);
+  }
+
+  .card-img-wrap {
+    height: 170px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    background-color: #cbd5e1;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .card-img-wrap img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 12px 12px 0 0;
+    transition: transform 0.45s ease;
+    display: block;
+  }
+
+  .card-semana:hover .card-img-wrap img {
+    transform: scale(1.08);
+  }
+
+  .card-badge-sem {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(4px);
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .card-fecha {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(255, 255, 255, 0.92);
+    color: #1e293b;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+
+  /* INSIGNIA DINÁMICA DE LA ESQUINA SUPERIOR DERECHA (DOBLE DISPARADOR INTERACTIVO) */
+  .badge-insignia {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 10;
+    padding: 5px 12px;
+    border-radius: 9999px;
+    font-size: 0.76rem;
+    font-weight: 800;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s ease;
+    user-select: none;
+  }
+  .badge-insignia:hover {
+    transform: scale(1.08);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.28);
+  }
+  .badge-insignia:active {
+    transform: scale(0.96);
+  }
+  .badge-insignia.pend {
+    background: rgba(241, 245, 249, 0.92);
+    color: #64748b;
+    border: 1px solid #cbd5e1;
+    font-weight: 600;
+  }
+  .badge-insignia.AD { background: var(--cneb-ad); color: #ffffff; border: 1px solid #93c5fd; }
+  .badge-insignia.A  { background: var(--cneb-a);  color: #ffffff; border: 1px solid #86efac; }
+  .badge-insignia.B  { background: var(--cneb-b);  color: #ffffff; border: 1px solid #fde047; }
+  .badge-insignia.C  { background: var(--cneb-c);  color: #ffffff; border: 1px solid #fca5a5; }
+
+  .card-content {
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 10px;
+  }
+
+  .card-comp-tag {
+    align-self: flex-start;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #1e40af;
+    background: #dbeafe;
+    padding: 3px 8px;
+    border-radius: 4px;
+    line-height: 1.2;
+  }
+
+  .card-content h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.35;
+  }
+
+  .card-content p {
+    font-size: 0.85rem;
+    color: var(--texto-sec);
+    flex: 1;
+    line-height: 1.45;
+  }
+
+  .card-evidencia {
+    font-size: 0.78rem;
+    color: #0369a1;
+    background: #f0f9ff;
+    border: 1px dashed #bae6fd;
+    padding: 6px 10px;
+    border-radius: 6px;
+  }
+
+  .card-actions {
+    margin-top: 6px;
+    border-top: 1px solid var(--borde);
+    padding-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .card-actions .btn {
+    width: 100%;
+  }
+
+  /* RESPONSIVE DESIGN (MÓVIL Y TABLET) */
+  @media (max-width: 960px) {
+    .grid-semanas { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  }
+
+  @media (max-width: 640px) {
+    header { padding: 18px 12px; }
+    .banner-info h1 { font-size: 1.25rem; }
+    main { padding: 16px 12px 40px; }
+    .grid-semanas {
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+    .card-semana {
+      border-radius: 12px;
+    }
+    .card-semana:hover { transform: none; }
+  }
+
+  /* MODALES Y OVERLAYS */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(3px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    z-index: 1000;
+  }
+
+  .overlay.open { display: flex; }
+
+  .modal-box {
+    background: #ffffff;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 480px;
+    max-height: 92vh;
+    overflow-y: auto;
+    position: relative;
+    padding: 24px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.28);
+  }
+
+  .modal-box.wide { max-width: 1240px; padding: 24px; }
+  .modal-box.medium { max-width: 680px; }
+
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 1.6rem;
+    color: #64748b;
+    line-height: 1;
+  }
+  .modal-close:hover { color: #0f172a; }
+
+  /* TABS AUTH */
+  .auth-tabs {
+    display: flex;
+    border-bottom: 2px solid var(--borde);
+    margin-bottom: 18px;
+  }
+  .auth-tabs button {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 10px;
+    font-weight: 700;
+    color: #64748b;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    font-size: 0.92rem;
+  }
+  .auth-tabs button.active {
+    color: var(--azul-medio);
+    border-color: var(--azul-medio);
+  }
+
+  .form-group { margin-bottom: 14px; text-align: left; }
+  .form-group label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 5px;
+  }
+  .form-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.92rem;
+    font-family: inherit;
+  }
+  .form-control:focus {
+    outline: 2px solid var(--borde-focus);
+    border-color: var(--azul-medio);
+  }
+
+  .alert-msg {
+    margin-top: 12px;
+    font-size: 0.85rem;
+    color: #dc2626;
+    min-height: 1.2em;
+    text-align: center;
+  }
+
+  /* MODAL DE RESULTADOS DEL ESTUDIANTE Y MEDALLAS ANIMADAS */
+  @keyframes popInBadge {
+    0% { transform: scale(0.2) rotate(-12deg); opacity: 0; }
+    60% { transform: scale(1.15) rotate(4deg); opacity: 1; }
+    80% { transform: scale(0.95) rotate(-2deg); }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+
+  @keyframes rotateRays {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  @keyframes flamePulse {
+    0%, 100% {
+      box-shadow: 0 0 25px rgba(16, 185, 129, 0.7), 0 0 50px rgba(251, 191, 36, 0.45);
+      transform: scale(1);
+    }
+    50% {
+      box-shadow: 0 0 45px rgba(16, 185, 129, 0.95), 0 0 80px rgba(251, 191, 36, 0.75);
+      transform: scale(1.04);
+    }
+  }
+
+  @keyframes gentlePulse {
+    0%, 100% { box-shadow: 0 0 16px rgba(217, 119, 6, 0.45); transform: scale(1); }
+    50% { box-shadow: 0 0 32px rgba(217, 119, 6, 0.75); transform: scale(1.02); }
+  }
+
+  @keyframes calmBreeze {
+    0%, 100% { box-shadow: 0 0 12px rgba(59, 130, 246, 0.25); }
+    50% { box-shadow: 0 0 24px rgba(59, 130, 246, 0.45); }
+  }
+
+  @keyframes zoomInBounce {
+    0% { transform: scale(0.2) rotate(-12deg); opacity: 0; }
+    60% { transform: scale(1.18) rotate(4deg); opacity: 1; }
+    80% { transform: scale(0.94) rotate(-2deg); }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+
+  .zoom-bounce {
+    animation: zoomInBounce 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
+  }
+
+  .result-hero {
+    border-radius: 14px;
+    padding: 24px 18px;
+    text-align: center;
+    margin-bottom: 18px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .result-hero.destacado {
+    background: radial-gradient(circle at center, #1e3a8a 0%, #0f172a 100%);
+    border: 2px solid #f59e0b;
+    color: #ffffff;
+  }
+
+  .result-hero.esperado {
+    background: linear-gradient(135deg, #064e3b 0%, #065f46 60%, #047857 100%);
+    border: 2px solid #34d399;
+    color: #ffffff;
+  }
+
+  .result-hero.proceso {
+    background: linear-gradient(135deg, #78350f 0%, #92400e 60%, #b45309 100%);
+    border: 2px solid #fbbf24;
+    color: #ffffff;
+  }
+
+  .result-hero.inicio {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    border: 2px solid #64748b;
+    color: #ffffff;
+  }
+
+  .rays-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 290px;
+    height: 290px;
+    background: repeating-conic-gradient(from 0deg, rgba(255, 215, 0, 0.14) 0deg 15deg, transparent 15deg 30deg);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: rotateRays 25s linear infinite;
+    z-index: 1;
+  }
+
+  .medalla-xl {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 105px;
+    height: 105px;
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 2.2rem;
+    font-weight: 900;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 2;
+    animation: popInBadge 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  .medalla-xl.ad-badge {
+    background: radial-gradient(circle, #2563eb 20%, #1e3a8a 100%);
+    border: 4px solid #FFD700;
+    box-shadow: 0 0 35px #FFD700, 0 0 70px #3B82F6;
+  }
+
+  .medalla-xl.a-badge {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    border: 4px solid #fbbf24;
+    animation: popInBadge 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, flamePulse 2s infinite ease-in-out;
+  }
+
+  .medalla-xl.b-badge {
+    background: linear-gradient(135deg, #b45309 0%, #d97706 100%);
+    border: 4px solid #fde68a;
+    animation: popInBadge 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, gentlePulse 2.5s infinite ease-in-out;
+  }
+
+  .medalla-xl.c-badge {
+    background: linear-gradient(135deg, #475569 0%, #64748b 100%);
+    border: 4px solid #94a3b8;
+    animation: popInBadge 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, calmBreeze 3s infinite ease-in-out;
+  }
+
+  .nota-vigesimal {
+    font-size: 1.25rem;
+    font-weight: 800;
+    position: relative;
+    z-index: 2;
+  }
+
+  .box-texto-estudiante {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 14px;
+    font-size: 0.88rem;
+    color: #334155;
+    line-height: 1.5;
+    max-height: 180px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    margin-bottom: 16px;
+  }
+
+  .box-recomendacion-docente {
+    background: #eff6ff;
+    border-left: 5px solid var(--azul-medio);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+
+  .box-recomendacion-docente h4 {
+    color: #1e3a8a;
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .box-recomendacion-docente p {
+    font-size: 0.88rem;
+    color: #1e293b;
+    line-height: 1.5;
+  }
+
+  /* RÚBRICA POR SEMANA (CUADRO DE DOBLE ENTRADA) */
+  .rubrica-container {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    margin: 14px 0 20px;
+    overflow: hidden;
+  }
+
+  .rubrica-header {
+    background: #f1f5f9;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .rubrica-header h3 {
+    font-size: 0.96rem;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .rubrica-body {
+    padding: 14px;
+    display: block;
+    overflow-x: auto;
+  }
+
+  .rubrica-body.collapsed { display: none; }
+
+  table.tabla-rubrica {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    table-layout: fixed;
+    min-width: 860px;
+  }
+
+  table.tabla-rubrica th, table.tabla-rubrica td {
+    border: 1px solid #cbd5e1;
+    padding: 10px 12px;
+    vertical-align: top;
+    line-height: 1.45;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  table.tabla-rubrica th {
+    font-weight: 700;
+    text-align: center;
+  }
+
+  table.tabla-rubrica th.col-cap {
+    background: #1e293b !important;
+    color: #ffffff !important;
+    text-align: left;
+    width: 24%;
+  }
+
+  table.tabla-rubrica th.col-ad {
+    background: #1e40af !important;
+    color: #ffffff !important;
+    width: 19%;
+  }
+
+  table.tabla-rubrica th.col-a {
+    background: #059669 !important;
+    color: #ffffff !important;
+    width: 19%;
+  }
+
+  table.tabla-rubrica th.col-b {
+    background: #d97706 !important;
+    color: #ffffff !important;
+    width: 19%;
+  }
+
+  table.tabla-rubrica th.col-c {
+    background: #dc2626 !important;
+    color: #ffffff !important;
+    width: 19%;
+  }
+
+  /* TABLA DE CALIFICACIONES EN PANEL DOCENTE */
+  .toolbar-panel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 14px 0;
+    align-items: center;
+  }
+  .toolbar-panel input, .toolbar-panel select {
+    padding: 9px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.86rem;
+    font-family: inherit;
+  }
+  .toolbar-panel input { min-width: 200px; flex: 1; }
+
+  .table-responsive {
+    overflow-x: auto;
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    max-height: 480px;
+  }
+
+  table.tabla-notas {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.82rem;
+    min-width: 1050px;
+    text-align: left;
+  }
+
+  table.tabla-notas th {
+    background: #f1f5f9;
+    padding: 10px 12px;
+    color: #1e293b;
+    font-weight: 700;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    border-bottom: 2px solid var(--borde);
+  }
+
+  table.tabla-notas td {
+    padding: 10px 12px;
+    border-top: 1px solid var(--borde);
+    color: #334155;
+  }
+
+  table.tabla-notas tr:hover { background-color: #f8fafc; }
+
+  .badge-cneb {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    font-weight: 800;
+    font-size: 0.76rem;
+    text-align: center;
+    color: #ffffff;
+  }
+  .badge-AD { background-color: var(--cneb-ad); }
+  .badge-A  { background-color: var(--cneb-a);  }
+  .badge-B  { background-color: var(--cneb-b);  }
+  .badge-C  { background-color: var(--cneb-c);  }
+
+  /* PANEL DE CALIFICACIÓN EN VIVO (MODAL DOCENTE) */
+  .selector-niveles {
+    display: flex;
+    gap: 8px;
+    margin: 8px 0 14px;
+  }
+  .btn-nivel {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px solid #cbd5e1;
+    background: #ffffff;
+    font-weight: 800;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+  }
+  .btn-nivel:hover { transform: translateY(-1px); }
+  .btn-nivel.sel-AD { border-color: var(--cneb-ad); background: #eff6ff; color: var(--cneb-ad); }
+  .btn-nivel.sel-A  { border-color: var(--cneb-a);  background: #f0fdf4; color: var(--cneb-a);  }
+  .btn-nivel.sel-B  { border-color: var(--cneb-b);  background: #fefce8; color: var(--cneb-b);  }
+  .btn-nivel.sel-C  { border-color: var(--cneb-c);  background: #fef2f2; color: var(--cneb-c);  }
+
+  .spin-icon { display: inline-block; }
+  .btn-refreshing .spin-icon { animation: rotar 0.9s linear infinite; }
+  @keyframes rotar { to { transform: rotate(360deg); } }
+
+  /* ===== SISTEMA DE RANGOS Y SELECTOR DE AVATARES NETFLIX ===== */
+  /* PERFIL TÁCTIL EN EL HEADER */
+  .user-profile-touch {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.14);
+    padding: 4px 12px 4px 6px;
+    border-radius: 16px;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(6px);
+    transition: all 0.2s ease;
+    user-select: none;
+  }
+  .user-profile-touch:hover {
+    background: rgba(255, 255, 255, 0.22);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  .avatar-card-header {
+    width: 50px;
+    height: 60px;
+    border-radius: 12px;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .avatar-card-header .avatar-img-container {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #0f172a;
+    border: 2px solid #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    transition: all 0.25s ease;
+  }
+  .avatar-card-header img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    border-radius: inherit;
+  }
+  .avatar-card-header img, .avatar-portrait-wrap img {
+    -webkit-user-drag: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+  .avatar-edit-badge {
+    position: absolute;
+    bottom: -3px;
+    right: -3px;
+    background: #2563eb;
+    color: #ffffff;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    border: 2px solid #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 2;
+  }
+  .user-meta-header {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    text-align: left;
+  }
+  .user-name-header {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #ffffff;
+    white-space: nowrap;
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .user-rango-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    letter-spacing: 0.02em;
+    width: fit-content;
+    white-space: nowrap;
+  }
+
+  /* BORDES Y RESPLANDOR POR RANGO EN EL HEADER */
+  .avatar-card-header.rango-borde-especial .avatar-img-container {
+    border-color: #f59e0b;
+    box-shadow: 0 0 14px rgba(245, 158, 11, 0.75);
+  }
+  .avatar-card-header.rango-borde-grado1 .avatar-img-container {
+    border-color: #10b981;
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.65);
+  }
+  .avatar-card-header.rango-borde-grado2 .avatar-img-container {
+    border-color: #d97706;
+    box-shadow: 0 0 10px rgba(217, 119, 6, 0.55);
+  }
+  .avatar-card-header.rango-borde-grado34 .avatar-img-container {
+    border-color: #94a3b8;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  }
+
+  /* PILLS POR RANGO */
+  .pill-especial {
+    background: #f59e0b;
+    color: #111827;
+    box-shadow: 0 0 8px rgba(245, 158, 11, 0.45);
+  }
+  .pill-grado1 {
+    background: #10b981;
+    color: #ffffff;
+  }
+  .pill-grado2 {
+    background: #d97706;
+    color: #ffffff;
+  }
+  .pill-grado34 {
+    background: #475569;
+    color: #ffffff;
+  }
+
+  /* MODAL ESTILO NETFLIX ("Quién está estudiando") */
+  .modal-box.netflix-modal {
+    max-width: 960px;
+    background: #090d16;
+    color: #f1f5f9;
+    border: 1px solid #1e293b;
+    padding: 26px 22px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75);
+  }
+  .netflix-modal .modal-close {
+    color: #94a3b8;
+  }
+  .netflix-modal .modal-close:hover {
+    color: #ffffff;
+  }
+  .netflix-modal-header {
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 16px;
+  }
+  .netflix-badge {
+    display: inline-block;
+    font-size: 0.74rem;
+    font-weight: 800;
+    color: #f59e0b;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  .netflix-modal-header h2 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+    margin-bottom: 6px;
+  }
+  .netflix-modal-header p {
+    font-size: 0.86rem;
+    color: #94a3b8;
+    line-height: 1.45;
+  }
+  .netflix-current-status {
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 10px 14px;
+  }
+
+  .netflix-rango-section {
+    margin-bottom: 24px;
+  }
+  .netflix-rango-titulo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .netflix-rango-titulo h3 {
+    font-size: 1.02rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #ffffff;
+  }
+  .netflix-rango-titulo .badge-rango-requisito {
+    font-size: 0.74rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #cbd5e1;
+  }
+
+  .netflix-grid-avatares {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 12px;
+  }
+
+  /* TARJETA VERTICAL RETRATO */
+  .card-avatar-netflix {
+    background: #111827;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid transparent;
+    transition: all 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+  }
+  .card-avatar-netflix.desbloqueado {
+    cursor: pointer;
+  }
+  .card-avatar-netflix.desbloqueado:hover {
+    transform: translateY(-4px) scale(1.03);
+    border-color: rgba(255, 255, 255, 0.45);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.5);
+  }
+  .card-avatar-netflix.equipado {
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 16px rgba(59, 130, 246, 0.65) !important;
+  }
+  .card-avatar-netflix.bloqueado {
+    cursor: not-allowed;
+    opacity: 0.65;
+  }
+  .card-avatar-netflix.bloqueado:hover {
+    opacity: 0.78;
+    transform: translateY(-1px);
+  }
+
+  .avatar-portrait-wrap {
+    width: 100%;
+    height: 135px;
+    position: relative;
+    overflow: hidden;
+    background: #1e293b;
+    border-radius: 10px 10px 0 0;
+  }
+
+  /* REGLA CRÍTICA ANTI-RECORTE */
+  .avatar-portrait-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    border-radius: inherit;
+    transition: filter 0.25s ease;
+  }
+
+  .card-avatar-netflix.bloqueado .avatar-portrait-wrap img {
+    filter: blur(3.5px) grayscale(75%);
+    opacity: 0.45;
+  }
+
+  .avatar-lock-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.68);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 6px;
+    text-align: center;
+    color: #ffffff;
+  }
+  .avatar-lock-overlay .lock-icon {
+    font-size: 1.3rem;
+  }
+  .avatar-lock-overlay .lock-label {
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    background: rgba(220, 38, 38, 0.88);
+    padding: 2px 5px;
+    border-radius: 4px;
+    line-height: 1.2;
+  }
+
+  .avatar-equipped-badge {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 2px 7px;
+    border-radius: 9999px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    z-index: 3;
+  }
+
+  .avatar-info-panel {
+    padding: 8px 6px;
+    text-align: center;
+    background: #0f172a;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  .avatar-info-panel .char-name {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .avatar-info-panel .char-title {
+    font-size: 0.66rem;
+    color: #94a3b8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* PESTAÑAS DEL PANEL DOCENTE */
+  .tab-docente-nav {
+    display: flex;
+    gap: 8px;
+    margin: 16px 0 14px;
+    border-bottom: 2px solid var(--borde);
+    padding-bottom: 2px;
+  }
+  .tab-docente-btn {
+    padding: 9px 18px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #64748b;
+    margin-bottom: -4px;
+    transition: all 0.2s;
+  }
+  .tab-docente-btn:hover {
+    color: var(--azul-medio);
+  }
+  .tab-docente-btn.active {
+    color: var(--azul-medio);
+    border-bottom-color: var(--azul-medio);
+  }
+  .tab-docente-content {
+    animation: fadeInTab 0.25s ease;
+  }
+  @keyframes fadeInTab {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* TOAST FLOATING NOTIFICATIONS */
+  .toast-container {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+    max-width: 90vw;
+  }
+  .toast-notification {
+    background: #0f172a;
+    color: #ffffff;
+    padding: 12px 18px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    font-size: 0.88rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: toastSlideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    border-left: 4px solid #3b82f6;
+    pointer-events: auto;
+  }
+  @keyframes toastSlideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .toast-notification.toast-success { border-left-color: #10b981; }
+  .toast-notification.toast-warning { border-left-color: #f59e0b; }
+  .toast-notification.toast-info { border-left-color: #3b82f6; }
+
+  /* ===== AVATAR MINIATURA EN TABLA DE NOTAS ===== */
+  .est-cell { display: flex; align-items: center; gap: 10px; }
+  .avatar-mini-tabla {
+    width: 32px; height: 40px; flex-shrink: 0;
+    border-radius: 8px; overflow: hidden;
+    border: 2px solid #64748b; background: #0f172a;
+  }
+  .avatar-mini-tabla img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+
+  /* ===== PERFIL DESTACADO EN MODAL DE RESULTADOS ===== */
+  .res-top-row {
+    display: flex; align-items: center; justify-content: center;
+    gap: 20px; flex-wrap: wrap; position: relative; z-index: 2;
+  }
+  .res-top-row .medalla-xl { margin-bottom: 12px; }
+  .res-perfil-card {
+    display: flex; align-items: center; gap: 12px;
+    background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 14px; padding: 10px 14px; margin-bottom: 12px;
+    backdrop-filter: blur(4px); text-align: left;
+  }
+  .res-perfil-avatar {
+    width: 70px; height: 90px; flex-shrink: 0; border-radius: 12px; overflow: hidden;
+    border: 3px solid #64748b; background: #0f172a; box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+  }
+  .res-perfil-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+  .res-perfil-nombre { font-size: 0.98rem; font-weight: 800; color: #ffffff; line-height: 1.2; }
+  .res-perfil-rango { font-size: 0.78rem; font-weight: 800; margin-top: 6px; display: inline-block; padding: 3px 10px; border-radius: 999px; background: rgba(0,0,0,0.35); color: #fff; }
+
+  /* ===== BURBUJAS DE NOTIFICACIÓN FLOTANTES (CALLOUTS) ===== */
+  @keyframes popIn {
+    0%   { transform: scale(0.6) translateY(8px); opacity: 0; }
+    65%  { transform: scale(1.06) translateY(0); opacity: 1; }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+  }
+  .burbuja-notif {
+    position: fixed; z-index: 99990; max-width: 290px; min-width: 200px;
+    background: #1e293b; color: #f8fafc; border-radius: 14px;
+    padding: 12px 30px 12px 14px; font-size: 0.84rem; line-height: 1.4; font-weight: 600;
+    box-shadow: 0 10px 30px rgba(15,23,42,0.35), 0 2px 8px rgba(15,23,42,0.2);
+    border: 1px solid rgba(255,255,255,0.14); cursor: pointer;
+    animation: popIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+  .burbuja-notif.rango-up { background: linear-gradient(135deg, #065f46, #1e293b); }
+  .burbuja-notif.rango-down { background: linear-gradient(135deg, #92400e, #1e293b); }
+  .burbuja-notif.eval { background: linear-gradient(135deg, #1d4ed8, #1e293b); }
+  .burbuja-notif.clase { background: linear-gradient(135deg, #7c3aed, #1e293b); }
+  .burbuja-notif::after {
+    content: ""; position: absolute; width: 0; height: 0;
+    left: var(--flecha-x, 50%); margin-left: -9px;
+    border-left: 9px solid transparent; border-right: 9px solid transparent;
+  }
+  .burbuja-notif.flecha-arriba::after { top: -9px; border-bottom: 9px solid #1e293b; }
+  .burbuja-notif.flecha-abajo::after { bottom: -9px; border-top: 9px solid #1e293b; }
+  .burbuja-notif .burbuja-x {
+    position: absolute; top: 6px; right: 8px; background: transparent; border: 0;
+    color: #cbd5e1; font-size: 1.05rem; line-height: 1; cursor: pointer; padding: 2px 4px;
+  }
+  .burbuja-notif .burbuja-x:hover { color: #ffffff; }
+</style>
+</head>
+<body>
+
+<!-- 1. CABECERA INSTITUCIONAL (NO FIJA: DESAPARECE CON EL SCROLL VERTICAL) -->
+<header>
+  <div class="banner-container">
+    <div class="banner-info">
+      <div class="banner-badge">
+        🏛️ UNAP · Facultad de Ciencias de la Educación y Humanidades
+      </div>
+      <h1>I.E. Aplicación UNAP – Ciencias Sociales</h1>
+      <div class="banner-meta">
+        <span>👨‍🏫 <strong>Docente:</strong> Anghelo Jeremy Celis Paredes</span>
+        <span>📚 <strong>Grado:</strong> 4.° Secundaria (Secciones A y B)</span>
+        <span>🗓️ <strong>Periodo:</strong> IV Bimestre (19/10/2026 – 18/12/2026)</span>
+      </div>
+    </div>
+    <div class="banner-actions">
+      <!-- Botón visible únicamente para el docente administrador -->
+      <button id="btnAdminPanel" class="btn btn-gold" style="display:none">
+        📊 Panel Docente / Registro de Notas
+      </button>
+
+      <!-- Perfil Táctil del Estudiante con Avatar Retrato y Rango CNEB / Hechicería -->
+      <div class="user-profile-touch" id="userProfileTouch" style="display:none;" onclick="abrirModalAvatares()" title="Toca para cambiar tu identidad de hechicero">
+        <div class="avatar-card-header rango-borde-grado34" id="headerAvatarCard">
+          <div class="avatar-img-container">
+            <img id="headerAvatarImg" src="" alt="Avatar" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=300&auto=format&fit=crop&q=80';">
+          </div>
+          <div class="avatar-edit-badge" title="Cambiar avatar">✏️</div>
+        </div>
+        <div class="user-meta-header">
+          <span class="user-name-header" id="labelUser">Estudiante</span>
+          <span class="user-rango-pill pill-grado34" id="userRangoPill">🥋 Grado 3 / 4</span>
+        </div>
+      </div>
+
+      <button id="btnAuth" class="btn btn-white">
+        🔑 Iniciar Sesión
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- 2. CONTEXTO DE LA UNIDAD DE APRENDIZAJE N° 04 -->
+<div class="context-bar">
+  <div class="context-card">
+    <strong>📋 UNIDAD DE APRENDIZAJE N° 04:</strong>
+    <p><em>“Cuidamos nuestra salud: acciones para prevenir la anemia en nuestra comunidad”</em> — Accede a cada sesión semanal, desarrolla tus evidencias y consulta las orientaciones pedagógicas del docente.</p>
+  </div>
+</div>
+
+<!-- 3. CONTENEDOR PRINCIPAL: LAS 6 PRIMERAS SESIONES DEL BIMESTRE -->
+<main>
+  <div class="section-title">
+    <span>📂 Carpetas de Sesiones de Aprendizaje</span>
+    <span id="userStatusNotice" style="font-size:0.85rem; color:#64748b; font-weight:normal;">
+      Inicia sesión para visualizar tus insignias y recomendaciones de logro.
+    </span>
+  </div>
+
+  <div class="grid-semanas" id="gridSemanas">
+    <!-- Se genera dinámicamente con las 6 semanas oficiales -->
+  </div>
+</main>
+
+<!-- 4. MODAL DE INICIO DE SESIÓN / REGISTRO -->
+<div class="overlay" id="modalAuth">
+  <div class="modal-box">
+    <button class="modal-close" data-close="modalAuth">&times;</button>
+    
+    <div id="authNotice" style="display:none; background:#eff6ff; border:1px solid #bfdbfe; color:#1e40af; padding:8px 12px; border-radius:8px; font-size:0.83rem; margin-bottom:14px;">
+      🔒 <strong>Identificación requerida:</strong> Inicia sesión o regístrate para ingresar a clase o ver tus resultados.
+    </div>
+
+    <div class="auth-tabs">
+      <button id="tabLogin" class="active">Iniciar Sesión</button>
+      <button id="tabRegistro">Registrarse</button>
+    </div>
+
+    <form id="formAuth">
+      <div class="form-group" id="groupNombre" style="display:none;">
+        <label for="regNombre">Nombre completo del estudiante</label>
+        <input type="text" id="regNombre" class="form-control" placeholder="Ej. Juan Pérez García">
+      </div>
+
+      <div class="form-group">
+        <label for="authEmail">Correo electrónico</label>
+        <input type="email" id="authEmail" class="form-control" required placeholder="alumno@ejemplo.com">
+      </div>
+
+      <div class="form-group">
+        <label for="authPassword">Contraseña</label>
+        <input type="password" id="authPassword" class="form-control" minlength="6" required placeholder="Mínimo 6 caracteres">
+      </div>
+
+      <button type="submit" id="btnSubmitAuth" class="btn btn-pri" style="width:100%; justify-content:center; margin-top:8px;">
+        Ingresar a la plataforma
+      </button>
+
+      <div class="alert-msg" id="authErrorMsg"></div>
+    </form>
+  </div>
+</div>
+
+<!-- 5. MODAL DE RESULTADOS DEL ESTUDIANTE -->
+<div class="overlay" id="modalResultados">
+  <div class="modal-box medium">
+    <button class="modal-close" data-close="modalResultados">&times;</button>
+
+    <div id="resHero" class="result-hero">
+      <div id="resRays" class="rays-bg" style="display:none;"></div>
+      <div class="res-top-row">
+        <div id="resMedalla" class="medalla-xl">--</div>
+        <div id="resPerfilCard" class="res-perfil-card"></div>
+      </div>
+      <h3 id="resEstadoTexto" style="font-size:1.15rem; margin-bottom:4px; position:relative; z-index:2;">Evaluación Registrada</h3>
+      <div class="nota-vigesimal">
+        Puntaje Vigésimal: <strong id="resNotaNum">--</strong> / 20
+      </div>
+      <div id="resSubtitulo" style="font-size:0.92rem; font-weight:700; margin-top:6px; position:relative; z-index:2;"></div>
+      <div id="resAccionReintento" style="margin-top:10px; position:relative; z-index:2;"></div>
+    </div>
+
+    <div style="margin-bottom:14px;">
+      <h4 id="resTituloSemana" style="font-size:1rem; color:#0f172a; margin-bottom:4px;">Semana</h4>
+      <p style="font-size:0.82rem; color:#1e40af; font-weight:600;" id="resCompetenciaCapacidad"></p>
+    </div>
+
+    <label style="font-size:0.82rem; font-weight:700; color:#475569; display:block; margin-bottom:4px;">
+      📝 Tu producción / Análisis histórico redactado en clase:
+    </label>
+    <div class="box-texto-estudiante" id="resTextoAlumno">
+      (No se encontró texto de análisis registrado para esta semana).
+    </div>
+
+    <!-- EVIDENCIA EXTENDIDA SEMANA 03 (solo se muestra si hay datos) -->
+    <div id="resS3Extra" style="display:none; margin-bottom:14px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:12px; gap:14px; align-items:center;">
+      <img id="resS3Thumb" alt="Tu infografía" title="Toca para ampliar" style="width:96px; height:96px; object-fit:cover; border-radius:10px; border:1px solid #cbd5e1; cursor:zoom-in; flex-shrink:0;">
+      <div style="font-size:0.86rem; color:#1e293b; line-height:1.6;">
+        <div>🌿 <strong>Pueblo analizado:</strong> <span id="resS3Pueblo">--</span></div>
+        <div>🧠 <strong>Trivia:</strong> <span id="resS3Trivia">--</span></div>
+        <div>🎯 <strong>Nota del docente:</strong> <span id="resS3Nota" style="font-weight:800;">Pendiente de revisión</span></div>
+      </div>
+    </div>
+
+    <!-- CAJA DESTACADA DE RECOMENDACIÓN DOCENTE -->
+    <div class="box-recomendacion-docente">
+      <h4>👨‍🏫 Recomendaciones y Retroalimentación del Docente</h4>
+      <p id="resFeedbackDocente">
+        El docente está revisando tu análisis escrito y tus evidencias de aprendizaje.
+      </p>
+    </div>
+
+    <div style="text-align:right;">
+      <button class="btn btn-pri btn-sm" onclick="cerrarModal('modalResultados')">Entendido</button>
+    </div>
+  </div>
+</div>
+
+<!-- 6. MODAL SELECTOR DE AVATARES ESTILO NETFLIX ("Quién está estudiando") -->
+<div class="overlay" id="modalAvatarPicker">
+  <div class="modal-box netflix-modal">
+    <button class="modal-close" data-close="modalAvatarPicker">&times;</button>
+    
+    <div class="netflix-modal-header">
+      <div class="netflix-badge">⚡ ESCUELA DE HECHICERÍA · JUJUTSU KAISEN</div>
+      <h2>Selecciona tu Identidad de Hechicero</h2>
+      <p>Elige tu avatar representativo según tu rango actual. ¡Desarrolla tus actividades y participa activamente en clase para ascender de grado y desbloquear hechiceros legendarios!</p>
+      
+      <div class="netflix-current-status" id="netflixCurrentStatus">
+        <!-- Renderizado dinámico del rango y avatar actual -->
+      </div>
+    </div>
+
+    <div class="netflix-catalog-body" id="netflixCatalogBody">
+      <!-- Secciones dinámicas agrupadas por Grado / Nivel con candados -->
+    </div>
+  </div>
+</div>
+
+<!-- 7. MODAL DEL PANEL DOCENTE / REGISTRO DE NOTAS Y GESTIÓN DE RANGOS -->
+<div class="overlay" id="modalDocente">
+  <div class="modal-box wide">
+    <button class="modal-close" data-close="modalDocente">&times;</button>
+
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px;">
+      <div>
+        <h2 style="font-size:1.35rem; color:#0f172a;">📊 Panel Docente: Evaluación CNEB y Gestión de Rangos</h2>
+        <p style="font-size:0.86rem; color:#64748b;">
+          I.E. Aplicación UNAP · Docente: <strong>Anghelo Jeremy Celis Paredes</strong> · Ciencias Sociales (4.° A, B)
+        </p>
+      </div>
+    </div>
+
+    <!-- Pestañas de Navegación del Panel Docente -->
+    <div class="tab-docente-nav">
+      <button type="button" class="tab-docente-btn active" id="tabBtnNotas" onclick="cambiarTabDocente('notas')">
+        📊 Registro de Calificaciones CNEB
+      </button>
+      <button type="button" class="tab-docente-btn" id="tabBtnRangos" onclick="cambiarTabDocente('rangos')">
+        🥋 Gestión de Rangos de Hechicería
+      </button>
+    </div>
+
+    <!-- PESTAÑA 1: REGISTRO DE NOTAS Y RÚBRICAS CNEB -->
+    <div id="tabDocenteNotas" class="tab-docente-content">
+      <!-- Barra de Herramientas y Filtros -->
+      <div class="toolbar-panel">
+        <button class="btn btn-pri" id="btnRecargarNotas">
+          <span class="spin-icon">🔄</span> Actualizar Registro de Notas
+        </button>
+
+        <select id="filtroSemanaDocente">
+          <option value="Semana 01">Semana 01: Gobierno Juan Velasco Alvarado</option>
+          <option value="Semana 02">Semana 02: Crisis y Cambios (1980 - 2000)</option>
+          <option value="Semana 03">Semana 03: Pueblos Originarios Amazónicos</option>
+          <option value="Semana 04">Semana 04: Cuencas Hidrográficas del Perú</option>
+          <option value="Semana 05">Semana 05: Deforestación y Biodiversidad</option>
+          <option value="Semana 06">Semana 06: Áreas Naturales Protegidas</option>
+          <option value="">Todas las semanas</option>
+        </select>
+
+        <input type="text" id="filtroEstudiante" placeholder="🔍 Buscar estudiante por nombre...">
+
+        <button class="btn btn-white" id="btnExportarCsv" style="border:1px solid #cbd5e1;">
+          📥 Exportar a CSV / Excel
+        </button>
+      </div>
+
+      <!-- RÚBRICA POR SEMANA (CUADRO DE DOBLE ENTRADA COLAPSABLE) -->
+      <div class="rubrica-container">
+        <div class="rubrica-header" id="rubricaToggle">
+          <h3 id="rubricaTituloHeader">📑 Rúbrica Oficial CNEB – Semana 01</h3>
+          <span id="rubricaIcono" style="font-size:0.85rem; color:#2563eb; font-weight:700;">[ Ocultar / Mostrar ]</span>
+        </div>
+        <div class="rubrica-body" id="rubricaContent">
+          <!-- Generado dinámicamente con los descriptores reales del PDF -->
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; font-size:0.84rem; color:#64748b;">
+        <span id="cantRegistros">Cargando datos...</span>
+        <span>Escala oficial: <strong style="color:var(--cneb-ad)">AD</strong> (18-20) | <strong style="color:var(--cneb-a)">A</strong> (14-17) | <strong style="color:var(--cneb-b)">B</strong> (11-13) | <strong style="color:var(--cneb-c)">C</strong> (0-10)</span>
+      </div>
+
+      <!-- Tabla Estructurada de Calificaciones (8 columnas limpias sin Trivia) -->
+      <div class="table-responsive">
+        <table class="tabla-notas">
+          <thead>
+            <tr>
+              <th>Estudiante</th>
+              <th>Correo</th>
+              <th>Semana</th>
+              <th>Competencia Evaluada</th>
+              <th style="text-align:center;">Nota Final (0-20)</th>
+              <th style="text-align:center;">Nivel de Logro</th>
+              <th style="text-align:center;">Estado Docente</th>
+              <th style="text-align:center;">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tablaBody">
+            <tr><td colspan="8" style="text-align:center; padding:24px;">Presione 'Actualizar Registro de Notas' para sincronizar con Firestore.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PESTAÑA 2: GESTIÓN DE RANGOS DE HECHICERÍA -->
+    <div id="tabDocenteRangos" class="tab-docente-content" style="display:none;">
+      <div class="toolbar-panel">
+        <button class="btn btn-pri" id="btnRecargarRangos" onclick="cargarListaUsuariosRangos()">
+          <span class="spin-icon">🔄</span> Actualizar Lista de Estudiantes
+        </button>
+        <input type="text" id="filtroEstudianteRango" placeholder="🔍 Buscar estudiante por nombre o correo..." oninput="filtrarTablaRangos()">
+      </div>
+
+      <div style="margin-bottom:10px; font-size:0.85rem; color:#475569; background:#f1f5f9; padding:8px 12px; border-radius:8px; border:1px solid #e2e8f0;">
+        🥋 <strong>Asignación pedagógica de rangos:</strong> Promueve de grado a los estudiantes según su nivel de participación, análisis crítico y logros demostrados en el aula.
+      </div>
+
+      <div class="table-responsive">
+        <table class="tabla-notas">
+          <thead>
+            <tr>
+              <th style="width:65px; text-align:center;">Avatar</th>
+              <th>Estudiante</th>
+              <th>Correo</th>
+              <th style="text-align:center;">Rango Actual</th>
+              <th style="text-align:center;">Modificar Rango</th>
+              <th style="text-align:center;">Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tablaRangosBody">
+            <tr><td colspan="6" style="text-align:center; padding:24px;">Cargando lista de estudiantes...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- 8. MODAL DE EVALUACIÓN Y RETROALIMENTACIÓN DOCENTE (CALIFICACIÓN EN VIVO) -->
+<div class="overlay" id="modalCalificar">
+  <div class="modal-box medium">
+    <button class="modal-close" data-close="modalCalificar">&times;</button>
+
+    <h3 style="font-size:1.15rem; color:#0f172a; margin-bottom:6px;">
+      ✏️ Revisar y Calificar Producción Estudiantil
+    </h3>
+    <p style="font-size:0.84rem; color:#64748b; margin-bottom:14px;" id="califEstudianteInfo">
+      Cargando información...
+    </p>
+
+    <div style="background:#f1f5f9; padding:10px 14px; border-radius:8px; margin-bottom:12px; font-size:0.85rem; display:flex; justify-content:space-between; align-items:center;">
+      <span>📅 <strong>Sesión:</strong> <span id="califSemanaTxt" style="font-weight:700; color:#1e40af;">--</span></span>
+      <span>📋 <strong>CNEB:</strong> Ciencias Sociales</span>
+    </div>
+
+    <label style="font-size:0.82rem; font-weight:700; color:#334155; display:block; margin-bottom:4px;">
+      📄 Texto redactado por el estudiante (Taller de Interpretación / Evidencia):
+    </label>
+    <div class="box-texto-estudiante" id="califTextoAlumno" style="max-height:160px;">
+      (Sin texto de análisis presentado).
+    </div>
+
+    <!-- PANEL DE CALIFICACIÓN EN VIVO -->
+    <div style="border-top:1px solid var(--borde); padding-top:14px; margin-top:14px;">
+      <label style="font-size:0.84rem; font-weight:700; color:#0f172a; display:block;">
+        Selecciona el Nivel de Logro CNEB:
+      </label>
+      <div class="selector-niveles">
+        <button type="button" class="btn-nivel" id="btnNivC"  onclick="seleccionarNivelDocente('C')">C (Inicio)</button>
+        <button type="button" class="btn-nivel" id="btnNivB"  onclick="seleccionarNivelDocente('B')">B (Proceso)</button>
+        <button type="button" class="btn-nivel" id="btnNivA"  onclick="seleccionarNivelDocente('A')">A (Logrado)</button>
+        <button type="button" class="btn-nivel" id="btnNivAD" onclick="seleccionarNivelDocente('AD')">AD (Destacado)</button>
+      </div>
+
+      <div class="form-group">
+        <label for="inputNotaVigesimal">Nota Vigesimal Final (0 a 20):</label>
+        <input type="number" id="inputNotaVigesimal" min="0" max="20" class="form-control" style="font-weight:700; font-size:1.05rem;" oninput="sincronizarDesdeNota(this.value)">
+      </div>
+
+      <div class="form-group">
+        <label for="inputFeedbackDocente">Recomendación / Retroalimentación Docente:</label>
+        <textarea id="inputFeedbackDocente" rows="4" class="form-control" placeholder="Escribe aquí las observaciones pedagógicas, felicitaciones o aspectos a mejorar en base al criterio CNEB..."></textarea>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:12px;">
+        <button type="button" class="btn btn-outline" onclick="cerrarModal('modalCalificar')">Cancelar</button>
+        <button type="button" class="btn btn-pri" id="btnGuardarCalificacion">
+          💾 Guardar Calificación y Enviar Recomendación
+        </button>
+      </div>
+      <div class="alert-msg" id="msgGuardarCalif" style="margin-top:8px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 8.1 MODAL DE REVISIÓN Y CALIFICACIÓN DE ENTREGA / INFOGRAFÍA (SEMANA 03) -->
+<div class="overlay" id="modalRevisarS3">
+  <div class="modal-box medium" style="max-width:760px; max-height:92vh; overflow-y:auto;">
+    <button class="modal-close" data-close="modalRevisarS3">&times;</button>
+
+    <h3 style="font-size:1.15rem; color:#0f172a; margin-bottom:8px;">🔍 Revisar Entrega / Infografía · Semana 03</h3>
+
+    <!-- Cabecera de identificación -->
+    <div id="s3Cabecera" style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:12px 14px; margin-bottom:14px; display:flex; flex-wrap:wrap; gap:8px 18px; align-items:center; font-size:0.86rem; color:#1e293b;"></div>
+
+    <!-- Evidencia visual -->
+    <label style="font-size:0.82rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">🖼️ Fotografía de la infografía:</label>
+    <div id="s3FotoWrap" style="background:#0f172a; border-radius:10px; padding:8px; text-align:center; margin-bottom:8px;">
+      <img id="s3FotoImg" alt="Infografía del estudiante" style="max-width:100%; max-height:500px; width:auto; height:auto; object-fit:contain; border-radius:6px; display:none;">
+      <div id="s3SinFoto" style="color:#94a3b8; padding:24px; font-size:0.86rem;">El estudiante no adjuntó fotografía.</div>
+    </div>
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;">
+      <button type="button" class="btn btn-outline btn-sm" id="btnS3Zoom">🔎 Ver en Pantalla Completa</button>
+      <button type="button" class="btn btn-outline btn-sm" id="btnS3Descargar">⬇️ Descargar Imagen</button>
+    </div>
+
+    <!-- Texto explicativo -->
+    <label style="font-size:0.82rem; font-weight:700; color:#334155; display:block; margin-bottom:4px;">📄 Texto explicativo del estudiante:</label>
+    <div id="s3Texto" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:8px; padding:12px 14px; color:#0f172a; font-size:0.9rem; line-height:1.5; white-space:pre-wrap; max-height:200px; overflow-y:auto; margin-bottom:14px;"></div>
+
+    <!-- Calificación manual -->
+    <div style="border-top:1px solid var(--borde); padding-top:14px;">
+      <div class="form-group">
+        <label for="notaFinalDocente">Nota final vigesimal (0 a 20) <span id="s3NivelPreview" style="margin-left:8px; font-weight:800;"></span></label>
+        <input type="number" id="notaFinalDocente" min="0" max="20" class="form-control" style="font-weight:700; font-size:1.05rem;">
+      </div>
+      <div class="form-group">
+        <label for="retroalimentacionDocente">Retroalimentación formativa:</label>
+        <textarea id="retroalimentacionDocente" rows="4" class="form-control" placeholder="Escribe recomendaciones pedagógicas..."></textarea>
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:10px;">
+        <button type="button" class="btn btn-outline" onclick="cerrarModal('modalRevisarS3')">Cancelar</button>
+        <button type="button" class="btn btn-pri" id="btnGuardarS3">Guardar Calificación y Enviar a Alumno</button>
+      </div>
+      <div class="alert-msg" id="msgGuardarS3" style="margin-top:8px;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 8.2 OVERLAY DE ZOOM DE FOTOGRAFÍA -->
+<div class="overlay" id="modalZoomFoto" style="background:rgba(2,6,23,0.92); z-index:1100;">
+  <button class="modal-close" data-close="modalZoomFoto" style="position:fixed; top:14px; right:18px; color:#fff; font-size:2rem; z-index:1101;">&times;</button>
+  <img id="zoomFotoImg" alt="Infografía ampliada" style="max-width:96vw; max-height:94vh; object-fit:contain; border-radius:8px; cursor:zoom-out;" onclick="cerrarModal('modalZoomFoto')">
+</div>
+
+<!-- CONTENEDOR DE NOTIFICACIONES FLOTANTES (TOAST) -->
+<div id="toastContainer" class="toast-container"></div>
+
+<!-- SDK FIREBASE COMPAT (CDN) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<script>
+/**
+ * 1. CONFIGURACIÓN EXACTA DE FIREBASE Y DOCENTE ADMINISTRADOR
+ */
+const firebaseConfig = {
+  apiKey: "AIzaSyCINo4JIVeXkkkfgUx1FLE18W9Xy73DVHk",
+  authDomain: "misclases4to-173c1.firebaseapp.com",
+  projectId: "misclases4to-173c1",
+  storageBucket: "misclases4to-173c1.firebasestorage.app",
+  messagingSenderId: "315238242891",
+  appId: "1:315238242891:web:66496d1140259060684bce"
+};
+
+const ADMIN_EMAIL = "anghelocelis1234@gmail.com";
+
+// Inicialización de Firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// Persistencia en almacenamiento local para que semana1.html ... semana6.html reconozcan al alumno
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(e => console.warn("Aviso en persistencia:", e));
+
+/**
+ * 2. ESTRUCTURA CURRICULAR Y RÚBRICAS OFICIALES EXTRAÍDAS DEL PDF
+ * (Unidad 04 - Ciencias Sociales 4.° A, B - I.E. Aplicación UNAP)
+ */
+const PROGRAMACION_CNEB = [
+  {
+    semana: 1,
+    fecha: "19 al 23 Oct",
+    titulo: "Analizamos las reformas y transformaciones sociales del Perú durante el gobierno de Juan Velasco Alvarado",
+    competencia: "Construye interpretaciones históricas",
+    capacidades: "Interpreta críticamente fuentes diversas · Comprende el tiempo histórico · Elabora explicaciones históricas",
+    criterios: "Identifica acontecimientos del gobierno militar y los ubica cronológicamente. Analiza fuentes históricas sobre la reforma agraria y nacionalizaciones. Argumenta sobre cambios y permanencias en la sociedad peruana.",
+    desc: "Explicamos las principales reformas políticas, agrarias y económicas (1968-1975), sus objetivos y repercusiones en la población.",
+    evidencia: "Cuadro de análisis histórico de las reformas y transformaciones.",
+    img: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=800&auto=format&fit=crop&q=80",
+    link: "semana1.html",
+    rubrica: {
+      criterio: "Explica las causas, objetivos y consecuencias de las reformas de Velasco Alvarado y analiza fuentes sobre la reforma agraria.",
+      c: "Menciona de forma dispersa o imprecisa algunos hechos del gobierno de Velasco Alvarado, sin identificar causas ni analizar fuentes de las reformas.",
+      b: "Describe medidas como la reforma agraria y nacionalizaciones, reconociendo causas generales, pero con dificultad al relacionar cambios y permanencias históricas.",
+      a: "Explica de manera fundamentada las reformas del gobierno militar contrastando fuentes diversas y deduciendo sus repercusiones en la sociedad peruana.",
+      ad: "Argumenta con juicio crítico riguroso el impacto estructural de las reformas y nacionalizaciones, contrastando fuentes primarias/secundarias y evaluando sus permanencias en el Perú actual."
+    }
+  },
+  {
+    semana: 2,
+    fecha: "26 al 30 Oct",
+    titulo: "Explicamos las crisis y transformaciones políticas, económicas y sociales del Perú entre 1980 y el año 2000",
+    competencia: "Construye interpretaciones históricas",
+    capacidades: "Interpreta críticamente fuentes diversas · Comprende el tiempo histórico · Elabora explicaciones históricas",
+    criterios: "Ordena cronológicamente los acontecimientos de 1980 a 2000. Interpreta fuentes sobre la violencia política y crisis económica. Sustenta una postura sobre el valor de la democracia y el Estado de derecho.",
+    desc: "Análisis del retorno a la democracia, conflicto armado interno, hiperinflación, migraciones forzadas y crisis política institucional.",
+    evidencia: "Línea de tiempo histórica acompañada de causas y consecuencias explicadas.",
+    img: "https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=800&auto=format&fit=crop&q=80",
+    link: "semana2.html",
+    rubrica: {
+      criterio: "Ordena hechos de 1980 al 2000 y explica causas/efectos de la violencia política, crisis económica y recuperación democrática.",
+      c: "Ubica con dificultad hechos entre 1980 y 2000 sin secuencialidad clara ni comprensión de la crisis económica o la violencia política.",
+      b: "Elabora una secuencia básica identificando el conflicto armado y la hiperinflación, pero con explicaciones limitadas sobre su impacto en las familias.",
+      a: "Ordena y explica coherentemente los factores de la crisis política, violencia interna y migración, sustentando la relevancia del Estado de derecho.",
+      ad: "Analiza multidimensionalmente la crisis de 1980-2000 mediante testimonios y fuentes oficiales, sustentando tesis profundas sobre la defensa democrática y los derechos humanos."
+    }
+  },
+  {
+    semana: 3,
+    fecha: "02 al 06 Nov",
+    titulo: "Reconocemos la participación histórica de los pueblos originarios amazónicos en la construcción del Perú",
+    competencia: "Construye interpretaciones históricas",
+    capacidades: "Interpreta críticamente fuentes diversas · Comprende el tiempo histórico · Elabora explicaciones históricas",
+    criterios: "Identifica procesos históricos de pueblos amazónicos. Interpreta testimonios de resistencia y defensa territorial. Argumenta su aporte cultural y lingüístico a la nación.",
+    desc: "Resistencia indígena, época del auge cauchero, organización social tradicional y defensa de los derechos colectivos amazónicos.",
+    evidencia: "Infografía histórica sobre la participación y aportes de las naciones originarias amazónicas.",
+    img: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80",
+    link: "semana3.html",
+    rubrica: {
+      criterio: "Explica los procesos de resistencia, explotación en el caucho y aportes culturales de los pueblos originarios amazónicos.",
+      c: "Nombra pueblos amazónicos de modo superficial sin vincularlos a los procesos históricos del país ni a su lucha territorial.",
+      b: "Describe episodios del boom del caucho o resistencia indígena, reconociendo su presencia pero con escaso análisis de fuentes y testimonios.",
+      a: "Explica sustentadamente las formas de resistencia, impacto de la explotación y los valiosos aportes de las culturas amazónicas en la identidad nacional.",
+      ad: "Evalúa críticamente el protagonismo histórico de los pueblos indígenas amazónicos frente a la colonización y explotación, revalorando su cosmovisión y derechos colectivos en la memoria histórica."
+    }
+  },
+  {
+    semana: 4,
+    fecha: "09 al 13 Nov",
+    titulo: "Comprendemos la importancia de las cuencas hidrográficas del Perú y su relación con la población amazónica",
+    competencia: "Gestiona responsablemente el espacio y el ambiente",
+    capacidades: "Comprende relaciones naturales y sociales · Maneja fuentes de información geográfica · Genera acciones para conservar el ambiente",
+    criterios: "Diferencia las vertientes hidrográficas. Ubica la cuenca del Amazonas y ríos principales. Explica la relación hidrografía-economía y propone medidas de conservación.",
+    desc: "Las tres vertientes peruanas, la gran cuenca amazónica y el valor del agua para la alimentación, transporte, pesca y vida de las comunidades.",
+    evidencia: "Mapa temático de vertientes y ficha explicativa sobre la cuenca del Amazonas.",
+    img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&auto=format&fit=crop&q=80",
+    link: "semana4.html",
+    rubrica: {
+      criterio: "Analiza la organización y aprovechamiento de las cuencas hidrográficas peruanas con énfasis en la cuenca del Amazonas.",
+      c: "Identifica algunos ríos sin diferenciar con claridad las vertientes hidrográficas ni la función ecológica de las cuencas.",
+      b: "Ubica la cuenca del Amazonas y las vertientes, describiendo la importancia del agua pero con propuestas genéricas de protección.",
+      a: "Explica con precisión la relación entre cuencas hidrográficas, actividades productivas y bienestar poblacional, proponiendo acciones viables frente a la contaminación.",
+      ad: "Interpreta y elabora cartografía temática multiescalar de la cuenca amazónica, modelando propuestas sostenibles de cogestión del agua y seguridad hídrica comunitaria."
+    }
+  },
+  {
+    semana: 5,
+    fecha: "16 al 20 Nov",
+    titulo: "Analizamos las causas y consecuencias de la deforestación y proponemos acciones para conservar la biodiversidad amazónica",
+    competencia: "Gestiona responsablemente el espacio y el ambiente",
+    capacidades: "Comprende relaciones naturales y sociales · Maneja fuentes de información geográfica · Genera acciones para conservar el ambiente",
+    criterios: "Identifica causas directas de la deforestación en Loreto y la Amazonía. Evalúa impactos ambientales y socioeconómicos. Propone alternativas sostenibles de aprovechamiento.",
+    desc: "Tala ilegal, monocultivos, minería aluvial, degradación de suelos, pérdida de biodiversidad y reforestación comunitaria.",
+    evidencia: "Infografía ambiental con causas, consecuencias y propuestas de mitigación.",
+    img: "https://images.unsplash.com/photo-1448375240586-882707db888b?w=800&auto=format&fit=crop&q=80",
+    link: "semana5.html",
+    rubrica: {
+      criterio: "Explica las causas y repercusiones multicausales de la deforestación en la Amazonía y formula alternativas de conservación.",
+      c: "Identifica que la deforestación daña árboles, sin explicar factores causales económicos como tala ilegal o expansión agrícola desordenada.",
+      b: "Describe las consecuencias visibles de la pérdida forestal, pero formula soluciones poco contextualizadas a la realidad amazónica.",
+      a: "Analiza de manera integral las causas y consecuencias ambientales y sociales de la tala de bosques, formulando acciones de manejo forestal sostenible.",
+      ad: "Evalúa con fuentes cartográficas y datos ecológicos el deterioro de la biodiversidad en la Amazonía peruana, planteando estrategias de desarrollo bioeconómico y reforestación participativa de alto impacto."
+    }
+  },
+  {
+    semana: 6,
+    fecha: "23 al 27 Nov",
+    titulo: "Valoramos las áreas naturales protegidas del Perú como espacios fundamentales para conservar la biodiversidad amazónica",
+    competencia: "Gestiona responsablemente el espacio y el ambiente",
+    capacidades: "Comprende relaciones naturales y sociales · Maneja fuentes de información geográfica · Genera acciones para conservar el ambiente",
+    criterios: "Diferencia categorías de ANP (Parques, Reservas Nacionales). Describe Pacaya Samiria y Allpahuayo Mishana. Propone acciones de preservación comunitaria.",
+    desc: "El SINANPE, la protección de especies emblemáticas, servicios ecosistémicos y la participación de comunidades locales en el ecoturismo y manejo de recursos.",
+    evidencia: "Ficha descriptiva o folleto informativo de un ANP de la Amazonía peruana.",
+    img: "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=800&auto=format&fit=crop&q=80",
+    link: "semana6.html",
+    rubrica: {
+      criterio: "Reconoce la importancia ecológica y social de las ANP amazónicas y formula propuestas para su protección y uso sostenible.",
+      c: "Confunde o desconoce las categorías de áreas protegidas y no describe con claridad reservas como Pacaya Samiria o Allpahuayo Mishana.",
+      b: "Identifica áreas naturales protegidas en el mapa y nombra especies, reconociendo su valor pero con limitado entendimiento de los servicios ecosistémicos.",
+      a: "Explica con fundamentos la función ecológica de las reservas nacionales en la conservación de la flora/fauna y promueve la participación comunitaria.",
+      ad: "Sustenta con base científica el rol insustituible de las ANP amazónicas en la regulación climática global, proponiendo modelos de gobernanza ambiental y aprovechamiento responsable reconocidos comunalmente."
+    }
+  }
+];
+
+/**
+ * 2.0 PORTADAS PROPIAS DE LAS 6 SEMANAS
+ * Archivos: "imagen semana 01.jpg" ... "imagen semana 06.jpg".
+ * Se busca primero en la carpeta configurada y, si no existe, en las alternativas (img/, ./).
+ */
+const CARPETA_PORTADAS = "rangos/";
+const CARPETAS_PORTADAS_ALTERNAS = ["img/", ""];
+function rutaPortada(semana, carpeta = CARPETA_PORTADAS) {
+  return encodeURI(`${carpeta}imagen semana ${String(semana).padStart(2, "0")}.jpg`);
+}
+PROGRAMACION_CNEB.forEach(s => { s.img = rutaPortada(s.semana); });
+
+// Si la portada no carga, prueba las carpetas alternas antes de quedarse con el fondo gris
+function portadaError(imgEl, semana) {
+  const intento = Number(imgEl.dataset.intento || 0);
+  if (intento < CARPETAS_PORTADAS_ALTERNAS.length) {
+    imgEl.dataset.intento = intento + 1;
+    imgEl.src = rutaPortada(semana, CARPETAS_PORTADAS_ALTERNAS[intento]);
+  } else {
+    imgEl.onerror = null;
+  }
+}
+
+/**
+ * 2.1 SISTEMA DE RANGOS DE HECHICERÍA Y CATÁLOGO DE AVATARES (JUJUTSU KAISEN)
+ */
+const JERARQUIA_RANGOS = {
+  "Grado Especial": 4,
+  "Grado 1": 3,
+  "Grado 2": 2,
+  "Grado 3 / 4": 1
+};
+
+const INFO_RANGOS = {
+  "Grado Especial": {
+    nivel: 4,
+    nombre: "Grado Especial",
+    icono: "👑",
+    color: "#f59e0b",
+    bordeClase: "rango-borde-especial",
+    pillClase: "pill-especial",
+    desc: "Nivel 4 (Máximo): Potencial ilimitado y hechicería de impacto nacional"
+  },
+  "Grado 1": {
+    nivel: 3,
+    nombre: "Grado 1",
+    icono: "⚡",
+    color: "#10b981",
+    bordeClase: "rango-borde-grado1",
+    pillClase: "pill-grado1",
+    desc: "Nivel 3: Élite de la hechicería y comando táctico en misiones de alto rango"
+  },
+  "Grado 2": {
+    nivel: 2,
+    nombre: "Grado 2",
+    icono: "🔥",
+    color: "#d97706",
+    bordeClase: "rango-borde-grado2",
+    pillClase: "pill-grado2",
+    desc: "Nivel 2: Dominio técnico avanzado y manejo fluido de energía maldita"
+  },
+  "Grado 3 / 4": {
+    nivel: 1,
+    nombre: "Grado 3 / 4",
+    icono: "🥋",
+    color: "#64748b",
+    bordeClase: "rango-borde-grado34",
+    pillClase: "pill-grado34",
+    desc: "Nivel 1 (Base Inicial): Estudiante en formación de la Escuela de Hechicería"
+  }
+};
+
+function generarFallbackAvatar(nombre, iniciales, bgGradient, colorTxt = "#ffffff") {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="400" viewBox="0 0 300 400">
+    <defs>
+      <linearGradient id="grad_${iniciales}" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="${bgGradient[0]}"/>
+        <stop offset="100%" stop-color="${bgGradient[1]}"/>
+      </linearGradient>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#grad_${iniciales})"/>
+    <circle cx="150" cy="140" r="70" fill="rgba(255,255,255,0.18)"/>
+    <text x="150" y="160" font-family="system-ui, sans-serif" font-size="50" font-weight="bold" fill="${colorTxt}" text-anchor="middle">${iniciales}</text>
+    <text x="150" y="270" font-family="system-ui, sans-serif" font-size="20" font-weight="bold" fill="#ffffff" text-anchor="middle">${nombre}</text>
+    <text x="150" y="305" font-family="system-ui, sans-serif" font-size="13" fill="rgba(255,255,255,0.75)" text-anchor="middle">Jujutsu Kaisen · CNEB</text>
+  </svg>`;
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+}
+
+const CATALOGO_AVATARES = [
+  // 1. Grado Especial (Nivel 4 - Máximo)
+  {
+    id: "gojo",
+    nombre: "Satoru Gojo",
+    titulo: "El Hechicero más Fuerte",
+    grado: "Grado Especial",
+    nivelRequerido: 4,
+    genero: "M",
+    imagen: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=300&auto=format&fit=crop&q=80",
+    fallback: generarFallbackAvatar("Satoru Gojo", "SG", ["#1e3a8a", "#0284c7"])
+  },
+  {
+    id: "sukuna",
+    nombre: "Ryomen Sukuna",
+    titulo: "Rey de las Maldiciones",
+    grado: "Grado Especial",
+    nivelRequerido: 4,
+    genero: "M",
+    imagen: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=300&auto=format&fit=crop&q=80",
+    fallback: generarFallbackAvatar("Ryomen Sukuna", "RS", ["#7f1d1d", "#dc2626"])
+  },
+  {
+    id: "yuki",
+    nombre: "Yuki Tsukumo",
+    titulo: "Hechicera de Grado Especial",
+    grado: "Grado Especial",
+    nivelRequerido: 4,
+    genero: "F",
+    imagen: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80",
+    fallback: generarFallbackAvatar("Yuki Tsukumo", "YT", ["#b45309", "#f59e0b"])
+  },
+  {
+    id: "yuta",
+    nombre: "Yuta Okkotsu",
+    titulo: "Portador de la Maldición Rika",
+    grado: "Grado Especial",
+    nivelRequerido: 4,
+    genero: "M",
+    imagen: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80",
+    fallback: generarFallbackAvatar("Yuta Okkotsu", "YO", ["#312e81", "#6366f1"])
+  },
+
+  // 2. Grado 1 (Nivel 3)
+  {
+    id: "nanami",
+    nombre: "Kento Nanami",
+    titulo: "Técnica de Proporción 7:3",
+    grado: "Grado 1",
+    nivelRequerido: 3,
+    genero: "M",
+    imagen: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
+    fallback: generarFallbackAvatar("Kento Nanami", "KN", ["#064e3b", "#059669"])
+  },
+  {
+    id: "todo",
+    nombre: "Aoi Todo",
+    titulo: "Técnica Boogie Woogie",
+    grado: "Grado 1",
+    nivelRequerido: 3,
+    genero: "M",
+    imagen: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&auto=format&fit=crop&q=80",
+    fallback: generarFallbackAvatar("Aoi Todo", "AT", ["#047857", "#10b981"])
+  },
+  {
+    id: "meimei",
+    nombre: "Mei Mei",
+    titulo: "Control y Vuelo de Cuervos",
+    grado: "Grado 1",
+    nivelRequerido: 3,
+    genero: "F",
+    imagen: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&auto=format&fit=crop&q=80",
+    fallback: generarFallbackAvatar("Mei Mei", "MM", ["#0f766e", "#14b8a6"])
+  },
+  {
+    id: "naobito",
+    nombre: "Naobito Zenin",
+    titulo: "Técnica de Proyección 24 FPS",
+    grado: "Grado 1",
+    nivelRequerido: 3,
+    genero: "M",
+    imagen: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&auto=format&fit=crop&q=80",
+    fallback: generarFallbackAvatar("Naobito Zenin", "NZ", ["#134e4a", "#2dd4bf"])
+  },
+
+  // 3. Grado 2 (Nivel 2)
+  {
+    id: "megumi",
+    nombre: "Megumi Fushiguro",
+    titulo: "Técnica de las Diez Sombras",
+    grado: "Grado 2",
+    nivelRequerido: 2,
+    genero: "M",
+    imagen: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&auto=format&fit=crop&q=80",
+    fallback: generarFallbackAvatar("Megumi Fushiguro", "MF", ["#78350f", "#d97706"])
+  },
+  {
+    id: "yuji",
+    nombre: "Yuji Itadori",
+    titulo: "Destello Negro (Kokusen)",
+    grado: "Grado 2",
+    nivelRequerido: 2,
+    genero: "M",
+    imagen: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
+    fallback: generarFallbackAvatar("Yuji Itadori", "YI", ["#9a3412", "#ea580c"])
+  },
+  {
+    id: "inumaki",
+    nombre: "Toge Inumaki",
+    titulo: "Técnica del Discurso Maldito",
+    grado: "Grado 2",
+    nivelRequerido: 2,
+    genero: "M",
+    imagen: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=300&auto=format&fit=crop&q=80",
+    fallback: generarFallbackAvatar("Toge Inumaki", "TI", ["#854d0e", "#ca8a04"])
+  },
+  {
+    id: "panda",
+    nombre: "Panda",
+    titulo: "Cadáver Maldito Mutado",
+    grado: "Grado 2",
+    nivelRequerido: 2,
+    genero: "M",
+    imagen: "https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?w=300&auto=format&fit=crop&q=80",
+    fallback: generarFallbackAvatar("Panda", "PD", ["#713f12", "#eab308"])
+  },
+
+  // 4. Grado 3 / 4 (Nivel 1 - Rango Base Inicial)
+  {
+    id: "nobara",
+    nombre: "Nobara Kugisaki",
+    titulo: "Técnica del Muñeco Vudú",
+    grado: "Grado 3 / 4",
+    nivelRequerido: 1,
+    genero: "F",
+    imagen: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300&auto=format&fit=crop&q=80",
+    fallback: generarFallbackAvatar("Nobara Kugisaki", "NK", ["#334155", "#64748b"])
+  },
+  {
+    id: "maki",
+    nombre: "Maki Zenin",
+    titulo: "Maestra de Armas Malditas",
+    grado: "Grado 3 / 4",
+    nivelRequerido: 1,
+    genero: "F",
+    imagen: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&auto=format&fit=crop&q=80",
+    fallback: generarFallbackAvatar("Maki Zenin", "MZ", ["#1e293b", "#475569"])
+  },
+  {
+    id: "mai",
+    nombre: "Mai Zenin",
+    titulo: "Tiradora de Balas Malditas",
+    grado: "Grado 3 / 4",
+    nivelRequerido: 1,
+    genero: "F",
+    imagen: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=300&auto=format&fit=crop&q=80",
+    fallback: generarFallbackAvatar("Mai Zenin", "MA", ["#334155", "#94a3b8"])
+  },
+  {
+    id: "novato",
+    nombre: "Hechicero Novato",
+    titulo: "Estudiante de la Escuela de Hechicería",
+    grado: "Grado 3 / 4",
+    nivelRequerido: 1,
+    genero: "M",
+    imagen: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=300&auto=format&fit=crop&q=80",
+    fallback: generarFallbackAvatar("Hechicero Novato", "HN", ["#1e293b", "#64748b"])
+  }
+];
+
+// Imágenes locales: carpeta "rangos/" junto a index.html, nombradas como cada personaje
+CATALOGO_AVATARES.forEach(a => {
+  a.imagen = "rangos/" + encodeURIComponent(a.nombre) + ".jpg";
+});
+
+// Evita que el estudiante vea/arrastre la ruta del archivo de las imágenes de avatares
+document.addEventListener("contextmenu", e => {
+  if (e.target.closest && e.target.closest(".avatar-portrait-wrap, .avatar-card-header, #netflixCurrentStatus")) e.preventDefault();
+});
+document.addEventListener("dragstart", e => {
+  if (e.target.tagName === "IMG" && e.target.closest(".avatar-portrait-wrap, .avatar-card-header, #netflixCurrentStatus")) e.preventDefault();
+});
+
+function obtenerDatosAvatar(avatarId) {
+  const item = CATALOGO_AVATARES.find(a => a.id === avatarId);
+  return item || CATALOGO_AVATARES.find(a => a.id === "novato") || CATALOGO_AVATARES[0];
+}
+
+// Avatar predeterminado de un rango: el novato para el rango base; si no, el primero de su grado
+function avatarPredeterminadoDeRango(rango) {
+  if (!rango || rango === "Grado 3 / 4") return "novato";
+  const primero = CATALOGO_AVATARES.find(a => a.grado === rango);
+  return primero ? primero.id : "novato";
+}
+
+// Estado de la aplicación
+let currentUser = null;
+let destinoPendiente = null;
+let modoAuth = "login";
+let mapaNotasUsuario = {}; // { semanaNum: documentoEvaluacion }
+let listaEvaluacionesGlobal = [];
+let evaluacionSeleccionadaParaCalificar = null;
+let nivelSeleccionadoDocente = "A";
+
+let datosUsuarioActual = {
+  rango: "Grado 3 / 4",
+  avatar: "novato",
+  nombre: ""
+};
+let unsubscribeUsuarioListener = null;
+
+const elem = id => document.getElementById(id);
+const sanitize = str => String(str ?? "").replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const esAdmin = (u) => u && u.email && u.email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+
+// Notificaciones flotantes tipo Toast
+function mostrarToast(mensaje, tipo = "info") {
+  const cont = elem("toastContainer");
+  if (!cont) return;
+  const toast = document.createElement("div");
+  toast.className = `toast-notification toast-${tipo}`;
+  let icono = "ℹ️";
+  if (tipo === "success") icono = "✅";
+  if (tipo === "warning") icono = "⚠️";
+  toast.innerHTML = `<span>${icono}</span> <span>${sanitize(mensaje)}</span>`;
+  cont.appendChild(toast);
+  setTimeout(() => {
+    toast.style.opacity = "0";
+    toast.style.transform = "translateY(10px)";
+    toast.style.transition = "all 0.3s ease";
+    setTimeout(() => toast.remove(), 300);
+  }, 3500);
+}
+
+/**
+ * EFECTOS DE SONIDO NATIVOS (Web Audio API, sin archivos externos)
+ */
+let _audioCtx = null;
+function obtenerAudioCtx() {
+  try {
+    if (!_audioCtx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      _audioCtx = new AC();
+    }
+    if (_audioCtx.state === "suspended") _audioCtx.resume().catch(() => {});
+    return _audioCtx;
+  } catch (_) { return null; }
+}
+
+// Reproduce una nota: frecuencia, inicio (s), duración (s), tipo de onda, volumen
+function tono(ctx, freq, inicio, dur, tipo = "sine", vol = 0.12, freqFin = null) {
+  const t0 = ctx.currentTime + inicio;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = tipo;
+  osc.frequency.setValueAtTime(freq, t0);
+  if (freqFin) osc.frequency.exponentialRampToValueAtTime(freqFin, t0 + dur);
+  gain.gain.setValueAtTime(0.0001, t0);
+  gain.gain.exponentialRampToValueAtTime(vol, t0 + 0.012);
+  gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start(t0);
+  osc.stop(t0 + dur + 0.05);
+}
+
+function reproducirSonido(nombre) {
+  const ctx = obtenerAudioCtx();
+  if (!ctx) return;
+  try {
+    switch (nombre) {
+      case "click": // tono seco, corto y sutil
+        tono(ctx, 880, 0, 0.05, "triangle", 0.06, 620);
+        break;
+      case "notificacion": // chime de dos tonos armónicos (quinta justa)
+        tono(ctx, 783.99, 0, 0.35, "sine", 0.10);
+        tono(ctx, 1174.66, 0.14, 0.5, "sine", 0.09);
+        tono(ctx, 2349.32, 0.14, 0.3, "sine", 0.015);
+        break;
+      case "fanfarria": // arpegio mayor ascendente retro-moderno
+        [523.25, 659.25, 783.99, 1046.5, 1318.5].forEach((f, i) => {
+          tono(ctx, f, i * 0.09, 0.22, "square", 0.05);
+          tono(ctx, f / 2, i * 0.09, 0.22, "triangle", 0.06);
+        });
+        tono(ctx, 1046.5, 0.5, 0.55, "square", 0.05);
+        tono(ctx, 1318.5, 0.5, 0.55, "square", 0.04);
+        tono(ctx, 1568, 0.5, 0.55, "square", 0.04);
+        break;
+      case "degradacion": // tono descendente sobrio
+        tono(ctx, 440, 0, 0.28, "sawtooth", 0.05, 330);
+        tono(ctx, 330, 0.26, 0.32, "sawtooth", 0.05, 220);
+        tono(ctx, 220, 0.56, 0.45, "sine", 0.07, 165);
+        break;
+    }
+  } catch (e) { console.warn("Aviso de audio:", e); }
+}
+
+// Sonido "click" global: botones, tarjetas, cierre de modales
+document.addEventListener("click", e => {
+  const t = e.target.closest && e.target.closest("button, .btn, .card-semana, .modal-close, [data-close], .card-avatar-netflix, .user-profile-touch, .badge-insignia");
+  if (t) reproducirSonido("click");
+}, true);
+
+/**
+ * BURBUJAS DE NOTIFICACIÓN FLOTANTES (CALLOUTS) CON FLECHA DE PUNTERO
+ * Una burbuja visible a la vez; las demás esperan en cola.
+ * - selector: elemento al que apunta (se resuelve de forma perezosa porque las tarjetas se re-renderizan).
+ * - clave: marca en localStorage para no repetir el aviso.
+ */
+const colaBurbujas = [];
+let burbujaActiva = null;
+
+function encolarBurbuja(cfg) {
+  if (!cfg || !cfg.clave) return;
+  if (localStorage.getItem(cfg.clave)) return;
+  if (colaBurbujas.some(b => b.clave === cfg.clave) || (burbujaActiva && burbujaActiva.cfg.clave === cfg.clave)) return;
+  colaBurbujas.push(cfg);
+  if (!burbujaActiva) setTimeout(mostrarSiguienteBurbuja, 500);
+}
+
+function mostrarSiguienteBurbuja() {
+  if (burbujaActiva) return;
+  const cfg = colaBurbujas.shift();
+  if (!cfg) return;
+  const el = document.createElement("div");
+  el.className = `burbuja-notif ${cfg.tipo || ""}`;
+  el.setAttribute("role", "status");
+  el.innerHTML = `<span>${sanitize(cfg.texto)}</span><button class="burbuja-x" aria-label="Cerrar" title="Cerrar">&times;</button>`;
+  el.style.visibility = "hidden";
+  document.body.appendChild(el);
+  burbujaActiva = { cfg, el };
+
+  el.querySelector(".burbuja-x").addEventListener("click", ev => {
+    ev.stopPropagation();
+    descartarBurbuja();
+  });
+  // Tocar la burbuja equivale a tocar el elemento al que apunta
+  el.addEventListener("click", () => {
+    const destino = document.querySelector(cfg.selector);
+    descartarBurbuja();
+    if (destino) destino.click();
+  });
+
+  localStorage.setItem(cfg.clave, "1");
+  reproducirSonido(cfg.sonido || "notificacion");
+  posicionarBurbuja();
+}
+
+function posicionarBurbuja() {
+  if (!burbujaActiva) return;
+  const { cfg, el } = burbujaActiva;
+  const destino = document.querySelector(cfg.selector);
+  if (!destino || destino.offsetParent === null && getComputedStyle(destino).position !== "fixed") {
+    el.style.visibility = "hidden";
+    return;
+  }
+  const r = destino.getBoundingClientRect();
+  const w = el.offsetWidth, h = el.offsetHeight;
+  const margen = 10, gap = 14;
+  const centroX = r.left + r.width / 2;
+  let left = Math.min(Math.max(margen, centroX - w / 2), window.innerWidth - w - margen);
+  // Debajo del elemento si cabe; si no, encima
+  const cabeAbajo = r.bottom + gap + h < window.innerHeight - margen;
+  const top = cabeAbajo ? r.bottom + gap : Math.max(margen, r.top - gap - h);
+  el.classList.toggle("flecha-arriba", cabeAbajo);
+  el.classList.toggle("flecha-abajo", !cabeAbajo);
+  el.style.left = left + "px";
+  el.style.top = top + "px";
+  el.style.setProperty("--flecha-x", Math.min(Math.max(20, centroX - left), w - 20) + "px");
+  el.style.visibility = "visible";
+}
+
+function descartarBurbuja() {
+  if (!burbujaActiva) return;
+  burbujaActiva.el.remove();
+  burbujaActiva = null;
+  setTimeout(mostrarSiguienteBurbuja, 700);
+}
+
+// Se descarta automáticamente al tocar el elemento señalado (delegado, sobrevive a re-renderizados)
+document.addEventListener("click", e => {
+  if (!burbujaActiva || burbujaActiva.el.contains(e.target)) return;
+  const destino = document.querySelector(burbujaActiva.cfg.selector);
+  if (destino && destino.contains(e.target)) descartarBurbuja();
+}, true);
+window.addEventListener("resize", posicionarBurbuja);
+window.addEventListener("scroll", posicionarBurbuja, true);
+setInterval(posicionarBurbuja, 800); // mantiene el puntero alineado tras re-renderizados
+
+// Burbuja de rango (apunta al avatar del header)
+function notificarCambioRango(tipoEvento, nuevoRango) {
+  if (!currentUser || !tipoEvento) return;
+  const clave = `visto_notif_rango_${currentUser.uid}_${nuevoRango}`;
+  localStorage.removeItem(clave); // un cambio real de rango siempre se avisa una vez
+  if (tipoEvento === "ascenso") {
+    encolarBurbuja({
+      clave, tipo: "rango-up", selector: "#headerAvatarCard", sonido: "fanfarria",
+      texto: `🎉 ¡Felicidades! Has ascendido a ${nuevoRango}. Tienes nuevos hechiceros desbloqueados. Toca aquí para verlos.`
+    });
+  } else {
+    encolarBurbuja({
+      clave, tipo: "rango-down", selector: "#headerAvatarCard", sonido: "degradacion",
+      texto: `⚠️ Tu rango ha sido actualizado a ${nuevoRango}. Algunos avatares han vuelto a bloquearse.`
+    });
+  }
+}
+
+// Burbuja de evaluación revisada (apunta al botón "Mis Resultados" de la semana)
+function revisarNotificacionesEvaluacion() {
+  if (!currentUser) return;
+  for (let s = 1; s <= 6; s++) {
+    const d = mapaNotasUsuario[s];
+    if (!d || !d.calificado_por_docente) continue;
+    const marca = (d.fecha_revision && d.fecha_revision.toMillis) ? d.fecha_revision.toMillis() : (d.id || "");
+    encolarBurbuja({
+      clave: `visto_notif_eval_${currentUser.uid}_s${s}_${marca}`,
+      tipo: "eval", selector: `[data-btn-resultados="${s}"]`,
+      texto: `📝 Tu docente ha calificado tu entrega de la Semana ${String(s).padStart(2, "0")} y te ha dejado una recomendación formativa. ¡Toca aquí para leerla!`
+    });
+  }
+}
+
+// Burbuja de nueva clase: última semana ya iniciada según el calendario y aún sin entrega
+function revisarNotificacionNuevaClase() {
+  if (!currentUser) return;
+  const meses = { ene: 0, feb: 1, mar: 2, abr: 3, may: 4, jun: 5, jul: 6, ago: 7, sep: 8, set: 8, oct: 9, nov: 10, dic: 11 };
+  const hoy = new Date();
+  let actual = null;
+  PROGRAMACION_CNEB.forEach(ses => {
+    const m = /(\d{1,2})\s+al\s+(\d{1,2})\s+([A-Za-z]{3})/.exec(ses.fecha || "");
+    if (!m) return;
+    const inicio = new Date(hoy.getFullYear(), meses[m[3].toLowerCase()], parseInt(m[1], 10));
+    if (hoy >= inicio) actual = ses;
+  });
+  if (!actual || mapaNotasUsuario[actual.semana]) return;
+  encolarBurbuja({
+    clave: `visto_notif_clase_${currentUser.uid}_s${actual.semana}`,
+    tipo: "clase", selector: `[data-semana-card="${actual.semana}"]`,
+    texto: `✨ ¡Nueva clase habilitada! Comienza aquí la Semana ${String(actual.semana).padStart(2, "0")}.`
+  });
+}
+
+// Verificación y celebración de ascenso de hechicería
+function verificarYNotificarAscenso(uid, nuevoRango) {
+  if (!uid || !nuevoRango) return null;
+  let evento = null;
+  const storageKey = `antigravity_last_rango_${uid}`;
+  const rangoAnterior = localStorage.getItem(storageKey);
+
+  if (rangoAnterior && rangoAnterior !== nuevoRango) {
+    const nivelAnt = JERARQUIA_RANGOS[rangoAnterior] || 1;
+    const nivelNue = JERARQUIA_RANGOS[nuevoRango] || 1;
+
+    if (nivelNue > nivelAnt) {
+      if (typeof confetti === "function") {
+        confetti({
+          particleCount: 120,
+          spread: 90,
+          origin: { y: 0.5 },
+          colors: ['#f59e0b', '#10b981', '#3b82f6', '#ec4899', '#ffd700']
+        });
+        setTimeout(() => {
+          confetti({
+            particleCount: 70,
+            angle: 60,
+            spread: 60,
+            origin: { x: 0.1, y: 0.6 }
+          });
+          confetti({
+            particleCount: 70,
+            angle: 120,
+            spread: 60,
+            origin: { x: 0.9, y: 0.6 }
+          });
+        }, 400);
+      }
+      reproducirSonido("fanfarria");
+      evento = "ascenso";
+    } else if (nivelNue < nivelAnt) {
+      reproducirSonido("degradacion");
+      evento = "degradacion";
+    }
+  }
+
+  localStorage.setItem(storageKey, nuevoRango);
+  return evento;
+}
+
+// Actualización visual del header con avatar retrato y rango
+function actualizarVistaPerfilHeader() {
+  if (!currentUser) {
+    elem("userProfileTouch").style.display = "none";
+    return;
+  }
+  const userProfile = elem("userProfileTouch");
+  const avatarCard = elem("headerAvatarCard");
+  const avatarImg = elem("headerAvatarImg");
+  const labelUser = elem("labelUser");
+  const rangoPill = elem("userRangoPill");
+
+  const avatarData = obtenerDatosAvatar(datosUsuarioActual.avatar);
+  const rangoData = INFO_RANGOS[datosUsuarioActual.rango] || INFO_RANGOS["Grado 3 / 4"];
+
+  userProfile.style.display = "inline-flex";
+  avatarImg.src = avatarData.imagen;
+  avatarImg.onerror = () => {
+    avatarImg.onerror = null;
+    avatarImg.src = avatarData.fallback;
+  };
+
+  avatarCard.className = `avatar-card-header ${rangoData.bordeClase}`;
+  labelUser.textContent = datosUsuarioActual.nombre || "Estudiante";
+  rangoPill.className = `user-rango-pill ${rangoData.pillClase}`;
+  rangoPill.innerHTML = `${rangoData.icono} ${rangoData.nombre}`;
+}
+
+// Modal Selector estilo Netflix
+function abrirModalAvatares() {
+  if (!currentUser) {
+    abrirModalAuth(true);
+    return;
+  }
+  const userRango = datosUsuarioActual.rango || "Grado 3 / 4";
+  const userNivel = JERARQUIA_RANGOS[userRango] || 1;
+  const avatarActual = obtenerDatosAvatar(datosUsuarioActual.avatar);
+  const infoRango = INFO_RANGOS[userRango] || INFO_RANGOS["Grado 3 / 4"];
+
+  const statusContainer = elem("netflixCurrentStatus");
+  if (statusContainer) {
+    statusContainer.innerHTML = `
+      <div style="width:44px; height:54px; border-radius:10px; overflow:hidden; flex-shrink:0; border:2px solid ${infoRango.color}; background:#111827;">
+        <img src="${avatarActual.imagen}" alt="${sanitize(avatarActual.nombre)}" style="width:100%; height:100%; object-fit:cover; object-position:top center; display:block;" onerror="this.onerror=null; this.src='${avatarActual.fallback}';">
+      </div>
+      <div>
+        <div style="font-size:0.75rem; color:#94a3b8;">Tu Identidad y Rango Actual:</div>
+        <div style="font-size:0.95rem; font-weight:800; color:#ffffff; display:flex; align-items:center; gap:8px;">
+          <span>${sanitize(avatarActual.nombre)}</span>
+          <span class="user-rango-pill ${infoRango.pillClase}">${infoRango.icono} ${infoRango.nombre}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  const ordenGrados = ["Grado Especial", "Grado 1", "Grado 2", "Grado 3 / 4"];
+  const catalogBody = elem("netflixCatalogBody");
+  if (catalogBody) {
+    catalogBody.innerHTML = ordenGrados.map(grado => {
+      const infoG = INFO_RANGOS[grado];
+      const avataresDelGrado = CATALOGO_AVATARES.filter(a => a.grado === grado);
+      const estaDesbloqueado = infoG.nivel <= userNivel;
+
+      const tarjetasHtml = avataresDelGrado.map(char => {
+        const charDesbloqueado = char.nivelRequerido <= userNivel;
+        const esEquipado = char.id === datosUsuarioActual.avatar;
+
+        if (!charDesbloqueado) {
+          return `
+            <div class="card-avatar-netflix bloqueado" onclick="mostrarToast('🔒 Sigue participando en clase para ascender a ${char.grado} y desbloquear a ${sanitize(char.nombre)}.', 'warning')" title="Bloqueado: Requiere ${char.grado}">
+              <div class="avatar-portrait-wrap">
+                <img src="${char.imagen}" alt="${sanitize(char.nombre)}" onerror="this.onerror=null; this.src='${char.fallback}';">
+                <div class="avatar-lock-overlay">
+                  <span class="lock-icon">🔒</span>
+                  <span class="lock-label">Req. ${char.grado}</span>
+                </div>
+              </div>
+              <div class="avatar-info-panel">
+                <div class="char-name">${sanitize(char.nombre)}</div>
+                <div class="char-title">${sanitize(char.titulo)}</div>
+              </div>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="card-avatar-netflix desbloqueado ${esEquipado ? 'equipado' : ''}" onclick="seleccionarAvatar('${char.id}')" title="Toca para equipar a ${sanitize(char.nombre)}">
+            <div class="avatar-portrait-wrap">
+              <img src="${char.imagen}" alt="${sanitize(char.nombre)}" onerror="this.onerror=null; this.src='${char.fallback}';">
+              ${esEquipado ? '<div class="avatar-equipped-badge">✓ Equipado</div>' : ''}
+            </div>
+            <div class="avatar-info-panel">
+              <div class="char-name">${sanitize(char.nombre)}</div>
+              <div class="char-title">${sanitize(char.titulo)}</div>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      return `
+        <div class="netflix-rango-section">
+          <div class="netflix-rango-titulo">
+            <h3><span>${infoG.icono}</span> ${infoG.nombre}</h3>
+            <span class="badge-rango-requisito">
+              ${estaDesbloqueado ? '🔓 Desbloqueado' : `🔒 Requiere ${infoG.nombre}`}
+            </span>
+          </div>
+          <div class="netflix-grid-avatares">
+            ${tarjetasHtml}
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  elem("modalAvatarPicker").classList.add("open");
+}
+
+async function seleccionarAvatar(avatarId) {
+  if (!currentUser) return;
+  const char = obtenerDatosAvatar(avatarId);
+  const userNivel = JERARQUIA_RANGOS[datosUsuarioActual.rango || "Grado 3 / 4"] || 1;
+
+  if (char.nivelRequerido > userNivel) {
+    mostrarToast(`🔒 Sigue participando en clase para ascender a ${char.grado} y desbloquear este avatar.`, "warning");
+    return;
+  }
+
+  datosUsuarioActual.avatar = avatarId;
+  actualizarVistaPerfilHeader();
+
+  try {
+    await db.collection("usuarios").doc(currentUser.uid).set({
+      avatar: avatarId
+    }, { merge: true });
+    mostrarToast(`✨ ¡Avatar ${char.nombre} equipado con éxito!`, "success");
+    cerrarModal("modalAvatarPicker");
+  } catch (err) {
+    console.warn("Aviso al guardar avatar:", err);
+    mostrarToast(`✨ Avatar ${char.nombre} equipado.`, "info");
+    cerrarModal("modalAvatarPicker");
+  }
+}
+
+// Navegación de pestañas en el panel docente
+function cambiarTabDocente(tab) {
+  const btnNotas = elem("tabBtnNotas");
+  const btnRangos = elem("tabBtnRangos");
+  const secNotas = elem("tabDocenteNotas");
+  const secRangos = elem("tabDocenteRangos");
+
+  if (tab === "notas") {
+    btnNotas.classList.add("active");
+    btnRangos.classList.remove("active");
+    secNotas.style.display = "block";
+    secRangos.style.display = "none";
+  } else if (tab === "rangos") {
+    btnRangos.classList.add("active");
+    btnNotas.classList.remove("active");
+    secRangos.style.display = "block";
+    secNotas.style.display = "none";
+    cargarListaUsuariosRangos();
+  }
+}
+
+let listaEstudiantesRangos = [];
+let mapaUsuariosPorClave = {}; // { correo|uid: { avatar, rango } }
+
+async function cargarListaUsuariosRangos() {
+  if (!esAdmin(currentUser)) return;
+  const tbody = elem("tablaRangosBody");
+  tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:20px; color:#2563eb;">🔄 Consultando estudiantes en Firestore...</td></tr>`;
+
+  try {
+    const snapUsuarios = await db.collection("usuarios").get();
+    const mapaUsuarios = new Map();
+
+    snapUsuarios.docs.forEach(doc => {
+      const d = doc.data();
+      const email = (d.correo || d.email || "").toLowerCase().trim();
+      const uid = doc.id;
+      mapaUsuarios.set(email || uid, {
+        uid: uid,
+        nombre: d.nombre || d.estudiante_nombre || (email ? email.split("@")[0] : "Estudiante"),
+        correo: email || d.correo || "",
+        rango: d.rango || "Grado 3 / 4",
+        avatar: d.avatar || "novato"
+      });
+    });
+
+    listaEvaluacionesGlobal.forEach(ev => {
+      const email = (ev.estudiante_email || ev.correo || ev.email || "").toLowerCase().trim();
+      if (email && !mapaUsuarios.has(email)) {
+        const nom = obtenerNombreEstudiante(ev);
+        mapaUsuarios.set(email, {
+          uid: ev.uid || email,
+          nombre: nom,
+          correo: email,
+          rango: "Grado 3 / 4",
+          avatar: "novato"
+        });
+      }
+    });
+
+    listaEstudiantesRangos = Array.from(mapaUsuarios.values());
+    listaEstudiantesRangos.sort((a, b) => a.nombre.localeCompare(b.nombre));
+
+    renderizarTablaRangos(listaEstudiantesRangos);
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#dc2626; padding:20px;">Error al cargar lista de estudiantes: ${sanitize(err.message)}</td></tr>`;
+  }
+}
+
+function renderizarTablaRangos(lista) {
+  const tbody = elem("tablaRangosBody");
+  if (!lista || !lista.length) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:20px;">No se encontraron estudiantes registrados.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = lista.map((est, idx) => {
+    const char = obtenerDatosAvatar(est.avatar);
+    const infoR = INFO_RANGOS[est.rango] || INFO_RANGOS["Grado 3 / 4"];
+
+    return `
+      <tr>
+        <td style="text-align:center;">
+          <div style="width:36px; height:44px; border-radius:8px; overflow:hidden; margin:0 auto; border:1px solid ${infoR.color}; background:#0f172a;">
+            <img src="${char.imagen}" alt="${sanitize(char.nombre)}" style="width:100%; height:100%; object-fit:cover; object-position:top center; display:block;" onerror="this.onerror=null; this.src='${char.fallback}';">
+          </div>
+        </td>
+        <td>
+          <strong style="color:#0f172a;">${sanitize(est.nombre)}</strong>
+        </td>
+        <td style="color:#64748b; font-size:0.8rem;">
+          ${sanitize(est.correo)}
+        </td>
+        <td style="text-align:center;">
+          <span class="user-rango-pill ${infoR.pillClase}" id="badgeRangoDoc_${idx}">${infoR.icono} ${infoR.nombre}</span>
+        </td>
+        <td style="text-align:center;">
+          <select id="selRangoDoc_${idx}" style="padding:6px 10px; border-radius:6px; border:1px solid #cbd5e1; font-size:0.82rem; font-weight:600;">
+            <option value="Grado Especial" ${est.rango === "Grado Especial" ? "selected" : ""}>👑 Grado Especial (Nivel 4)</option>
+            <option value="Grado 1" ${est.rango === "Grado 1" ? "selected" : ""}>⚡ Grado 1 (Nivel 3)</option>
+            <option value="Grado 2" ${est.rango === "Grado 2" ? "selected" : ""}>🔥 Grado 2 (Nivel 2)</option>
+            <option value="Grado 3 / 4" ${est.rango === "Grado 3 / 4" ? "selected" : ""}>🥋 Grado 3 / 4 (Nivel 1)</option>
+          </select>
+        </td>
+        <td style="text-align:center;">
+          <button class="btn btn-pri btn-sm" onclick="guardarRangoDocente('${sanitize(est.uid)}', '${sanitize(est.correo)}', ${idx}, this)">
+            💾 Guardar Rango
+          </button>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+function filtrarTablaRangos() {
+  const query = (elem("filtroEstudianteRango").value || "").toLowerCase().trim();
+  if (!query) {
+    renderizarTablaRangos(listaEstudiantesRangos);
+    return;
+  }
+  const filtrados = listaEstudiantesRangos.filter(e => 
+    (e.nombre && e.nombre.toLowerCase().includes(query)) ||
+    (e.correo && e.correo.toLowerCase().includes(query))
+  );
+  renderizarTablaRangos(filtrados);
+}
+
+async function guardarRangoDocente(uid, correo, index, btn) {
+  const select = elem(`selRangoDoc_${index}`);
+  if (!select) return;
+  const nuevoRango = select.value;
+  const textoOriginal = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = `⏳ Guardando...`;
+
+  try {
+    let docRef = null;
+    if (uid && !uid.includes("@")) {
+      docRef = db.collection("usuarios").doc(uid);
+    } else {
+      const snap = await db.collection("usuarios").where("correo", "==", correo).get();
+      if (!snap.empty) {
+        docRef = snap.docs[0].ref;
+      } else {
+        docRef = db.collection("usuarios").doc();
+      }
+    }
+
+    // REGLA ESTRICTA DE DEGRADACIÓN: si el avatar equipado pertenece a un rango superior al nuevo, se revoca
+    const nuevoNivel = JERARQUIA_RANGOS[nuevoRango] || 1;
+    let avatarActual = null;
+    try {
+      const snapActual = await docRef.get();
+      if (snapActual.exists) avatarActual = snapActual.data().avatar || null;
+    } catch (_) {}
+    if (!avatarActual) {
+      const estLista = listaEstudiantesRangos.find(e => e.correo === correo || e.uid === uid);
+      avatarActual = estLista ? estLista.avatar : null;
+    }
+
+    const payloadRango = { rango: nuevoRango, correo: correo };
+    let avatarRevocado = false;
+    if (avatarActual && obtenerDatosAvatar(avatarActual).nivelRequerido > nuevoNivel) {
+      payloadRango.avatar = avatarPredeterminadoDeRango(nuevoRango);
+      avatarRevocado = true;
+    }
+
+    await docRef.set(payloadRango, { merge: true });
+
+    const infoR = INFO_RANGOS[nuevoRango] || INFO_RANGOS["Grado 3 / 4"];
+    const badge = elem(`badgeRangoDoc_${index}`);
+    if (badge) {
+      badge.className = `user-rango-pill ${infoR.pillClase}`;
+      badge.innerHTML = `${infoR.icono} ${infoR.nombre}`;
+    }
+
+    const estGuardado = listaEstudiantesRangos.find(e => e.correo === correo || e.uid === uid) || listaEstudiantesRangos[index];
+    let rangoPrevio = null;
+    if (estGuardado) {
+      rangoPrevio = estGuardado.rango;
+      estGuardado.rango = nuevoRango;
+      if (avatarRevocado) estGuardado.avatar = payloadRango.avatar;
+    }
+    if (rangoPrevio && nuevoNivel < (JERARQUIA_RANGOS[rangoPrevio] || 1)) reproducirSonido("degradacion");
+    if (avatarRevocado) filtrarTablaRangos();
+
+    mostrarToast(`✅ Rango actualizado a ${nuevoRango} para ${correo}` + (avatarRevocado ? `. Avatar revocado y restablecido a ${obtenerDatosAvatar(payloadRango.avatar).nombre}.` : ""), avatarRevocado ? "warning" : "success");
+  } catch (err) {
+    console.error("Error al actualizar rango:", err);
+    mostrarToast(`❌ Error al guardar rango: ${err.message}`, "warning");
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = textoOriginal;
+  }
+}
+
+/**
+ * 3. RENDERIZADO DE LAS TARJETAS CON INSIGNIAS DINÁMICAS Y DOS BOTONES
+ */
+function renderizarTarjetas() {
+  const contenedor = elem("gridSemanas");
+  contenedor.innerHTML = PROGRAMACION_CNEB.map(ses => {
+    const semKey = ses.semana;
+    const notaData = mapaNotasUsuario[semKey];
+
+    // Configuración de la Insignia de la esquina superior derecha (DOBLE DISPARADOR: ACTIVACIÓN MANUAL E INTERACTIVA)
+    let badgeHtml = "";
+    if (!currentUser) {
+      badgeHtml = `<span class="badge-insignia pend" onclick="event.stopPropagation(); abrirModalAuth(true);" title="Inicia sesión para ver tu estado">🔒 Acceso Alumno</span>`;
+    } else if (!notaData) {
+      badgeHtml = `<span class="badge-insignia pend" onclick="event.stopPropagation(); abrirResultadosEstudiante(${ses.semana});" title="Aún no has registrado esta semana. Haz clic para ver detalles.">⏳ Sin evaluar</span>`;
+    } else {
+      // La nota manual del docente tiene prioridad absoluta sobre el nivel preliminar del cuestionario
+      const { nivel } = resolverEvaluacion(notaData);
+      const txtNivel = nivel === "AD" ? "AD - Logro Destacado" : nivel === "A" ? "A - Logro Esperado" : nivel === "B" ? "B - En Proceso" : "C - En Inicio";
+      const iconoNivel = nivel === "AD" ? "👑" : nivel === "A" ? "🔥" : nivel === "B" ? "🥉" : "🌱";
+      badgeHtml = `<span class="badge-insignia ${nivel}" onclick="event.stopPropagation(); abrirResultadosEstudiante(${ses.semana});" title="¡Haz clic o toca para ver tus resultados y celebrar tu medalla!"> ${iconoNivel} ${txtNivel}</span>`;
+    }
+
+    return `
+      <article class="card-semana" data-semana-card="${ses.semana}">
+        <div class="card-img-wrap">
+          <img src="${ses.img}" alt="${sanitize(ses.titulo)}" loading="lazy" onerror="portadaError(this, ${ses.semana})">
+          <span class="card-badge-sem">Semana ${String(ses.semana).padStart(2, "0")}</span>
+          <span class="card-fecha">📅 ${ses.fecha}</span>
+          ${badgeHtml}
+        </div>
+        <div class="card-content">
+          <span class="card-comp-tag">🎯 ${sanitize(ses.competencia)}</span>
+          <h3>${sanitize(ses.titulo)}</h3>
+          <p>${sanitize(ses.desc)}</p>
+          <div class="card-evidencia">
+            <strong>Evidencia:</strong> ${sanitize(ses.evidencia)}
+          </div>
+          <div class="card-actions">
+            <!-- Botón 1: Ingresar a la clase -->
+            <button class="btn btn-pri" onclick="clickIngresarClase('${ses.link}')">
+              🚀 Ingresar a clase
+            </button>
+            <!-- Botón 2: Mis Resultados y Recomendaciones -->
+            <button class="btn btn-outline" data-btn-resultados="${ses.semana}" onclick="abrirResultadosEstudiante(${ses.semana})">
+              📋 Mis Resultados y Recomendaciones
+            </button>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function clickIngresarClase(link) {
+  if (currentUser) {
+    location.href = link;
+  } else {
+    destinoPendiente = link;
+    abrirModalAuth(true);
+  }
+}
+
+/**
+ * Normalización de semana para garantizar compatibilidad con:
+ * "Semana 01", "Semana 1", 1, "01", etc.
+ */
+function extraerNumeroSemana(val) {
+  if (val === null || val === undefined) return 0;
+  if (typeof val === "number") return val;
+  const digitos = String(val).replace(/\D/g, "");
+  return digitos ? parseInt(digitos, 10) : 0;
+}
+
+function formatoSemanaDosDigitos(val) {
+  const n = extraerNumeroSemana(val);
+  return n > 0 ? `Semana ${String(n).padStart(2, "0")}` : (val || "—");
+}
+
+function coincideSemana(semanaRegistro, semanaFiltro) {
+  if (!semanaFiltro || String(semanaFiltro).trim() === "") return true; // Todas las semanas
+  const numReg = extraerNumeroSemana(semanaRegistro);
+  const numFiltro = extraerNumeroSemana(semanaFiltro);
+  return numReg > 0 && numReg === numFiltro;
+}
+
+/**
+ * Selección de mejor evaluación según prelación estricta:
+ * 1. Preferencia a entregas ya calificadas por el docente (calificado_por_docente === true).
+ *    Entre ellas, la de mayor nota vigesimal (o más reciente si empatan).
+ * 2. Si ninguno ha sido calificado aún, el intento más reciente según la fecha.
+ * 3. Blindaje: ninguna entrega posterior no calificada sobreescribe una ya revisada.
+ */
+function seleccionarMejorEvaluacion(evaluaciones) {
+  if (!evaluaciones || !evaluaciones.length) return null;
+  if (evaluaciones.length === 1) return evaluaciones[0];
+
+  const calificados = evaluaciones.filter(e => !!e.calificado_por_docente);
+  if (calificados.length > 0) {
+    return calificados.sort((a, b) => {
+      // Entre varios calificados: la revisión más reciente
+      const revA = (a.fecha_revision && a.fecha_revision.toMillis) ? a.fecha_revision.toMillis() : 0;
+      const revB = (b.fecha_revision && b.fecha_revision.toMillis) ? b.fecha_revision.toMillis() : 0;
+      if (revB !== revA) return revB - revA;
+      return obtenerTimestamp(b) - obtenerTimestamp(a);
+    })[0];
+  }
+
+  // Ninguno calificado aún: tomar el más reciente según la fecha
+  return evaluaciones.sort((a, b) => obtenerTimestamp(b) - obtenerTimestamp(a))[0];
+}
+
+/**
+ * 4. CONSULTA EN TIEMPO REAL DE LAS CALIFICACIONES DEL ESTUDIANTE ACTUAL
+ */
+let unsubscribeEvaluacionesListener = null;
+
+async function cargarCalificacionesAlumno() {
+  // Cierra la suscripción anterior (cambio de sesión)
+  if (unsubscribeEvaluacionesListener) {
+    unsubscribeEvaluacionesListener();
+    unsubscribeEvaluacionesListener = null;
+  }
+
+  if (!currentUser) {
+    mapaNotasUsuario = {};
+    renderizarTarjetas();
+    return;
+  }
+
+  const userEmail = (currentUser.email || "").trim().toLowerCase();
+  const userUid = currentUser.uid;
+
+  // Suscripción en tiempo real: cada vez que el docente guarda una calificación se repintan las tarjetas
+  unsubscribeEvaluacionesListener = db.collection("evaluaciones").onSnapshot(snap => {
+    mapaNotasUsuario = {};
+    const agrupadosPorSemana = { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [] };
+
+    snap.forEach(doc => {
+      const data = doc.data();
+      const mailDoc = (data.estudiante_email || data.correo || data.email || data.correo_estudiante || "").trim().toLowerCase();
+      const uidDoc = data.uid || data.estudiante_uid || "";
+      if (mailDoc === userEmail || (uidDoc && uidDoc === userUid)) {
+        const sem = extraerNumeroSemana(data.semana ?? data.semana_numero);
+        if (sem >= 1 && sem <= 6) {
+          agrupadosPorSemana[sem].push({ id: doc.id, ...data });
+        }
+      }
+    });
+
+    for (let s = 1; s <= 6; s++) {
+      const mejor = seleccionarMejorEvaluacion(agrupadosPorSemana[s]);
+      if (mejor) mapaNotasUsuario[s] = mejor;
+    }
+
+    renderizarTarjetas();
+    revisarNotificacionesEvaluacion();
+    revisarNotificacionNuevaClase();
+    elem("userStatusNotice").innerHTML = `Conectado como <strong>${sanitize(currentUser.displayName || currentUser.email)}</strong>. Tus medallas y revisiones están sincronizadas.`;
+  }, err => {
+    console.error("Error al consultar evaluaciones del alumno:", err);
+  });
+}
+
+
+/**
+ * 5. FUNCIÓN ROBUSTA DE CELEBRACIÓN Y ANIMACIÓN DE MEDALLA (DOBLE DISPARADOR)
+ */
+function animarCelebracionMedalla(nivelLogro, sesionLink = "") {
+  const nivel = String(nivelLogro || "C").toUpperCase();
+  const hero = elem("resHero");
+  const rays = elem("resRays");
+  const medalla = elem("resMedalla");
+  const subtitulo = elem("resSubtitulo");
+  const reintento = elem("resAccionReintento");
+
+  // Re-inyección de la clase CSS de entrada con rebote
+  medalla.classList.remove("zoom-bounce");
+  void medalla.offsetWidth; // Reflow para reiniciar la animación
+  medalla.classList.add("zoom-bounce");
+
+  // Reset de estados
+  hero.className = "result-hero";
+  medalla.className = "medalla-xl zoom-bounce";
+  rays.style.display = "none";
+  reintento.style.display = "none";
+  reintento.innerHTML = "";
+
+  if (nivel === "AD") {
+    hero.classList.add("destacado");
+    rays.style.display = "block";
+    medalla.classList.add("ad-badge");
+    medalla.innerHTML = "👑 AD";
+    reproducirSonido("fanfarria");
+    subtitulo.innerHTML = `<span style="color:#fde047;">🌟 ¡Extraordinario! Dominio total del proceso histórico.</span>`;
+    
+    // Disparo doble de confeti dorado y azul con halo luminoso
+    if (typeof confetti === "function") {
+      confetti({
+        particleCount: 100,
+        spread: 80,
+        origin: { y: 0.5 },
+        colors: ['#FFD700', '#FFA500', '#2563EB', '#60A5FA', '#FFFFFF']
+      });
+      setTimeout(() => {
+        confetti({
+          particleCount: 70,
+          angle: 60,
+          spread: 70,
+          origin: { x: 0, y: 0.6 },
+          colors: ['#FFD700', '#FFA500', '#2563EB', '#60A5FA', '#FFFFFF']
+        });
+        confetti({
+          particleCount: 70,
+          angle: 120,
+          spread: 70,
+          origin: { x: 1, y: 0.6 },
+          colors: ['#FFD700', '#FFA500', '#2563EB', '#60A5FA', '#FFFFFF']
+        });
+      }, 350);
+    }
+  } else if (nivel === "A") {
+    hero.classList.add("esperado");
+    medalla.classList.add("a-badge");
+    medalla.innerHTML = "🔥 A";
+    reproducirSonido("fanfarria");
+    subtitulo.innerHTML = `<span style="color:#a7f3d0;">✨ ¡Excelente trabajo! Has alcanzado los aprendizajes esperados.</span>`;
+    
+    // Ráfaga verde esmeralda y dorada
+    if (typeof confetti === "function") {
+      confetti({
+        particleCount: 60,
+        spread: 60,
+        origin: { y: 0.6 },
+        colors: ['#10B981', '#34D399', '#FBBF24']
+      });
+    }
+  } else if (nivel === "B") {
+    hero.classList.add("proceso");
+    medalla.classList.add("b-badge");
+    medalla.innerHTML = "🥉 B";
+    subtitulo.innerHTML = `<span style="color:#fef08a;">💪 ¡Vas por buen camino! Estás a un paso del logro esperado.</span>`;
+    
+    if (sesionLink) {
+      reintento.style.display = "block";
+      reintento.innerHTML = `<a href="${sesionLink}" class="btn btn-gold btn-sm" style="display:inline-flex;">🔁 Intentar de nuevo para subir a nivel A</a>`;
+    }
+
+    // Lluvia suave de 25 partículas cálidas
+    if (typeof confetti === "function") {
+      confetti({
+        particleCount: 25,
+        spread: 45,
+        origin: { y: 0.65 },
+        colors: ['#F59E0B', '#FBBF24', '#FCD34D']
+      });
+    }
+  } else {
+    // Nivel C (Formativo y Respetuoso)
+    hero.classList.add("inicio");
+    medalla.classList.add("c-badge");
+    medalla.innerHTML = "🌱 C";
+    subtitulo.innerHTML = `<div style="background:rgba(255,255,255,0.08); border-radius:8px; padding:10px; margin-top:8px; font-weight:normal; line-height:1.45; text-align:left; color:#f1f5f9; font-size:0.86rem;">
+      🌱 <strong>El error es una oportunidad de aprendizaje.</strong> Has dado el primer paso. Revisa las fuentes y el material de la clase; puedes volver a intentarlo las veces que necesites para alcanzar tu medalla dorada.
+    </div>`;
+    
+    if (sesionLink) {
+      reintento.style.display = "block";
+      reintento.innerHTML = `<a href="${sesionLink}" class="btn btn-white btn-sm" style="display:inline-flex; border:1px solid #94a3b8; color:#0f172a; font-weight:700;">📖 Repasar fuentes y volver a rendir la clase</a>`;
+    }
+  }
+}
+
+/**
+ * 6. MODAL DE RESULTADOS DEL ESTUDIANTE (CON DISPARADOR AUTOMÁTICO DE CELEBRACIÓN)
+ */
+async function abrirResultadosEstudiante(semanaNum) {
+  if (!currentUser) {
+    destinoPendiente = null;
+    abrirModalAuth(true);
+    return;
+  }
+
+  const userEmail = (currentUser.email || "").trim().toLowerCase();
+  let data = mapaNotasUsuario[semanaNum];
+
+  // Si no está en memoria, consultar directamente en Firestore asegurando coincidencia flexible
+  if (!data) {
+    try {
+      const snap = await db.collection("evaluaciones").get();
+      const listaAlumnoSem = [];
+      snap.forEach(doc => {
+        const d = doc.data();
+        const mailDoc = (d.estudiante_email || d.correo || d.email || d.correo_estudiante || "").trim().toLowerCase();
+        const semDoc = extraerNumeroSemana(d.semana ?? d.semana_numero);
+        if (mailDoc === userEmail && semDoc === semanaNum) {
+          listaAlumnoSem.push({ id: doc.id, ...d });
+        }
+      });
+      data = seleccionarMejorEvaluacion(listaAlumnoSem);
+      if (data) {
+        mapaNotasUsuario[semanaNum] = data;
+        renderizarTarjetas();
+      }
+    } catch (e) {
+      console.warn("Aviso consultando evaluación del estudiante:", e);
+    }
+  }
+
+  if (!data) {
+    alert(`Aún no has registrado la evaluación de la Semana 0${semanaNum}.\n\nIngresa al botón "Ingresar a clase" para desarrollar las actividades didácticas.`);
+    return;
+  }
+
+  const sesion = PROGRAMACION_CNEB.find(s => s.semana === semanaNum) || PROGRAMACION_CNEB[0];
+  const nivel = resolverEvaluacion(data).nivel;
+  const notaVigesimal = resolverEvaluacion(data).puntaje ?? "--";
+  const revisadoDocente = !!data.calificado_por_docente;
+
+  elem("resEstadoTexto").textContent = revisadoDocente ? "✅ Evaluación Revisada y Calificada por el Docente" : "⏱️ Evaluación Registrada";
+  elem("resNotaNum").textContent = notaVigesimal;
+  elem("resTituloSemana").textContent = `Semana 0${sesion.semana}: ${sesion.titulo}`;
+  elem("resCompetenciaCapacidad").textContent = `Competencia: ${sesion.competencia} | Criterio CNEB`;
+
+  // Producción escrita del alumno (taller histórico)
+  const textoAlumno = data.texto_justificacion || data.texto_interpretacion || data.analisis_escrito || data.produccion || data.texto || data.interpretacion || "(Sin texto redactado en el taller histórico)";
+  elem("resTextoAlumno").textContent = textoAlumno;
+
+  // Cuadro destacado con el feedback del profesor
+  const boxFeedback = elem("resFeedbackDocente");
+  if (data.retroalimentacion_docente && data.retroalimentacion_docente.trim() !== "") {
+    boxFeedback.innerHTML = `<strong>Mensaje de tu profesor:</strong><br>${sanitize(data.retroalimentacion_docente)}`;
+  } else {
+    boxFeedback.innerHTML = `<em>Tu evaluación fue recibida con éxito. El docente está revisando tu análisis escrito para emitir tu recomendación final.</em>`;
+  }
+
+  // Tarjeta de perfil destacada: avatar equipado, nombre y rango actual
+  const avatarRes = obtenerDatosAvatar(datosUsuarioActual.avatar);
+  const rangoRes = INFO_RANGOS[datosUsuarioActual.rango] || INFO_RANGOS["Grado 3 / 4"];
+  const tarjetaPerfil = elem("resPerfilCard");
+  if (tarjetaPerfil) {
+    tarjetaPerfil.innerHTML = `
+      <div class="res-perfil-avatar" style="border-color:${rangoRes.color};">
+        <img src="${avatarRes.imagen}" alt="${sanitize(avatarRes.nombre)}" onerror="this.onerror=null; this.src='${avatarRes.fallback}';">
+      </div>
+      <div>
+        <div class="res-perfil-nombre">${sanitize(datosUsuarioActual.nombre || currentUser.displayName || "Estudiante")}</div>
+        <div style="font-size:0.74rem; color:#cbd5e1; margin-top:2px;">${sanitize(avatarRes.nombre)}</div>
+        <span class="res-perfil-rango" style="border:1px solid ${rangoRes.color};">${rangoRes.icono} Hechicero ${sanitize(rangoRes.nombre)}</span>
+      </div>`;
+  }
+
+  // Evidencia extendida de la Semana 03: miniatura, pueblo analizado, trivia y nota del docente
+  const bloqueS3 = elem("resS3Extra");
+  if (bloqueS3) {
+    const tieneS3 = esEntregaSemana3(data) && (data.foto_infografia_base64 || data.pueblo_analizado);
+    if (tieneS3) {
+      const thumb = elem("resS3Thumb");
+      if (data.foto_infografia_base64) {
+        thumb.src = srcInfografia(data.foto_infografia_base64);
+        thumb.style.display = "block";
+        thumb.onclick = () => abrirZoomFoto(thumb.src);
+      } else {
+        thumb.style.display = "none";
+      }
+      elem("resS3Pueblo").textContent = data.pueblo_analizado || "—";
+      elem("resS3Trivia").textContent = (data.puntaje_trivia !== undefined && data.puntaje_trivia !== null) ? `${data.puntaje_trivia} / 10` : "—";
+      const evS3 = resolverEvaluacion(data);
+      elem("resS3Nota").textContent = evS3.revisada ? `${evS3.puntaje} / 20 (${evS3.nivel})` : "Pendiente de revisión";
+      bloqueS3.style.display = "flex";
+    } else {
+      bloqueS3.style.display = "none";
+    }
+  }
+
+  // Interacción para volver a detonar la celebración al tocar la medalla grande del modal
+  elem("resMedalla").onclick = () => animarCelebracionMedalla(nivel, sesion.link);
+
+  // 1. Abrir modal
+  elem("modalResultados").classList.add("open");
+
+  // 2. ACTIVACIÓN AUTOMÁTICA DE LA CELEBRACIÓN
+  animarCelebracionMedalla(nivel, sesion.link);
+}
+
+/**
+ * Función robusta para capturar el nombre del estudiante con fallback inteligente al correo
+ */
+function obtenerNombreEstudiante(r) {
+  if (!r) return "Estudiante";
+  const nom = r.estudiante_nombre_completo || r.estudiante_nombre || r.nombre || r.estudiante || r.displayName || "";
+  if (nom && nom.trim() !== "") return nom.trim();
+  const email = r.estudiante_email || r.correo || r.email || "";
+  if (email && email.includes("@")) {
+    const alias = email.split("@")[0].replace(/[._-]/g, " ");
+    return alias.charAt(0).toUpperCase() + alias.slice(1);
+  }
+  return "Estudiante";
+}
+
+/**
+ * 6. PANEL DOCENTE: RÚBRICAS POR SEMANA (CUADRO DE DOBLE ENTRADA FIJO)
+ */
+function actualizarRubricaDocente(semanaVal) {
+  const numSem = extraerNumeroSemana(semanaVal) || 1;
+  const ses = PROGRAMACION_CNEB.find(s => s.semana === numSem) || PROGRAMACION_CNEB[0];
+  elem("rubricaTituloHeader").innerHTML = `📑 Rúbrica Oficial CNEB – Semana ${String(ses.semana).padStart(2, "0")}: ${sanitize(ses.titulo)}`;
+
+  const rub = ses.rubrica;
+  elem("rubricaContent").innerHTML = `
+    <table class="tabla-rubrica" style="width:100%; border-collapse:collapse; table-layout:fixed;">
+      <thead>
+        <tr>
+          <th style="background:#1E293B; color:#ffffff; padding:12px 10px; text-align:left; width:24%;">Criterio / Capacidad</th>
+          <th style="background:#DC2626; color:#ffffff; padding:12px 8px; text-align:center; width:19%;">En Inicio<br>(C: 0-10)</th>
+          <th style="background:#D97706; color:#ffffff; padding:12px 8px; text-align:center; width:19%;">En Proceso<br>(B: 11-13)</th>
+          <th style="background:#059669; color:#ffffff; padding:12px 8px; text-align:center; width:19%;">Logrado<br>(A: 14-17)</th>
+          <th style="background:#1D4ED8; color:#ffffff; padding:12px 8px; text-align:center; width:19%;">Destacado<br>(AD: 18-20)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:12px 10px;">
+            <strong style="color:#0f172a; font-size:0.86rem;">${sanitize(ses.competencia)}</strong>
+            <p style="font-size:0.76rem; color:#475569; margin-top:6px;"><em>${sanitize(rub.criterio)}</em></p>
+          </td>
+          <td style="background:#fffafa; padding:12px 10px;">${sanitize(rub.c)}</td>
+          <td style="background:#fffdf7; padding:12px 10px;">${sanitize(rub.b)}</td>
+          <td style="background:#f9fdfa; padding:12px 10px;">${sanitize(rub.a)}</td>
+          <td style="background:#f8faff; padding:12px 10px;">${sanitize(rub.ad)}</td>
+        </tr>
+      </tbody>
+    </table>
+  `;
+}
+
+elem("rubricaToggle").onclick = () => {
+  elem("rubricaContent").classList.toggle("collapsed");
+};
+
+elem("filtroSemanaDocente").onchange = (e) => {
+  actualizarRubricaDocente(e.target.value);
+  renderizarTablaDocente();
+};
+
+/**
+ * 7. PANEL DOCENTE: CARGAR Y GESTIONAR CALIFICACIONES EN FIRESTORE
+ */
+elem("btnAdminPanel").onclick = () => {
+  elem("modalDocente").classList.add("open");
+  cambiarTabDocente("notas");
+  actualizarRubricaDocente(elem("filtroSemanaDocente").value);
+  cargarEvaluacionesGlobales();
+};
+
+elem("btnRecargarNotas").onclick = cargarEvaluacionesGlobales;
+elem("filtroEstudiante").oninput = renderizarTablaDocente;
+
+async function cargarEvaluacionesGlobales() {
+  if (!esAdmin(currentUser)) return;
+  const btn = elem("btnRecargarNotas");
+  btn.classList.add("btn-refreshing");
+  btn.disabled = true;
+  elem("tablaBody").innerHTML = `<tr><td colspan="8" style="text-align:center; padding:20px; color:#2563eb;">🔄 Consultando registros en Firestore...</td></tr>`;
+
+  try {
+    const snap = await db.collection("evaluaciones").get();
+    listaEvaluacionesGlobal = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+    // Ordenar de más reciente a más antigua
+    listaEvaluacionesGlobal.sort((a, b) => obtenerTimestamp(b) - obtenerTimestamp(a));
+
+    // Cruce con la colección "usuarios" (por correo y por UID) para obtener avatar y rango actuales
+    mapaUsuariosPorClave = {};
+    try {
+      const snapUsr = await db.collection("usuarios").get();
+      snapUsr.docs.forEach(u => {
+        const d = u.data();
+        const info = { avatar: d.avatar || "novato", rango: d.rango || "Grado 3 / 4" };
+        const mail = (d.correo || d.email || "").trim().toLowerCase();
+        if (mail) mapaUsuariosPorClave[mail] = info;
+        mapaUsuariosPorClave[u.id] = info;
+      });
+    } catch (e) {
+      console.warn("Aviso al cruzar usuarios para avatares:", e);
+    }
+    renderizarTablaDocente();
+  } catch (err) {
+    elem("tablaBody").innerHTML = `<tr><td colspan="8" style="text-align:center; color:#dc2626; padding:20px;">Error al consultar: ${sanitize(err.message)}</td></tr>`;
+  } finally {
+    btn.classList.remove("btn-refreshing");
+    btn.disabled = false;
+  }
+}
+
+/**
+ * Consolidación de intentos en el Panel Docente:
+ * REGLA ESTRICTA: UNA SOLA FILA POR ALUMNO EN EL REGISTRO DE NOTAS
+ */
+function filtrarNotasDocente() {
+  const semFiltro = elem("filtroSemanaDocente").value;
+  const query = elem("filtroEstudiante").value.trim().toLowerCase();
+
+  // 1. Filtrar las evaluaciones que corresponden a la semana seleccionada
+  const evaluacionesSemana = listaEvaluacionesGlobal.filter(item => coincideSemana(item.semana ?? item.semana_numero, semFiltro));
+
+  // 2. Agrupar por estudiante (estudiante_email en minúsculas)
+  const gruposPorEstudiante = {};
+  evaluacionesSemana.forEach(item => {
+    const email = (item.estudiante_email || item.correo || item.email || item.correo_estudiante || "").trim().toLowerCase();
+    const key = email || item.id;
+    if (!gruposPorEstudiante[key]) gruposPorEstudiante[key] = [];
+    gruposPorEstudiante[key].push(item);
+  });
+
+  // 3. Seleccionar el mejor resultado por alumno según el orden de prelación estricto
+  const consolidados = [];
+  Object.values(gruposPorEstudiante).forEach(docsAlumno => {
+    const mejor = seleccionarMejorEvaluacion(docsAlumno);
+    if (mejor) consolidados.push(mejor);
+  });
+
+  // 4. Filtrar por búsqueda de texto (nombre o correo)
+  return consolidados.filter(item => {
+    const nombre = (item.estudiante_nombre_completo || item.nombre || item.estudiante_nombre || item.estudiante || "").toLowerCase();
+    const correo = (item.estudiante_email || item.correo || item.email || item.correo_estudiante || "").toLowerCase();
+    return !query || nombre.includes(query) || correo.includes(query);
+  });
+}
+
+function renderizarTablaDocente() {
+  const datos = filtrarNotasDocente();
+  elem("cantRegistros").textContent = `${datos.length} registro(s) para la semana seleccionada`;
+
+  if (!datos.length) {
+    elem("tablaBody").innerHTML = `<tr><td colspan="8" style="text-align:center; padding:24px; color:#64748b;">No hay evaluaciones registradas con los filtros seleccionados.</td></tr>`;
+    return;
+  }
+
+  elem("tablaBody").innerHTML = datos.map((r, idx) => {
+    const nivel = resolverEvaluacion(r).nivel;
+    const semTexto = formatoSemanaDosDigitos(r.semana ?? r.semana_numero);
+    const nota = resolverEvaluacion(r).puntaje ?? "--";
+    const calificado = !!r.calificado_por_docente;
+    const nombreEstudiante = obtenerNombreEstudiante(r);
+    const correoEstudiante = r.estudiante_email || r.correo || r.email || "—";
+
+    // Avatar y rango actuales (si no existe en "usuarios": avatar base de novato)
+    const infoUsr = mapaUsuariosPorClave[String(correoEstudiante).trim().toLowerCase()] || mapaUsuariosPorClave[r.uid] || { avatar: "novato", rango: "Grado 3 / 4" };
+    const avatarFila = obtenerDatosAvatar(infoUsr.avatar);
+    const rangoFila = INFO_RANGOS[infoUsr.rango] || INFO_RANGOS["Grado 3 / 4"];
+
+    return `
+      <tr>
+        <td>
+          <div class="est-cell">
+            <div class="avatar-mini-tabla" data-export-ignore="true" style="border-color:${rangoFila.color};" title="${sanitize(avatarFila.nombre)} · ${sanitize(rangoFila.nombre)}">
+              <img src="${avatarFila.imagen}" alt="" onerror="this.onerror=null; this.src='${avatarFila.fallback}';">
+            </div>
+            <strong>${sanitize(nombreEstudiante)}</strong>
+          </div>
+        </td>
+        <td><small>${sanitize(correoEstudiante)}</small></td>
+        <td><span style="font-weight:700; color:#1e40af;">${sanitize(semTexto)}</span></td>
+        <td><small>${sanitize(r.competencia || "Construye interpretaciones históricas")}</small></td>
+        <td style="text-align:center; font-weight:800; font-size:0.95rem;">${sanitize(nota)}</td>
+        <td style="text-align:center;">
+          <span class="badge-cneb badge-${sanitize(nivel)}">${sanitize(nivel)}</span>
+        </td>
+        <td style="text-align:center;">
+          <span style="display:inline-block; padding:3px 9px; border-radius:999px; font-size:0.75rem; font-weight:700; background:${calificado ? '#dcfce7' : '#fef3c7'}; color:${calificado ? '#15803d' : '#b45309'};">
+            ${calificado ? "✅ Revisada" : "⏳ Por Calificar"}
+          </span>
+        </td>
+        <td style="text-align:center;">
+          <button class="btn btn-outline btn-sm" onclick="abrirModalCalificarDocente('${r.id}')">
+            ✏️ Revisar / Calificar
+          </button>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+/**
+ * 8. MODAL DOCENTE: REVISAR TRABAJO, CALIFICACIÓN EN VIVO Y RETROALIMENTACIÓN
+ */
+function abrirModalCalificarDocente(docId) {
+  const doc = listaEvaluacionesGlobal.find(d => d.id === docId);
+  if (!doc) return;
+
+  evaluacionSeleccionadaParaCalificar = doc;
+
+  const semTexto = formatoSemanaDosDigitos(doc.semana);
+  const nombreEstudiante = obtenerNombreEstudiante(doc);
+  const correoEstudiante = doc.estudiante_email || doc.correo || doc.email || "—";
+  elem("califEstudianteInfo").innerHTML = `
+    Estudiante: <strong>${sanitize(nombreEstudiante)}</strong> (${sanitize(correoEstudiante)})
+  `;
+  elem("califSemanaTxt").textContent = semTexto;
+
+  const texto = doc.texto_interpretacion || doc.analisis_escrito || doc.produccion || doc.texto || doc.interpretacion || "(Sin texto de análisis histórico presentado en esta sesión)";
+  elem("califTextoAlumno").textContent = texto;
+
+  // Cargar valores existentes o sugeridos
+  const notaActual = doc.puntaje_vigesimal ?? doc.puntaje ?? 16;
+  elem("inputNotaVigesimal").value = notaActual;
+
+  const nivelInicial = (doc.nivel_logro || doc.nivel || calcularNivelDesdeNota(notaActual)).toUpperCase();
+  seleccionarNivelDocente(nivelInicial, false);
+
+  elem("inputFeedbackDocente").value = doc.retroalimentacion_docente || "";
+  elem("msgGuardarCalif").textContent = "";
+
+  elem("modalCalificar").classList.add("open");
+}
+
+function seleccionarNivelDocente(nivel, sugerirNota = true) {
+  nivelSeleccionadoDocente = nivel;
+
+  ["AD", "A", "B", "C"].forEach(n => {
+    const b = elem("btnNiv" + n);
+    b.className = "btn-nivel" + (n === nivel ? ` sel-${n}` : "");
+  });
+
+  if (sugerirNota) {
+    if (nivel === "AD") elem("inputNotaVigesimal").value = 19;
+    if (nivel === "A")  elem("inputNotaVigesimal").value = 16;
+    if (nivel === "B")  elem("inputNotaVigesimal").value = 12;
+    if (nivel === "C")  elem("inputNotaVigesimal").value = 8;
+  }
+}
+
+function sincronizarDesdeNota(val) {
+  const num = Number(val);
+  const nivelCalc = calcularNivelDesdeNota(num);
+  seleccionarNivelDocente(nivelCalc, false);
+}
+
+function obtenerNivelDesdePuntaje(puntaje) {
+  const p = Number(puntaje);
+  if (p >= 18) return "AD";
+  if (p >= 14) return "A";
+  if (p >= 11) return "B";
+  return "C";
+}
+
+/**
+ * Nivel y puntaje reales de una evaluación.
+ * Si el docente calificó (calificado_por_docente === true) su nota manual manda:
+ * nota_final_docente, o en su defecto puntaje_vigesimal guardado al calificar.
+ * Si no, se usa el nivel preliminar del cuestionario.
+ */
+function resolverEvaluacion(ev) {
+  if (!ev) return { nivel: "PENDIENTE", puntaje: null, revisada: false };
+  if (ev.calificado_por_docente === true) {
+    const crudo = (ev.nota_final_docente !== null && ev.nota_final_docente !== undefined && ev.nota_final_docente !== "")
+      ? ev.nota_final_docente
+      : (ev.puntaje_vigesimal ?? ev.puntaje);
+    if (crudo !== null && crudo !== undefined && crudo !== "" && !isNaN(Number(crudo))) {
+      return { nivel: obtenerNivelDesdePuntaje(crudo), puntaje: Number(crudo), revisada: true };
+    }
+  }
+  const pre = ev.puntaje_vigesimal ?? ev.puntaje;
+  const nivel = String(ev.nivel_logro || ev.nivel || (pre !== undefined && pre !== null ? obtenerNivelDesdePuntaje(pre) : "C")).toUpperCase();
+  return { nivel, puntaje: (pre !== undefined && pre !== null) ? pre : null, revisada: false };
+}
+
+function calcularNivelDesdeNota(nota) {
+  return obtenerNivelDesdePuntaje(nota ?? 0);
+}
+
+// GUARDAR CALIFICACIÓN Y ENVIAR RECOMENDACIÓN
+elem("btnGuardarCalificacion").onclick = async () => {
+  if (!evaluacionSeleccionadaParaCalificar) return;
+
+  const docId = evaluacionSeleccionadaParaCalificar.id;
+  const notaFinal = Math.min(20, Math.max(0, Number(elem("inputNotaVigesimal").value || 0)));
+  const nivelFinal = nivelSeleccionadoDocente;
+  const feedback = elem("inputFeedbackDocente").value.trim();
+  const btn = elem("btnGuardarCalificacion");
+
+  btn.disabled = true;
+  elem("msgGuardarCalif").textContent = "Guardando en Firestore...";
+
+  try {
+    const semPayload = formatoSemanaDosDigitos(evaluacionSeleccionadaParaCalificar.semana);
+    const payload = {
+      semana: semPayload,
+      puntaje_vigesimal: notaFinal,
+      puntaje: notaFinal,
+      nota_final_docente: notaFinal,
+      nivel_logro: nivelFinal,
+      nivel: nivelFinal,
+      retroalimentacion_docente: feedback,
+      calificado_por_docente: true,
+      fecha_revision: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    await db.collection("evaluaciones").doc(docId).update(payload);
+
+    // Actualizar objeto en la memoria local inmediatamente
+    Object.assign(evaluacionSeleccionadaParaCalificar, payload);
+    renderizarTablaDocente();
+
+    elem("msgGuardarCalif").style.color = "#16a34a";
+    elem("msgGuardarCalif").textContent = "✅ ¡Calificación y recomendación guardadas con éxito!";
+
+    setTimeout(() => {
+      cerrarModal("modalCalificar");
+      btn.disabled = false;
+      elem("msgGuardarCalif").textContent = "";
+      // Si el alumno calificado es el usuario actual, refrescar tarjetas
+      if (currentUser && (evaluacionSeleccionadaParaCalificar.correo || "").toLowerCase() === currentUser.email.toLowerCase()) {
+        cargarCalificacionesAlumno();
+      }
+    }, 1100);
+  } catch (err) {
+    elem("msgGuardarCalif").style.color = "#dc2626";
+    elem("msgGuardarCalif").textContent = "Error al guardar: " + err.message;
+    btn.disabled = false;
+  }
+};
+
+/**
+ * 9. EXPORTADOR A FORMATO CSV / EXCEL
+ */
+elem("btnExportarCsv").onclick = () => {
+  const datos = filtrarNotasDocente();
+  if (!datos.length) {
+    alert("No hay registros visibles en este filtro para exportar.");
+    return;
+  }
+
+  const cabeceras = [
+    "Estudiante",
+    "Correo",
+    "Semana",
+    "Competencia Evaluada",
+    "Nota Final (0-20)",
+    "Nivel de Logro CNEB",
+    "Estado Docente",
+    "Recomendacion Docente",
+    "Texto del Estudiante"
+  ];
+
+  // Exportación limpia: solo texto plano a partir de los datos (nunca del HTML de la tabla),
+  // por lo que el <img> del avatar y su estilo visual quedan excluidos por completo.
+  const textoPlano = v => String(v ?? "").trim();
+  const escapeCsv = val => `"${textoPlano(val).replace(/"/g, '""')}"`;
+
+  const filas = [
+    cabeceras.map(escapeCsv).join(","),
+    ...datos.map(d => [
+      obtenerNombreEstudiante(d),
+      d.estudiante_email || d.correo || d.email || d.correo_estudiante || "",
+      formatoSemanaDosDigitos(d.semana),
+      d.competencia || "Construye interpretaciones históricas",
+      resolverEvaluacion(d).puntaje ?? "",
+      resolverEvaluacion(d).nivel,
+      d.calificado_por_docente ? "Revisada" : "Por Calificar",
+      d.retroalimentacion_docente || "",
+      (d.texto_interpretacion || d.analisis_escrito || d.produccion || d.texto || "").replace(/\n/g, " ")
+    ].map(escapeCsv).join(","))
+  ];
+
+  const contenido = "\ufeff" + filas.join("\r\n");
+  const blob = new Blob([contenido], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const enlace = document.createElement("a");
+  enlace.href = url;
+  enlace.download = `Registro_CNEB_Semana${elem("filtroSemanaDocente").value}_${new Date().toISOString().slice(0,10)}.csv`;
+  enlace.click();
+  URL.revokeObjectURL(url);
+};
+
+/**
+ * 10. GESTIÓN DE MODALES Y AUTENTICACIÓN
+ */
+function abrirModalAuth(conAviso = false) {
+  elem("authNotice").style.display = conAviso ? "block" : "none";
+  elem("authErrorMsg").textContent = "";
+  elem("modalAuth").classList.add("open");
+}
+
+function cerrarModal(idModal) {
+  elem(idModal).classList.remove("open");
+}
+
+document.querySelectorAll("[data-close]").forEach(btn => {
+  btn.onclick = () => cerrarModal(btn.dataset.close);
+});
+
+document.querySelectorAll(".overlay").forEach(overlay => {
+  overlay.addEventListener("mousedown", (e) => {
+    if (e.target === overlay) overlay.classList.remove("open");
+  });
+});
+
+elem("tabLogin").onclick = () => cambiarModoAuth("login");
+elem("tabRegistro").onclick = () => cambiarModoAuth("registro");
+
+function cambiarModoAuth(modo) {
+  modoAuth = modo;
+  elem("tabLogin").classList.toggle("active", modo === "login");
+  elem("tabRegistro").classList.toggle("active", modo === "registro");
+  elem("groupNombre").style.display = (modo === "registro") ? "block" : "none";
+  elem("regNombre").required = (modo === "registro");
+  elem("btnSubmitAuth").textContent = (modo === "registro") ? "Crear cuenta estudiantil" : "Ingresar a la plataforma";
+  elem("authErrorMsg").textContent = "";
+}
+
+const erroresAuthES = {
+  "auth/invalid-credential": "El correo o la contraseña son incorrectos.",
+  "auth/wrong-password": "La contraseña ingresada no es válida.",
+  "auth/user-not-found": "No existe una cuenta registrada con este correo.",
+  "auth/email-already-in-use": "Este correo ya se encuentra registrado.",
+  "auth/weak-password": "La contraseña debe poseer al menos 6 caracteres.",
+  "auth/invalid-email": "El formato del correo es inválido.",
+  "auth/network-request-failed": "Error de conexión. Verifica tu acceso a internet."
+};
+
+elem("formAuth").onsubmit = async (e) => {
+  e.preventDefault();
+  const email = elem("authEmail").value.trim();
+  const password = elem("authPassword").value;
+  const submitBtn = elem("btnSubmitAuth");
+
+  submitBtn.disabled = true;
+  elem("authErrorMsg").textContent = "";
+
+  try {
+    if (modoAuth === "registro") {
+      const nombre = elem("regNombre").value.trim();
+      const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+      await userCredential.user.updateProfile({ displayName: nombre });
+      
+      try {
+        await db.collection("usuarios").doc(userCredential.user.uid).set({
+          nombre: nombre,
+          estudiante_nombre: nombre,
+          correo: email,
+          rol: "estudiante",
+          rango: "Grado 3 / 4",
+          avatar: "novato",
+          fechaRegistro: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      } catch (_) {}
+    } else {
+      await auth.signInWithEmailAndPassword(email, password);
+    }
+
+    cerrarModal("modalAuth");
+    elem("formAuth").reset();
+
+    if (destinoPendiente) {
+      const ruta = destinoPendiente;
+      destinoPendiente = null;
+      location.href = ruta;
+    }
+  } catch (err) {
+    elem("authErrorMsg").textContent = erroresAuthES[err.code] || err.message;
+  } finally {
+    submitBtn.disabled = false;
+  }
+};
+
+elem("btnAuth").onclick = () => {
+  if (currentUser) {
+    auth.signOut();
+  } else {
+    destinoPendiente = null;
+    abrirModalAuth(false);
+  }
+};
+
+function actualizarInterfazUsuario() {
+  if (currentUser) {
+    elem("btnAuth").textContent = "Cerrar Sesión";
+    elem("btnAdminPanel").style.display = esAdmin(currentUser) ? "inline-flex" : "none";
+    elem("userStatusNotice").textContent = "Toca tu tarjeta para revisar resultados formativos o tu avatar para cambiar tu identidad de hechicero.";
+
+    const defaultNombre = currentUser.displayName || (currentUser.email ? currentUser.email.split("@")[0] : "Estudiante");
+
+    // Desuscribir listener previo si hubiera
+    if (unsubscribeUsuarioListener) {
+      unsubscribeUsuarioListener();
+      unsubscribeUsuarioListener = null;
+    }
+
+    // Escuchar cambios en el documento del usuario en Firestore (en tiempo real)
+    unsubscribeUsuarioListener = db.collection("usuarios").doc(currentUser.uid).onSnapshot(docSnap => {
+      let data = {};
+      if (docSnap && docSnap.exists) {
+        data = docSnap.data() || {};
+      }
+
+      const nuevoRango = data.rango || "Grado 3 / 4";
+      const nuevoAvatar = data.avatar || "novato";
+      const nombreEst = data.nombre || data.estudiante_nombre || defaultNombre;
+
+      // Verificar ascenso / degradación si corresponde
+      const eventoRango = verificarYNotificarAscenso(currentUser.uid, nuevoRango);
+
+      // Regla estricta: un avatar de rango superior al actual no puede seguir equipado
+      let avatarFinal = nuevoAvatar;
+      if (obtenerDatosAvatar(nuevoAvatar).nivelRequerido > (JERARQUIA_RANGOS[nuevoRango] || 1)) {
+        avatarFinal = avatarPredeterminadoDeRango(nuevoRango);
+        db.collection("usuarios").doc(currentUser.uid).set({ avatar: avatarFinal }, { merge: true }).catch(() => {});
+      }
+
+      datosUsuarioActual = {
+        rango: nuevoRango,
+        avatar: avatarFinal,
+        nombre: nombreEst
+      };
+
+      // Si faltan campos en Firestore, guardarlos por defecto
+      if (!docSnap || !docSnap.exists || !data.rango || !data.avatar) {
+        db.collection("usuarios").doc(currentUser.uid).set({
+          nombre: nombreEst,
+          estudiante_nombre: nombreEst,
+          correo: currentUser.email,
+          rol: "estudiante",
+          rango: nuevoRango,
+          avatar: avatarFinal
+        }, { merge: true }).catch(() => {});
+      }
+
+      actualizarVistaPerfilHeader();
+      if (eventoRango) notificarCambioRango(eventoRango, nuevoRango);
+    }, err => {
+      console.warn("Aviso al consultar usuario:", err);
+      datosUsuarioActual = {
+        rango: "Grado 3 / 4",
+        avatar: "novato",
+        nombre: defaultNombre
+      };
+      actualizarVistaPerfilHeader();
+    });
+
+  } else {
+    if (unsubscribeUsuarioListener) {
+      unsubscribeUsuarioListener();
+      unsubscribeUsuarioListener = null;
+    }
+    elem("btnAuth").textContent = "🔑 Iniciar Sesión";
+    elem("labelUser").textContent = "";
+    elem("btnAdminPanel").style.display = "none";
+    elem("userProfileTouch").style.display = "none";
+    elem("userStatusNotice").textContent = "Inicia sesión para visualizar tus insignias y recomendaciones de logro.";
+    datosUsuarioActual = {
+      rango: "Grado 3 / 4",
+      avatar: "novato",
+      nombre: ""
+    };
+  }
+  cargarCalificacionesAlumno();
+}
+
+auth.onAuthStateChanged((user) => {
+  currentUser = user;
+  actualizarInterfazUsuario();
+});
+
+function obtenerTimestamp(fila) {
+  const f = fila.fecha || fila.timestamp || fila.createdAt || fila.fecha_revision;
+  if (!f) return 0;
+  if (f.toDate) return f.toDate().getTime();
+  const d = new Date(f);
+  return isNaN(d.getTime()) ? 0 : d.getTime();
+}
+
+// Inicialización
+renderizarTarjetas();
+</script>
+</body>
+</html>

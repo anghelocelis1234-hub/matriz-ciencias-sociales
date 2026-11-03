@@ -1,0 +1,2234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Sesión 03: Pueblos Originarios Amazónicos | Ciencias Sociales 4.° Sec.</title>
+
+  <!-- SDKs de Firebase (v9.23.0 compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <style>
+    /* ==========================================================================
+       1. SISTEMA VISUAL: ALTO CONTRASTE, FONDOS CLAROS Y VERDE LIGERO
+       ========================================================================== */
+    :root {
+      --bg-app: #F8FAFC;
+      --bg-white: #FFFFFF;
+      --bg-green-light: #E8F5E9;
+      --bg-green-soft: #D1FAE5;
+      --green-primary: #15803D;
+      --green-hover: #16A34A;
+      --text-black: #000000;
+      --text-dark: #0F172A;
+      --text-white: #FFFFFF;
+      --border-soft: #E2E8F0;
+      --border-green: #16A34A;
+      --red-solid: #B91C1C;
+      --red-light: #FEE2E2;
+      --gold-solid: #B45309;
+      --gold-light: #FEF3C7;
+      --orange-solid: #C2410C;
+      --orange-light: #FFEDD5;
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-app);
+      color: var(--text-dark);
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    p, li, td, th, label, span, div, figcaption {
+      color: var(--text-dark);
+    }
+
+    /* Botón flotante de audio */
+    #btn-audio-toggle {
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      z-index: 100;
+      background-color: var(--green-primary);
+      color: var(--text-white);
+      font-weight: 600;
+      border: 2px solid var(--bg-white);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    #btn-audio-toggle span {
+      color: var(--text-white);
+    }
+
+    /* Encabezado Institucional */
+    header {
+      background-color: var(--green-primary);
+      color: var(--text-white);
+      padding: 28px 18px 24px;
+      border-bottom: 4px solid var(--green-hover);
+    }
+
+    header .inst-badge {
+      display: inline-block;
+      background-color: var(--bg-white);
+      color: var(--text-black);
+      font-weight: 700;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+
+    header h1 {
+      margin: 0 0 8px 0;
+      font-size: clamp(1.35rem, 4.5vw, 2rem);
+      line-height: 1.25;
+      color: var(--text-white);
+      font-weight: 800;
+    }
+
+    header p {
+      margin: 0;
+      color: var(--text-white);
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    /* Contenedor Principal */
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 20px 14px 80px;
+    }
+
+    section {
+      margin-bottom: 32px;
+      background-color: var(--bg-white);
+      border: 2px solid var(--border-soft);
+      border-radius: var(--radius);
+      padding: 18px 16px;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+    }
+
+    .sec-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--bg-green-soft);
+    }
+
+    .sec-num {
+      background-color: var(--green-primary);
+      color: var(--text-white);
+      font-weight: 700;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1rem;
+    }
+
+    .sec-header h2 {
+      margin: 0;
+      font-size: 1.22rem;
+      color: var(--text-black);
+      font-weight: 800;
+    }
+
+    .lead-text {
+      color: var(--text-black);
+      font-size: 0.98rem;
+      margin: 0 0 14px 0;
+    }
+
+    /* Banner Hero Visual */
+    .hero-visual-banner {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      background-color: var(--bg-green-light);
+      border: 2px solid var(--green-primary);
+      border-radius: var(--radius);
+      padding: 14px;
+      margin-bottom: 16px;
+      align-items: center;
+    }
+
+    @media (min-width: 720px) {
+      .hero-visual-banner {
+        grid-template-columns: 1.15fr 1fr;
+      }
+    }
+
+    .hero-visual-banner img {
+      width: 100%;
+      height: 230px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 2px solid var(--green-primary);
+      display: block;
+      cursor: zoom-in;
+    }
+
+    .hero-caption-box h3 {
+      margin: 0 0 6px 0;
+      font-size: 1.08rem;
+      color: var(--text-black);
+      font-weight: 800;
+    }
+
+    .hero-caption-box p {
+      margin: 0 0 8px 0;
+      font-size: 0.93rem;
+      color: var(--text-black);
+    }
+
+    /* Tarjetas de Enfoque Materialista y Ejes */
+    .grid-cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    @media (min-width: 720px) {
+      .grid-cards.cols-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .grid-cards.cols-2 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .info-card {
+      background-color: var(--bg-green-light);
+      border: 2px solid var(--green-primary);
+      border-radius: 10px;
+      padding: 14px;
+    }
+
+    .info-card h3 {
+      margin: 0 0 6px 0;
+      font-size: 1rem;
+      color: var(--text-black);
+      font-weight: 800;
+    }
+
+    .info-card p {
+      margin: 0;
+      color: var(--text-black);
+      font-size: 0.93rem;
+    }
+
+    /* Atlas / Láminas Didácticas e Ilustraciones SVG */
+    .visual-atlas-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    @media (min-width: 760px) {
+      .visual-atlas-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .visual-figure {
+      margin: 0;
+      background-color: var(--bg-white);
+      border: 2px solid var(--green-primary);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .visual-figure-head {
+      background-color: var(--green-primary);
+      color: var(--text-white);
+      font-weight: 600;
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .visual-figure-head span {
+      color: var(--text-white);
+      font-weight: 600;
+    }
+
+    .visual-figure svg,
+    .visual-figure img.atlas-photo {
+      width: 100%;
+      height: auto;
+      display: block;
+      background-color: var(--bg-white);
+    }
+
+    .visual-figure img.atlas-photo {
+      height: 210px;
+      object-fit: cover;
+      border-bottom: 1px solid var(--border-soft);
+      cursor: zoom-in;
+    }
+
+    .visual-figure figcaption {
+      padding: 12px;
+      background-color: var(--bg-green-light);
+      color: var(--text-black);
+      font-size: 0.9rem;
+      border-top: 2px solid var(--green-primary);
+      flex: 1;
+    }
+
+    .visual-figure figcaption strong {
+      color: var(--text-black);
+    }
+
+    /* Tabla de Familias Lingüísticas */
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 14px;
+      border: 2px solid var(--green-primary);
+      border-radius: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: var(--bg-white);
+      font-size: 0.9rem;
+    }
+
+    th {
+      background-color: var(--green-primary);
+      color: var(--text-white);
+      font-weight: 600;
+      text-align: left;
+      padding: 10px 12px;
+    }
+
+    td {
+      padding: 10px 12px;
+      border-top: 1px solid var(--border-soft);
+      color: var(--text-black);
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) td {
+      background-color: var(--bg-green-light);
+    }
+
+    /* ==========================================================================
+       2. CARPETAS INTERACTIVAS DE PUEBLOS ORIGINARIOS Y EJES TEMÁTICOS
+       ========================================================================== */
+    .folder-item {
+      background-color: var(--bg-white);
+      border: 2px solid var(--green-primary);
+      border-radius: var(--radius);
+      margin-bottom: 14px;
+      overflow: hidden;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .folder-item.open {
+      box-shadow: 0 6px 18px rgba(21, 128, 61, 0.15);
+    }
+
+    .folder-btn {
+      width: 100%;
+      background-color: var(--bg-green-light);
+      border: none;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      cursor: pointer;
+      text-align: left;
+      min-height: 74px;
+      transition: background-color 0.2s ease;
+    }
+
+    .folder-item.open .folder-btn {
+      background-color: var(--green-primary);
+    }
+
+    .folder-btn-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .folder-thumb {
+      width: 56px;
+      height: 56px;
+      border-radius: 10px;
+      object-fit: cover;
+      border: 2px solid var(--green-primary);
+      flex-shrink: 0;
+      background-color: var(--bg-white);
+    }
+
+    .folder-item.open .folder-thumb {
+      border-color: var(--bg-white);
+    }
+
+    .folder-titles strong {
+      display: block;
+      font-size: 1.02rem;
+      color: var(--text-black);
+      font-weight: 800;
+      line-height: 1.3;
+    }
+
+    .folder-titles span {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-dark);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .folder-item.open .folder-titles strong,
+    .folder-item.open .folder-titles span {
+      color: var(--text-white);
+      font-weight: 600;
+    }
+
+    .folder-chevron {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--green-primary);
+      transition: transform 0.3s ease;
+    }
+
+    .folder-item.open .folder-chevron {
+      color: var(--text-white);
+      transform: rotate(180deg);
+    }
+
+    .folder-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.45s ease;
+      background-color: var(--bg-white);
+    }
+
+    .folder-inner {
+      padding: 16px;
+      border-top: 2px solid var(--border-soft);
+    }
+
+    /* Especificación solicitada para las imágenes de las carpetas + soporte zoom */
+    .folder-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid #E2E8F0;
+      display: block;
+      margin-bottom: 6px;
+      background-color: var(--bg-green-light);
+      cursor: zoom-in;
+    }
+
+    .img-caption-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--bg-green-light);
+      border: 1px solid var(--green-primary);
+      border-radius: 6px;
+      padding: 6px 10px;
+      margin-bottom: 12px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--text-black);
+    }
+
+    .folder-badge-eje {
+      display: inline-block;
+      background-color: var(--bg-green-soft);
+      color: var(--text-black);
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--green-primary);
+      margin-bottom: 10px;
+    }
+
+    .folder-inner h4 {
+      margin: 12px 0 4px 0;
+      font-size: 0.95rem;
+      color: var(--text-black);
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .folder-inner p {
+      margin: 0 0 8px 0;
+      color: var(--text-black);
+      font-size: 0.94rem;
+    }
+
+    .folder-quote {
+      margin-top: 12px;
+      padding: 12px;
+      background-color: var(--bg-green-light);
+      border-left: 4px solid var(--green-primary);
+      border-radius: 6px;
+      font-size: 0.9rem;
+      color: var(--text-black);
+      font-weight: 600;
+    }
+
+    /* ==========================================================================
+       3. SECCIÓN DE FUENTES HISTÓRICAS Y NODOS DE DECISIÓN
+       ========================================================================== */
+    .source-card {
+      background-color: var(--bg-green-light);
+      border: 2px solid var(--green-primary);
+      border-radius: 10px;
+      padding: 14px;
+    }
+
+    .source-card .src-tag {
+      display: inline-block;
+      background-color: var(--green-primary);
+      color: var(--text-white);
+      font-weight: 600;
+      font-size: 0.78rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+
+    .source-card h3 {
+      margin: 0 0 8px 0;
+      font-size: 1rem;
+      color: var(--text-black);
+      font-weight: 800;
+    }
+
+    .source-card blockquote {
+      margin: 0 0 8px 0;
+      padding: 10px 12px;
+      background-color: var(--bg-white);
+      border-left: 4px solid var(--green-primary);
+      border-radius: 6px;
+      color: var(--text-black);
+      font-style: italic;
+      font-size: 0.92rem;
+    }
+
+    .source-card .src-author {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--text-black);
+    }
+
+    /* Nodos de Decisión Interactiva */
+    .dilemma-card {
+      background-color: var(--bg-white);
+      border: 2px solid var(--green-primary);
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+
+    .dilemma-role {
+      display: inline-block;
+      background-color: var(--bg-green-soft);
+      color: var(--text-black);
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+    }
+
+    .dilemma-card h3 {
+      margin: 0 0 6px 0;
+      font-size: 1.02rem;
+      color: var(--text-black);
+    }
+
+    .dilemma-btns {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    @media (min-width: 680px) {
+      .dilemma-btns {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .dilemma-opt {
+      background-color: var(--bg-green-light);
+      color: var(--text-black);
+      border: 2px solid var(--green-primary);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .dilemma-opt:hover {
+      background-color: var(--bg-green-soft);
+    }
+
+    .dilemma-feedback {
+      display: none;
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-black);
+    }
+
+    /* ==========================================================================
+       4. BATERÍA DE 10 PREGUNTAS DE OPCIÓN MÚLTIPLE
+       ========================================================================== */
+    .quiz-card {
+      background-color: var(--bg-white);
+      border: 2px solid var(--border-soft);
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+
+    .quiz-meta {
+      display: inline-block;
+      background-color: var(--bg-green-soft);
+      color: var(--text-black);
+      font-weight: 700;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 5px;
+      margin-bottom: 6px;
+    }
+
+    .quiz-question {
+      margin: 4px 0 12px 0;
+      font-weight: 800;
+      color: var(--text-black);
+      font-size: 0.98rem;
+    }
+
+    .quiz-option {
+      width: 100%;
+      display: block;
+      text-align: left;
+      background-color: var(--bg-app);
+      color: var(--text-black);
+      border: 2px solid var(--border-soft);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      font-size: 0.93rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .quiz-option:hover {
+      background-color: var(--bg-green-light);
+      border-color: var(--green-primary);
+    }
+
+    .quiz-option.correct {
+      background-color: var(--green-primary) !important;
+      border-color: var(--green-primary) !important;
+      color: var(--text-white) !important;
+      font-weight: 600 !important;
+    }
+
+    .quiz-option.incorrect {
+      background-color: var(--red-solid) !important;
+      border-color: var(--red-solid) !important;
+      color: var(--text-white) !important;
+      font-weight: 600 !important;
+    }
+
+    .quiz-card.answered .quiz-option {
+      pointer-events: none;
+    }
+
+    .quiz-explain {
+      display: none;
+      margin-top: 8px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background-color: var(--bg-green-light);
+      border-left: 4px solid var(--green-primary);
+      color: var(--text-black);
+      font-size: 0.9rem;
+    }
+
+    .quiz-card.answered .quiz-explain {
+      display: block;
+    }
+
+    .score-banner {
+      position: sticky;
+      bottom: 10px;
+      z-index: 40;
+      background-color: var(--green-primary);
+      color: var(--text-white);
+      border: 2px solid var(--bg-white);
+      border-radius: 10px;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    }
+
+    .score-banner span,
+    .score-banner strong {
+      color: var(--text-white);
+      font-weight: 600;
+    }
+
+    /* ==========================================================================
+       5. FORMULARIO Y CAPTURA DE INFOGRAFÍA (< 150 KB)
+       ========================================================================== */
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 700;
+      color: var(--text-black);
+      margin-bottom: 6px;
+      font-size: 0.92rem;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid var(--green-primary);
+      border-radius: 8px;
+      background-color: var(--bg-white);
+      color: var(--text-black);
+      font-size: 0.96rem;
+      font-family: inherit;
+    }
+
+    .form-control:focus {
+      outline: 3px solid var(--bg-green-soft);
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    .btn-primary {
+      background-color: var(--green-primary);
+      color: var(--text-white);
+      font-weight: 600;
+      border: 2px solid var(--green-primary);
+      border-radius: 10px;
+      padding: 12px 18px;
+      font-size: 0.96rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 48px;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--green-hover);
+      border-color: var(--green-hover);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background-color: var(--bg-green-light);
+      color: var(--text-black);
+      font-weight: 700;
+      border: 2px solid var(--green-primary);
+      border-radius: 10px;
+      padding: 12px 18px;
+      font-size: 0.96rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 48px;
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--bg-green-soft);
+    }
+
+    #preview-box {
+      display: none;
+      margin-top: 12px;
+      padding: 12px;
+      background-color: var(--bg-green-light);
+      border: 2px solid var(--green-primary);
+      border-radius: 10px;
+    }
+
+    #img-preview {
+      width: 100%;
+      max-height: 360px;
+      object-fit: contain;
+      border-radius: 8px;
+      border: 1px solid var(--border-soft);
+      background-color: var(--bg-white);
+      display: block;
+    }
+
+    #compression-stats {
+      margin-top: 8px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-black);
+    }
+
+    /* Resultado de Evaluación CNEB */
+    #result-panel {
+      display: none;
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: var(--radius);
+      text-align: center;
+      border: 3px solid var(--green-primary);
+      background-color: var(--bg-green-light);
+    }
+
+    #result-panel h3 {
+      margin: 4px 0 8px 0;
+      font-size: 2rem;
+      color: var(--text-black);
+    }
+
+    .badge-cneb {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-weight: 600;
+      color: var(--text-white);
+      font-size: 0.95rem;
+    }
+
+    .badge-AD { background-color: var(--gold-solid); }
+    .badge-A  { background-color: var(--green-primary); }
+    .badge-B  { background-color: var(--orange-solid); }
+    .badge-C  { background-color: var(--red-solid); }
+
+    /* Modal Visor de Imágenes a Pantalla Completa */
+    #lightbox-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      background-color: rgba(15, 23, 42, 0.92);
+      padding: 20px;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    #lightbox-modal.active {
+      display: flex;
+    }
+
+    #lightbox-img {
+      max-width: 94vw;
+      max-height: 76vh;
+      object-fit: contain;
+      border-radius: 10px;
+      border: 3px solid var(--bg-white);
+      background-color: var(--bg-white);
+    }
+
+    #lightbox-caption {
+      margin-top: 12px;
+      background-color: var(--bg-white);
+      color: var(--text-black);
+      font-weight: 700;
+      padding: 10px 16px;
+      border-radius: 8px;
+      max-width: 780px;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    #lightbox-close {
+      margin-top: 10px;
+      background-color: var(--green-primary);
+      color: var(--text-white);
+      font-weight: 600;
+      border: 2px solid var(--bg-white);
+      border-radius: 999px;
+      padding: 8px 20px;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    /* Notificación Toast */
+    #toast-msg {
+      position: fixed;
+      bottom: 76px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background-color: var(--green-primary);
+      color: var(--text-white);
+      font-weight: 600;
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: 2px solid var(--bg-white);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      z-index: 200;
+      text-align: center;
+      max-width: 92vw;
+    }
+
+    #toast-msg.visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px 14px;
+      background-color: var(--bg-green-light);
+      border-top: 2px solid var(--green-primary);
+      color: var(--text-black);
+      font-weight: 600;
+      font-size: 0.88rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Botón de Control de Audio -->
+  <button id="btn-audio-toggle" type="button" aria-label="Activar o desactivar sonidos">
+    <span id="audio-icon">🔊</span> <span id="audio-label">Sonido activo</span>
+  </button>
+
+  <!-- Modal Lightbox para ampliar cualquier fotografía -->
+  <div id="lightbox-modal" role="dialog" aria-modal="true" aria-label="Visor de imagen ampliada">
+    <img id="lightbox-img" src="" alt="Imagen ampliada">
+    <div id="lightbox-caption"></div>
+    <button id="lightbox-close" type="button">✖ Cerrar vista ampliada</button>
+  </div>
+
+  <div id="toast-msg" role="status" aria-live="polite"></div>
+
+  <!-- Encabezado Institucional -->
+  <header>
+    <div class="inst-badge">Colegio Experimental UNAP • Iquitos • 4.° de Secundaria</div>
+    <h1>Sesión 03: Reconocemos la Participación Histórica de los Pueblos Originarios Amazónicos en la Construcción del Perú</h1>
+    <p>Área: Ciencias Sociales • Competencia CNEB: Construye interpretaciones históricas • Docente: Yuri Janett Aspajo Chávez</p>
+  </header>
+
+  <main id="semana-3">
+
+    <!-- ========================================================================
+         SECCIÓN 1: PRESENTACIÓN, PROBLEMATIZACIÓN Y MARCO MATERIALISTA HISTÓRICO
+         ======================================================================== -->
+    <section>
+      <div class="sec-header">
+        <span class="sec-num">1</span>
+        <h2>Presentación y Problematización del Espacio Amazónico</h2>
+      </div>
+
+      <!-- Banner Visual de Portada con imagen real del proyecto -->
+      <div class="hero-visual-banner">
+        <img src="img/portada_semana3.jpg"
+             alt="Pueblos originarios amazónicos en defensa de su territorio ancestral"
+             onclick="ampliarImagen(this.src, this.alt)"
+             onerror="this.onerror=null;this.src='rangos/imagen semana 03.jpg';">
+        <div class="hero-caption-box">
+          <h3>Mosaico Pluriétnico y Agencia Histórica Indígena</h3>
+          <p>
+            La historiografía y la etnografía contemporáneas rechazan la noción de una «selva monolítica» o vacía. La Amazonía peruana alberga a más de <strong>50 pueblos originarios</strong> pertenecientes a <strong>13 familias lingüísticas</strong> principales.
+          </p>
+          <p style="margin-bottom:0;">
+            <strong>Enfoque Materialista Histórico:</strong> Analizamos cómo los pueblos transformaron sosteniblemente el bosque (<em>valor de uso</em>), cómo resistieron la extracción colonial y capitalista de su fuerza de trabajo (<em>misiones y caucho</em>) y cómo luchan por su soberanía territorial (<em>Ley N.° 20653 y Convenio 169 OIT</em>). <em>(Toca cualquier fotografía para ampliarla).</em>
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-cards cols-3">
+        <div class="info-card">
+          <h3>1. Condiciones Materiales y Modos de Producción</h3>
+          <p>Relación dialéctica con el bosque: contraste entre la <strong>Várzea</strong> (riberas fértiles e inundables con pesca intensiva y cultivos de ciclo corto en barrizales) y el <strong>Interfluvio o Tierra Firme</strong> (colinas y cabeceras con agricultura itinerante de roza, tumba y quema y barbecho de 20 a 40 años). Predominio del valor de uso sobre el valor de cambio.</p>
+        </div>
+        <div class="info-card">
+          <h3>2. Relaciones de Producción y Fuerza de Trabajo</h3>
+          <p>Desarticulación de las malocas comunales mediante las reducciones misionales coloniales (jesuitas en Maynas y franciscanas en Ocopa) y el régimen semiesclavista del caucho (1880-1914): el sistema de <strong>enganche y habilitación</strong> como endeudamiento perpetuo y hambre forzada para extraer plusvalía (Casa Arana).</p>
+        </div>
+        <div class="info-card">
+          <h3>3. Lucha Anticolonial y Defensa Territorial</h3>
+          <p>Desde la <strong>Rebelión de Juan Santos Atahualpa (1742-1756)</strong> en el Gran Pajonal y el Cerro de la Sal —que expulsó a las misiones y recuperó los medios de producción por más de un siglo— hasta la titulación comunal con la <strong>Ley N.° 20653 (1974)</strong> y las luchas actuales de AIDESEP, FECONACO y ORPIO.</p>
+        </div>
+      </div>
+
+      <!-- Matriz de Familias Lingüísticas -->
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Familia Lingüística</th>
+              <th>Pueblos / Etnias Principales</th>
+              <th>Ubicación y Cuencas</th>
+              <th>Patrón de Ocupación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>TUPI-GUARANÍ / PANO</strong></td>
+              <td>Omagua, Kukama-Kukamiria (Tupi); Shipibo-Konibo, Cashibo-Cacataibo, Matsés, Amahuaca (Pano).</td>
+              <td>Bajo Amazonas, Marañón, Ucayali, Madre de Dios.</td>
+              <td>Várzea fluvial densa (diques, islas y barrizales) y cabeceras de interfluvio.</td>
+            </tr>
+            <tr>
+              <td><strong>ARAWAK</strong></td>
+              <td>Asháninka, Yanesha, Matsiguenga, Nomatsiguenga, Yine (Piro), Resígaro.</td>
+              <td>Selva Central, Urubamba, Madre de Dios, Ucayali, Loreto.</td>
+              <td>Interfluvio y Selva Alta (control estratégico del Cerro de la Sal).</td>
+            </tr>
+            <tr>
+              <td><strong>JÍBARO</strong></td>
+              <td>Awajún (Aguaruna), Wampis (Huambisa), Achuar, Shuar.</td>
+              <td>Alto Marañón, Santiago, Cenepa, Pastaza, Corrientes.</td>
+              <td>Interfluvio y colinas de alta movilidad territorial.</td>
+            </tr>
+            <tr>
+              <td><strong>HUITOTO</strong></td>
+              <td>Huitoto (Murui, Muiname, Meneca), Bora, Ocaina, Andoque.</td>
+              <td>Putumayo, Caquetá, Napo y reubicación en el Ampiyacu.</td>
+              <td>Interfluvio denso y cuencas septentrionales.</td>
+            </tr>
+            <tr>
+              <td><strong>CAHUAPANA / HARAKMBUT</strong></td>
+              <td>Shawi (Chayahuita), Shiwilu (Jebero); Amarakaeri, Huachipaeri.</td>
+              <td>Alto Amazonas, Paranapura; Madre de Dios, Inambari.</td>
+              <td>Piedemonte amazónico y cabeceras fluviales auríferas.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         SECCIÓN 2: ATLAS VISUAL E INFOGRAFÍAS DIDÁCTICAS DE LOS 6 EJES TEMÁTICOS
+         ======================================================================== -->
+    <section>
+      <div class="sec-header">
+        <span class="sec-num">2</span>
+        <h2>Atlas Visual e Infografías Didácticas para Comprender el Tema</h2>
+      </div>
+      <p class="lead-text">
+        Observa detenidamente estas <strong>4 láminas explicativas y la galería fotográfica comentada</strong>. Te ayudarán a visualizar la diferencia ecológica entre Várzea e Interfluvio, la red del Cerro de la Sal, la extracción de plusvalía en el caucho y la fractura legal entre suelo y subsuelo en la Ley N.° 20653.
+      </p>
+
+      <!-- 4 Diagramas Infográficos SVG de Alto Contraste -->
+      <div class="visual-atlas-grid">
+
+        <!-- LÁMINA 1: Várzea vs. Interfluvio -->
+        <figure class="visual-figure">
+          <div class="visual-figure-head">
+            <span>Lámina 1 • Geografía Humana y Modos de Producción</span>
+            <span>Ejes 1 y 2</span>
+          </div>
+          <svg viewBox="0 0 640 310" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Corte ecológico comparativo entre Várzea e Interfluvio">
+            <rect width="640" height="310" fill="#FFFFFF"/>
+            <!-- Mitad Izquierda: Várzea -->
+            <rect x="10" y="10" width="305" height="290" rx="8" fill="#E8F5E9" stroke="#15803D" stroke-width="2.5"/>
+            <rect x="20" y="20" width="285" height="34" rx="6" fill="#15803D"/>
+            <text x="162" y="42" fill="#FFFFFF" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">RIBERA / VÁRZEA (Limo Fértil Anual)</text>
+            <!-- Río y Barrizal -->
+            <path d="M20 155 Q95 140 165 155 T305 150 L305 200 L20 200 Z" fill="#D1FAE5" stroke="#15803D" stroke-width="2"/>
+            <text x="162" y="180" fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" text-anchor="middle">Río Amazonas / Ucayali + Cochas (Pesca)</text>
+            <!-- Cultivos de barrizal -->
+            <rect x="28" y="95" width="268" height="44" rx="6" fill="#FFFFFF" stroke="#15803D" stroke-width="1.5"/>
+            <text x="162" y="114" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Diques y Barrizales: Yuca dulce, maíz, maní</text>
+            <text x="162" y="131" fill="#0F172A" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Ciclo corto • Alta densidad demográfica</text>
+            <!-- Pueblos -->
+            <rect x="28" y="212" width="268" height="74" rx="6" fill="#FFFFFF" stroke="#15803D" stroke-width="1.5"/>
+            <text x="162" y="232" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Pueblos: Omagua, Kukama, Shipibo-Konibo</text>
+            <text x="162" y="251" fill="#0F172A" font-family="sans-serif" font-size="11" text-anchor="middle">• Curacazgos fluviales y redes de canoas</text>
+            <text x="162" y="269" fill="#0F172A" font-family="sans-serif" font-size="11" text-anchor="middle">• Control comunitario de cochas y tipishcas</text>
+
+            <!-- Mitad Derecha: Interfluvio -->
+            <rect x="325" y="10" width="305" height="290" rx="8" fill="#E8F5E9" stroke="#15803D" stroke-width="2.5"/>
+            <rect x="335" y="20" width="285" height="34" rx="6" fill="#15803D"/>
+            <text x="477" y="42" fill="#FFFFFF" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">INTERFLUVIO / TIERRA FIRME (Colinas)</text>
+            <!-- Colinas -->
+            <path d="M335 195 L395 145 L455 185 L525 135 L620 195 Z" fill="#D1FAE5" stroke="#15803D" stroke-width="2"/>
+            <text x="477" y="188" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Bosque de Colina y Cabeceras de Cuenca</text>
+            <!-- Chacra itinerante -->
+            <rect x="343" y="80" width="268" height="52" rx="6" fill="#FFFFFF" stroke="#15803D" stroke-width="1.5"/>
+            <text x="477" y="100" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Roza, Tumba y Quema (Uso: 2-3 años)</text>
+            <text x="477" y="118" fill="#0F172A" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Barbecho largo: 20 a 40 años (regenera el suelo)</text>
+            <!-- Pueblos -->
+            <rect x="343" y="212" width="268" height="74" rx="6" fill="#FFFFFF" stroke="#15803D" stroke-width="1.5"/>
+            <text x="477" y="232" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Pueblos: Asháninka, Yanesha, Awajún, Huitoto</text>
+            <text x="477" y="251" fill="#0F172A" font-family="sans-serif" font-size="11" text-anchor="middle">• Asentamientos dispersos y alta movilidad</text>
+            <text x="477" y="269" fill="#0F172A" font-family="sans-serif" font-size="11" text-anchor="middle">• Caza con cerbatana/curare y agroforestería</text>
+          </svg>
+          <figcaption>
+            <strong>Clave Materialista:</strong> Los pueblos amazónicos adaptaron sus fuerzas productivas a dos medios ecológicos distintos sin destruir el bosque, priorizando el <strong>valor de uso</strong> comunitario.
+          </figcaption>
+        </figure>
+
+        <!-- LÁMINA 2: Nodo del Cerro de la Sal y Rebelión de 1742 -->
+        <figure class="visual-figure">
+          <div class="visual-figure-head">
+            <span>Lámina 2 • Red del Cerro de la Sal y Rebelión (1742-1756)</span>
+            <span>Ejes 2 y 3</span>
+          </div>
+          <svg viewBox="0 0 640 310" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Esquema del Cerro de la Sal y Rebelión de Juan Santos Atahualpa">
+            <rect width="640" height="310" fill="#FFFFFF"/>
+            <rect x="10" y="10" width="620" height="290" rx="8" fill="#E8F5E9" stroke="#15803D" stroke-width="2.5"/>
+            <!-- Nodos superiores -->
+            <rect x="24" y="26" width="175" height="90" rx="8" fill="#FFFFFF" stroke="#15803D" stroke-width="2"/>
+            <text x="111" y="48" fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" text-anchor="middle">ANDES CENTRALES</text>
+            <text x="111" y="67" fill="#0F172A" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">(Taramas, Huancas, Incas)</text>
+            <text x="111" y="86" fill="#000000" font-family="sans-serif" font-size="11" text-anchor="middle">Aportan: Hachas de piedra,</text>
+            <text x="111" y="102" fill="#000000" font-family="sans-serif" font-size="11" text-anchor="middle">cobre y textiles andinos</text>
+
+            <!-- Nodo Central: Cerro de la Sal -->
+            <rect x="225" y="22" width="190" height="100" rx="10" fill="#15803D"/>
+            <text x="320" y="46" fill="#FFFFFF" font-family="sans-serif" font-size="14" font-weight="bold" text-anchor="middle">⛰️ CERRO DE LA SAL</text>
+            <text x="320" y="66" fill="#FFFFFF" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Control: Asháninka y Yanesha</text>
+            <text x="320" y="86" fill="#FFFFFF" font-family="sans-serif" font-size="11" text-anchor="middle">Sal gema en bloques,</text>
+            <text x="320" y="103" fill="#FFFFFF" font-family="sans-serif" font-size="11" text-anchor="middle">plumas, curare, algodón, coca</text>
+
+            <!-- Nodo Derecho: Cuencas Amazónicas -->
+            <rect x="441" y="26" width="175" height="90" rx="8" fill="#FFFFFF" stroke="#15803D" stroke-width="2"/>
+            <text x="528" y="48" fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" text-anchor="middle">BAJA AMAZONÍA</text>
+            <text x="528" y="67" fill="#0F172A" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">(Piro/Yine, Conibo, Omagua)</text>
+            <text x="528" y="86" fill="#000000" font-family="sans-serif" font-size="11" text-anchor="middle">Aportan: Cerámica fina,</text>
+            <text x="528" y="102" fill="#000000" font-family="sans-serif" font-size="11" text-anchor="middle">canoas, plumas y pescado seco</text>
+
+            <!-- Flechas de intercambio -->
+            <line x1="199" y1="70" x2="225" y2="70" stroke="#000000" stroke-width="3"/>
+            <line x1="415" y1="70" x2="441" y2="70" stroke="#000000" stroke-width="3"/>
+
+            <!-- Bloque Inferior: Choque Colonial y Rebelión -->
+            <rect x="24" y="140" width="592" height="144" rx="8" fill="#FFFFFF" stroke="#15803D" stroke-width="2"/>
+            <rect x="36" y="152" width="568" height="30" rx="6" fill="#D1FAE5"/>
+            <text x="320" y="172" fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" text-anchor="middle">RUPTURA ANTICOLONIAL: REBELIÓN DE JUAN SANTOS ATAHUALPA (1742–1756)</text>
+            <text x="320" y="202" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">1. Causa: Misiones franciscanas (Ocopa) destruyen malocas e imponen servidumbre y epidemias.</text>
+            <text x="320" y="226" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">2. Alianza Pan-Amazónica: Guerreros Asháninka, Yanesha y Nomatsiguenga en el Gran Pajonal.</text>
+            <text x="320" y="250" fill="#15803D" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">3. Logro Histórico: Destruyen 27 misiones, recuperan el Cerro de la Sal y liberan la Selva Central (+100 años).</text>
+          </svg>
+          <figcaption>
+            <strong>Importancia Histórica:</strong> La Amazonía prehispánica no estuvo aislada; el Cerro de la Sal articulaba sierra y selva. En 1742, su defensa unificó la mayor victoria anticolonial del siglo XVIII.
+          </figcaption>
+        </figure>
+
+        <!-- LÁMINA 3: Enganche Cauchero y Genocidio del Putumayo -->
+        <figure class="visual-figure">
+          <div class="visual-figure-head">
+            <span>Lámina 3 • Maquinaria del Caucho y Colapso Demográfico</span>
+            <span>Eje 4 (1880-1914)</span>
+          </div>
+          <svg viewBox="0 0 640 310" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Esquema del enganche cauchero y colapso demográfico en el Putumayo">
+            <rect width="640" height="310" fill="#FFFFFF"/>
+            <rect x="10" y="10" width="620" height="290" rx="8" fill="#E8F5E9" stroke="#15803D" stroke-width="2.5"/>
+
+            <!-- Circuito del Enganche -->
+            <rect x="24" y="24" width="350" height="262" rx="8" fill="#FFFFFF" stroke="#15803D" stroke-width="2"/>
+            <rect x="36" y="36" width="326" height="30" rx="6" fill="#15803D"/>
+            <text x="199" y="56" fill="#FFFFFF" font-family="sans-serif" font-size="13" font-weight="bold" text-anchor="middle">TRAMPA DEL ENGANCHE / HABILITACIÓN</text>
+
+            <rect x="40" y="78" width="318" height="42" rx="6" fill="#E8F5E9" stroke="#15803D"/>
+            <text x="199" y="96" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">1. Mercadería sobrevalorada (escopetas, telas)</text>
+            <text x="199" y="112" fill="#0F172A" font-family="sans-serif" font-size="11" text-anchor="middle">Genera una deuda impagable y perpetua en libros</text>
+
+            <rect x="40" y="130" width="318" height="46" rx="6" fill="#FEE2E2" stroke="#B91C1C"/>
+            <text x="199" y="149" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">2. Prohibición de Chacras = Hambre Forzada</text>
+            <text x="199" y="166" fill="#000000" font-family="sans-serif" font-size="11" text-anchor="middle">Juez Paredes (1912): 100 % del tiempo al látex</text>
+
+            <rect x="40" y="186" width="318" height="86" rx="6" fill="#E8F5E9" stroke="#15803D"/>
+            <text x="199" y="206" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">3. Terror Corporativo (Casa Arana / Secciones)</text>
+            <text x="199" y="224" fill="#0F172A" font-family="sans-serif" font-size="11" text-anchor="middle">La Chorrera, El Encanto, Matanzas, Abisinia:</text>
+            <text x="199" y="241" fill="#0F172A" font-family="sans-serif" font-size="11" text-anchor="middle">Cepo, flagelación y correrías. Discurso falso de</text>
+            <text x="199" y="258" fill="#0F172A" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">«llevar civilización» (Alegato 1913)</text>
+
+            <!-- Gráfico de Colapso Demográfico -->
+            <rect x="390" y="24" width="226" height="262" rx="8" fill="#FFFFFF" stroke="#15803D" stroke-width="2"/>
+            <text x="503" y="48" fill="#000000" font-family="sans-serif" font-size="13" font-weight="bold" text-anchor="middle">PUTUMAYO (1900–1912)</text>
+            <text x="503" y="66" fill="#0F172A" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Huitoto, Bora, Ocaina, Andoque</text>
+
+            <!-- Barra 1900 -->
+            <rect x="428" y="88" width="58" height="140" fill="#15803D" rx="4"/>
+            <text x="457" y="82" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">+40,000</text>
+            <text x="457" y="246" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Año 1900</text>
+
+            <!-- Barra 1912 -->
+            <rect x="520" y="193" width="58" height="35" fill="#B91C1C" rx="4"/>
+            <text x="549" y="186" fill="#B91C1C" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">&lt;10,000</text>
+            <text x="549" y="246" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Año 1912</text>
+
+            <text x="503" y="272" fill="#B91C1C" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Exterminio &gt; 75 % pob.</text>
+          </svg>
+          <figcaption>
+            <strong>Contraste de Fuentes:</strong> Mientras la Casa Arana alegaba «civilizar la selva» (1913), el Juez Rómulo Paredes (1912) y Roger Casement documentaron el exterminio de más del 75 % de la población indígena.
+          </figcaption>
+        </figure>
+
+        <!-- LÁMINA 4: Ley N.° 20653 (1974) Suelo vs. Subsuelo -->
+        <figure class="visual-figure">
+          <div class="visual-figure-head">
+            <span>Lámina 4 • Ley N.° 20653 (1974): Logros y Límites Estructurales</span>
+            <span>Eje 5 (Siglos XX-XXI)</span>
+          </div>
+          <svg viewBox="0 0 640 310" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Esquema de la Ley de Comunidades Nativas 20653 de 1974">
+            <rect width="640" height="310" fill="#FFFFFF"/>
+            <rect x="10" y="10" width="620" height="290" rx="8" fill="#E8F5E9" stroke="#15803D" stroke-width="2.5"/>
+
+            <!-- Capa Superior: Suelo Comunal -->
+            <rect x="26" y="24" width="588" height="118" rx="8" fill="#FFFFFF" stroke="#15803D" stroke-width="2.5"/>
+            <rect x="38" y="34" width="564" height="28" rx="6" fill="#15803D"/>
+            <text x="320" y="53" fill="#FFFFFF" font-family="sans-serif" font-size="13" font-weight="bold" text-anchor="middle">✅ LOGRO JURÍDICO (SUPERFICIE): PERSONERÍA E INALIENABILIDAD COMUNAL</text>
+            <text x="320" y="82" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">• Permite inscribir Comunidades Nativas y expulsar a los patrones de fundos (ej. Ampiyacu, Ucayali).</text>
+            <text x="320" y="104" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">• Límite 1: No reconoce el Territorio Étnico Integral, sino que lo fragmenta en «Islas Comunales».</text>
+            <text x="320" y="126" fill="#15803D" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">• Emergen federaciones: FECONAYA (1969), AIDESEP (1980), FECONACO, ORPIO.</text>
+
+            <!-- Capa Inferior: Subsuelo Estatal -->
+            <rect x="26" y="156" width="588" height="128" rx="8" fill="#FEF3C7" stroke="#B45309" stroke-width="2.5"/>
+            <rect x="38" y="166" width="564" height="28" rx="6" fill="#B45309"/>
+            <text x="320" y="185" fill="#FFFFFF" font-family="sans-serif" font-size="13" font-weight="bold" text-anchor="middle">⚠️ LÍMITE ESTRUCTURAL (SUBSUELO Y BOSQUES DE PROTECCIÓN = ESTADO)</text>
+            <text x="320" y="214" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">• El Estado se reserva la propiedad del subsuelo (petróleo, gas, minerales) y concesiones forestales.</text>
+            <text x="320" y="236" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">• Origina disputas socioambientales contemporáneas: Río Corrientes (Achuar, 2006) y Bagua (2009).</text>
+            <text x="320" y="258" fill="#000000" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle">• Defensa indígena actual: Consulta Previa (Convenio 169 OIT) y Reservas PIACI.</text>
+          </svg>
+          <figcaption>
+            <strong>Continuidad Histórica (Longue Durée):</strong> La Ley N.° 20653 (Velasco, 1974) cerró el régimen servil de fundos post-caucho, pero la separación legal entre suelo comunal y subsuelo estatal explica los conflictos extractivos del siglo XXI.
+          </figcaption>
+        </figure>
+
+      </div>
+
+      <!-- Galería Visual Interactiva con las Fotografías de la carpeta img/ -->
+      <h3 style="margin: 22px 0 10px 0; color: var(--text-black); font-size: 1.08rem; font-weight: 800;">
+        📸 Galería Fotográfica Documental de los Pueblos Amazónicos (Toca cualquier foto para ampliarla)
+      </h3>
+      <div class="visual-atlas-grid">
+
+        <figure class="visual-figure">
+          <div class="visual-figure-head">
+            <span>Foto 1 • Arte Kené y Várzea Fluvial (Shipibo-Konibo)</span>
+            <span>🔍 Ampliar</span>
+          </div>
+          <img class="atlas-photo"
+               src="img/pueblo_varzea.jpg"
+               alt="Mujer Shipibo-Konibo elaborando tejido tradicional con diseño geométrico Kené en comunidad ribereña"
+               onclick="ampliarImagen(this.src, this.alt)"
+               onerror="this.onerror=null;this.src='img/imgpueblo_varzea.jpg';">
+          <figcaption>
+            <strong>Saberes y Patrimonio (Ejes 1 y 6):</strong> Maestra del pueblo Shipibo-Konibo trazando diseños geométricos <em>Kené</em> (Patrimonio Cultural de la Nación), expresión de la cosmovisión, caminos del agua y biodiversidad de los pueblos ribereños de várzea.
+          </figcaption>
+        </figure>
+
+        <figure class="visual-figure">
+          <div class="visual-figure-head">
+            <span>Foto 2 • Pueblo Asháninka y Yanesha (Selva Central)</span>
+            <span>🔍 Ampliar</span>
+          </div>
+          <img class="atlas-photo"
+               src="img/pueblo_ashaninka.jpg"
+               alt="Familia del pueblo Asháninka con cushmas tradicionales tejidas en algodón nativo en la Selva Central"
+               onclick="ampliarImagen(this.src, this.alt)"
+               onerror="this.onerror=null;this.src='img/imgpueblo_ashaninka.jpg';">
+          <figcaption>
+            <strong>Soberanía en la Selva Central (Ejes 2 y 3):</strong> Comunidad Asháninka portando la tradicional <em>cushma</em> de algodón. Custodios históricos del Cerro de la Sal y protagonistas de la rebelión anticolonial de 1742-1756.
+          </figcaption>
+        </figure>
+
+        <figure class="visual-figure">
+          <div class="visual-figure-head">
+            <span>Foto 3 • Pueblo Awajún y Wampis (Alto Marañón)</span>
+            <span>🔍 Ampliar</span>
+          </div>
+          <img class="atlas-photo"
+               src="img/pueblo_awajun.jpg"
+               alt="Líder del pueblo Awajún con corona tradicional y lanza en defensa del territorio del Alto Marañón"
+               onclick="ampliarImagen(this.src, this.alt)"
+               onerror="this.onerror=null;this.src='img/imgpueblo_awajun.jpg';">
+          <figcaption>
+            <strong>Autonomía en el Alto Marañón (Ejes 3 y 5):</strong> Dirigente Awajún (familia lingüística Jíbaro). Los pueblos Awajún y Wampis resistieron las reducciones coloniales y lideran hoy la defensa de los bosques y la Consulta Previa.
+          </figcaption>
+        </figure>
+
+        <figure class="visual-figure">
+          <div class="visual-figure-head">
+            <span>Foto 4 • Cuenca del Putumayo y Río Ampiyacu (Huitoto y Bora)</span>
+            <span>🔍 Ampliar</span>
+          </div>
+          <img class="atlas-photo"
+               src="img/pueblo_huitoto.jpg"
+               alt="Asentamiento ribereño y navegación en canoa en la cuenca amazónica de los pueblos Huitoto y Bora"
+               onclick="ampliarImagen(this.src, this.alt)"
+               onerror="this.onerror=null;this.src='img/imgpueblo_huitoto.jpg';">
+          <figcaption>
+            <strong>Reconstrucción Comunal Post-Caucho (Ejes 4 y 5):</strong> Comunidad en la cuenca amazónica (Putumayo / Ampiyacu). Tras sobrevivir al genocidio de la Casa Arana y al traslado patronal, titularon sus comunidades nativas a partir de 1974.
+          </figcaption>
+        </figure>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         SECCIÓN 3: CARPETAS INTERACTIVAS DE PUEBLOS ORIGINARIOS Y EJES TEMÁTICOS
+         ======================================================================== -->
+    <section>
+      <div class="sec-header">
+        <span class="sec-num">3</span>
+        <h2>Carpetas Interactivas: Análisis Materialista de los Pueblos Amazónicos</h2>
+      </div>
+      <p class="lead-text">
+        Pulsa cada carpeta rectangular para escuchar el efecto sonoro y desplegar su imagen local, el análisis de su base económica ancestral, las formas de explotación sufridas, sus estrategias de defensa territorial y las citas de fuentes.
+      </p>
+
+      <div id="folders-container">
+
+        <!-- CARPETA 1: Ribera / Várzea -->
+        <article class="folder-item">
+          <button class="folder-btn" type="button" aria-expanded="false">
+            <div class="folder-btn-left">
+              <img class="folder-thumb" src="img/pueblo_varzea.jpg" alt="Miniatura Várzea" onerror="this.onerror=null;this.src='img/imgpueblo_varzea.jpg';">
+              <div class="folder-titles">
+                <strong>1. Omaguas, Kukama-Kukamiria y Shipibo-Konibo (Ribera / Várzea)</strong>
+                <span>Familias Tupi-Guaraní y Pano • Ejes 1, 2, 3 y 6: Modo de producción comunal, barrizales y arte Kené</span>
+              </div>
+            </div>
+            <span class="folder-chevron">▼</span>
+          </button>
+          <div class="folder-content">
+            <div class="folder-inner">
+              <span class="folder-badge-eje">Ejes Temáticos 1, 2, 3 y 6 • Dinámica de Várzea Fluvial</span>
+              <img class="folder-img"
+                   src="img/pueblo_varzea.jpg"
+                   alt="Pueblos ribereños de várzea: Omaguas, Kukama-Kukamiria y Shipibo-Konibo"
+                   onclick="ampliarImagen(this.src, this.alt)"
+                   onerror="this.onerror=null;this.src='img/imgpueblo_varzea.jpg';">
+              <div class="img-caption-bar">
+                <span>📌 Archivo: img/pueblo_varzea.jpg (Arte Kené y hábitat ribereño)</span>
+                <span>🔍 Toca la imagen para ampliar</span>
+              </div>
+              <h4>Base Económica Ancestral y Modo de Producción</h4>
+              <p>Asentados en los diques naturales y riberas fértiles (<em>várzea</em>) de los ríos Amazonas, Ucayali y Marañón. Su alta densidad demográfica precolonial se sustentó en el manejo comunal de cochas y tipishcas (pesca intensiva de paiche y gamitana con vedas rotativas) y en cultivos de ciclo corto en barrizales fertilizados por el limo fluvial (yuca dulce, maíz, maní). En el siglo XVI, curacazgos como el de los Omaguas (representados en la guía por el curaca <em>Taru</em>) intermediaron herramientas de hierro europeas con grupos del interior.</p>
+              <h4>Formas de Explotación Sufridas</h4>
+              <p>Durante los siglos XVII y XVIII, las misiones jesuitas de la Gobernación de Maynas (Jeberos, Lagunas) impusieron la sedentarización forzosa en reducciones ortogonales, destruyendo las malocas multifamiliares para instaurar la familia nuclear y el control tributario. El hacinamiento desató epidemias de viruela y sarampión que provocaron el colapso del 50 % al 70 % de la población entre 1660 y 1740. En el siglo XIX sufrieron el enganche gomero en el Ucayali.</p>
+              <h4>Estrategias de Defensa Territorial y Aportes Vivos</h4>
+              <p>Huida estratégica hacia cochas interiores, preservación de la agroforestería policultural y creación de federaciones como FECONAU. El pueblo Shipibo-Konibo custodia el sistema geométrico <strong>Kené</strong> —Patrimonio Cultural de la Nación— que expresa su cosmovisión, cartografía espiritual y biodiversidad frente a la homogeneización mercantil.</p>
+              <div class="folder-quote">
+                «El hacinamiento en los pueblos de reducción y la falta de sus ejercicios habituales de caza han provocado que las epidemias de viruela y sarampión afecten a más de la mitad de las naciones Omaguas y Jeberos.» — Crónica de las Misiones de Maynas (1680) / Alberto Chirif (2009).
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARPETA 2: Selva Central / Cerro de la Sal -->
+        <article class="folder-item">
+          <button class="folder-btn" type="button" aria-expanded="false">
+            <div class="folder-btn-left">
+              <img class="folder-thumb" src="img/pueblo_ashaninka.jpg" alt="Miniatura Asháninka" onerror="this.onerror=null;this.src='img/imgpueblo_ashaninka.jpg';">
+              <div class="folder-titles">
+                <strong>2. Asháninka y Yanesha (Selva Central / Nodo Cerro de la Sal)</strong>
+                <span>Familia Arawak • Ejes 2 y 3: Articulación económica macrorregional y Rebelión de Juan Santos Atahualpa</span>
+              </div>
+            </div>
+            <span class="folder-chevron">▼</span>
+          </button>
+          <div class="folder-content">
+            <div class="folder-inner">
+              <span class="folder-badge-eje">Ejes Temáticos 2, 3 y 5 • Nodo Macrorregional Selva Central</span>
+              <img class="folder-img"
+                   src="img/pueblo_ashaninka.jpg"
+                   alt="Pueblos Asháninka y Yanesha en el Cerro de la Sal y Gran Pajonal"
+                   onclick="ampliarImagen(this.src, this.alt)"
+                   onerror="this.onerror=null;this.src='img/imgpueblo_ashaninka.jpg';">
+              <div class="img-caption-bar">
+                <span>📌 Archivo: img/pueblo_ashaninka.jpg (Familia Asháninka con cushmas tradicionales)</span>
+                <span>🔍 Toca la imagen para ampliar</span>
+              </div>
+              <h4>Base Económica Ancestral y el Cerro de la Sal</h4>
+              <p>Combinaron la agricultura itinerante de roza, tumba y quema con barbecho largo (20 a 40 años para evitar la lixiviación del suelo tropical) con el control estratégico del <strong>Cerro de la Sal</strong>. Este yacimiento fue el gran centro macrorregional prehispánico donde convergían comunidades andinas (Taramas, Huancas, Incas) y etnias amazónicas para trocar sal gema, plumas de guacamayo, curare y algodón por herramientas de piedra, textiles y cobre.</p>
+              <h4>Formas de Explotación Sufridas</h4>
+              <p>Desde el Convento de Ocopa, la Orden Franciscana penetró en la Selva Central imponiendo reducciones misionales, trabajo compulsivo en plantaciones de caña y cacao, talleres artesanales controlados por el misionero y supresión de sus autoridades tradicionales.</p>
+              <h4>Estrategias de Defensa Territorial y Lucha Anticolonial</h4>
+              <p>Entre <strong>1742 y 1756</strong>, la rebelión pan-amazónica liderada por <strong>Juan Santos Atahualpa</strong> y jefes locales (como <em>Mangoré</em> en el Gran Pajonal) articuló a guerreros Asháninkas, Yaneshas y Nomatsiguengas. Mediante guerra de guerrillas destruyeron 27 misiones franciscanas, recuperaron el Cerro de la Sal y los medios de producción, y clausuraron la frontera colonial por más de un siglo. En 1969, el pueblo Yanesha fundó el Congreso Amuesha (FECONAYA), primera federación indígena del Perú.</p>
+              <div class="folder-quote">
+                «La alianza pan-amazónica en el Gran Pajonal y el Cerro de la Sal desarticuló las 27 reducciones franciscanas, restableciendo la soberanía territorial indígena durante más de cien años.» — María Isabel Remy (2016) / Dossier Histórico CNEB.
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARPETA 3: Alto Marañón / Awajún y Wampis -->
+        <article class="folder-item">
+          <button class="folder-btn" type="button" aria-expanded="false">
+            <div class="folder-btn-left">
+              <img class="folder-thumb" src="img/pueblo_awajun.jpg" alt="Miniatura Awajún" onerror="this.onerror=null;this.src='img/imgpueblo_awajun.jpg';">
+              <div class="folder-titles">
+                <strong>3. Awajún y Wampis (Alto Marañón y Cuencas Fronterizas)</strong>
+                <span>Familia Jíbaro • Ejes 1, 3 y 5: Resistencia militar colonial, defensa del bosque y Convenio 169 OIT</span>
+              </div>
+            </div>
+            <span class="folder-chevron">▼</span>
+          </button>
+          <div class="folder-content">
+            <div class="folder-inner">
+              <span class="folder-badge-eje">Ejes Temáticos 1, 3, 5 y 6 • Resistencia en Tierra Firme y Cabeceras</span>
+              <img class="folder-img"
+                   src="img/pueblo_awajun.jpg"
+                   alt="Pueblos Awajún y Wampis del Alto Marañón"
+                   onclick="ampliarImagen(this.src, this.alt)"
+                   onerror="this.onerror=null;this.src='img/imgpueblo_awajun.jpg';">
+              <div class="img-caption-bar">
+                <span>📌 Archivo: img/pueblo_awajun.jpg (Líder Awajún con corona tradicional y lanza)</span>
+                <span>🔍 Toca la imagen para ampliar</span>
+              </div>
+              <h4>Base Económica Ancestral y Saberes Ecológicos</h4>
+              <p>Ocuparon territorios de colina y cabeceras de cuenca (interfluvio o <em>terra firme</em>) en el Marañón, Santiago y Cenepa, organizados en asentamientos dispersos de alta movilidad sin jefaturas centralizadas en tiempos de paz. Su subsistencia integró la caza con cerbatana y curare, la recolección y la horticultura policultural femenina asociada a <em>Nunkui</em> (espíritu de la tierra y las plantas cultivadas), custodiando taxonomías botánicas y fitoterapéuticas de altísima precisión.</p>
+              <h4>Formas de Explotación Sufridas</h4>
+              <p>Incursiones coloniales españolas para someterlos a encomiendas auríferas y reducciones en Jaén de Bracamoros y Santa María de Nieva. En los siglos XX y XXI, presión de concesiones petroleras, mineras y madereras otorgadas por el Estado sobre sus cuencas sin consulta previa.</p>
+              <h4>Estrategias de Defensa Territorial</h4>
+              <p>Durante el periodo colonial destruyeron los asentamientos de Jaén de Bracamoros y Santa María de Nieva, impidiendo de forma permanente la consolidación de reducciones en su territorio. En la etapa contemporánea lideraron la defensa de la Consulta Previa (Convenio 169 de la OIT) en el conflicto de Bagua (2009), junto a la lucha histórica del pueblo Achuar (FECONACO, 2006) que obligó a las petroleras a reinyectar las aguas de formación contaminadas.</p>
+              <div class="folder-quote">
+                «Comienza el recorrido de los pueblos de la Amazonía para hacerse reconocer por el Estado y detener el atropello de la expropiación y fragmentación de sus tierras ancestrales.» — María Isabel Remy, IEP / Ministerio de Cultura (2016).
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARPETA 4: Putumayo y Ampiyacu / Huitoto, Bora, Ocaina y Andoque -->
+        <article class="folder-item">
+          <button class="folder-btn" type="button" aria-expanded="false">
+            <div class="folder-btn-left">
+              <img class="folder-thumb" src="img/pueblo_huitoto.jpg" alt="Miniatura Huitoto" onerror="this.onerror=null;this.src='img/imgpueblo_huitoto.jpg';">
+              <div class="folder-titles">
+                <strong>4. Huitoto, Bora, Ocaina y Andoque (Cuenca del Putumayo y Ampiyacu)</strong>
+                <span>Familia Huitoto • Ejes 4, 5 y 6: Genocidio cauchero, éxodo al Ampiyacu, Ley 20653 y memoria en llanchama</span>
+              </div>
+            </div>
+            <span class="folder-chevron">▼</span>
+          </button>
+          <div class="folder-content">
+            <div class="folder-inner">
+              <span class="folder-badge-eje">Ejes Temáticos 4, 5 y 6 • Extractivismo Cauchero y Recomposición Comunal</span>
+              <img class="folder-img"
+                   src="img/pueblo_huitoto.jpg"
+                   alt="Pueblos Huitoto, Bora, Ocaina y Andoque del Putumayo y Ampiyacu"
+                   onclick="ampliarImagen(this.src, this.alt)"
+                   onerror="this.onerror=null;this.src='img/imgpueblo_huitoto.jpg';">
+              <div class="img-caption-bar">
+                <span>📌 Archivo: img/pueblo_huitoto.jpg (Comunidad y navegación en la cuenca del Ampiyacu / Putumayo)</span>
+                <span>🔍 Toca la imagen para ampliar</span>
+              </div>
+              <h4>Base Económica Ancestral</h4>
+              <p>Sociedades organizadas en torno a grandes malocas clánicas en los interfluvios de los ríos Igaraparaná y Caraparaná (cuenca del Putumayo), con agricultura diversificada de yuca brava (cazabe y fariña), caza, recolección y rituales comunitarios de reciprocidad.</p>
+              <h4>Formas de Explotación Sufridas: Casa Arana y Fundos del Ampiyacu</h4>
+              <p>Durante la Fiebre del Caucho (1880-1914), la <em>Peruvian Amazon Company</em> (Casa Arana) dividió el territorio en secciones (La Chorrera, El Encanto, Matanzas, Abisinia). Mediante el <strong>enganche y habilitación</strong> (deuda perpetua por mercadería sobrevalorada), prohibió cultivar chacras para forzar la extracción exclusiva de látex bajo cepos, flagelaciones y hambre inducida. Entre 1900 y 1912, la población cayó de más de 40 000 a menos de 10 000 habitantes (exterminio mayor al 75 %). Tras 1914, patrones como Miguel Loayza trasladaron a los sobrevivientes a la cuenca del río <strong>Ampiyacu</strong> (Loreto) bajo servidumbre feudal hasta la década de 1970.</p>
+              <h4>Estrategias de Defensa Territorial y Memoria Histórica</h4>
+              <p>Con la promulgación de la <strong>Ley de Comunidades Nativas N.° 20653 (1974)</strong>, personeros comunales como <em>Luis Churay</em> expulsaron a los patrones de los fundos, inscribieron sus tierras inalienables (Pucaurquillo, FECONA) y reconstruyeron su vida comunitaria. Hoy, intelectuales y artistas como Santiago Yahuarcani, Víctor Churay y Brus Rubio plasman la memoria del caucho en pintura sobre corteza de <em>llanchama</em>.</p>
+              <div class="folder-quote">
+                «Jamás se preocuparon de fomentar chacras, pues no permitían que el indio se ocupara en otra cosa que no fuera la extracción de caucho... El hambre ha sido quizá el más terrible flagelo que se cernió sobre el Putumayo.» — Juez Rómulo Paredes (1912) / Alberto Chirif (2009).
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         SECCIÓN 4: FUENTES PRIMARIAS Y SECUNDARIAS CONTRASTADAS + DILEMAS
+         ======================================================================== -->
+    <section>
+      <div class="sec-header">
+        <span class="sec-num">4</span>
+        <h2>Dossier de Fuentes Históricas Contrastadas y Dilemas de Rol</h2>
+      </div>
+      <p class="lead-text">
+        Para construir una interpretación histórica rigurosa, contrastamos la intencionalidad de las fuentes primarias (el informe judicial de Rómulo Paredes frente al alegato corporativo de la Casa Arana) y las fuentes secundarias especializadas (Alberto Chirif y María Isabel Remy).
+      </p>
+
+      <div class="grid-cards cols-2">
+        <div class="source-card">
+          <span class="src-tag">Fuente Primaria A • Informe Judicial (1912)</span>
+          <h3>Crímenes y Hambre Forzada en el Putumayo</h3>
+          <blockquote>
+            «Los indios del Putumayo son buenos, y lo que se necesita para gobernarlos es el buen trato y pagarles en justicia su trabajo... En esa negociación se pretendía obtener grandes rendimientos con muy pocos gastos. Para la gerencia eran mejores jefes quienes gastaban menos mercaderías, sin fijarse que jamás se preocuparon de fomentar chacras, pues no permitían que el indio se ocupara en otra cosa que no fuera la extracción de caucho; exigencia que ha producido innumerables víctimas. El hambre ha sido quizá el más terrible flagelo que se cernió sobre el Putumayo.»
+          </blockquote>
+          <div class="src-author">— Rómulo Paredes, Juez de Primera Instancia y Delegado del Gobierno Peruano en el Putumayo (1912).</div>
+        </div>
+
+        <div class="source-card">
+          <span class="src-tag">Fuente Primaria B • Alegato Empresarial (1913)</span>
+          <h3>El Discurso «Civilizatorio» como Justificación</h3>
+          <blockquote>
+            «Nuestra empresa no ha hecho sino llevar la civilización a regiones desiertas y salvajes donde dominaba la antropofagia y el aislamiento. Los cargos formulados en el extranjero obedecen a campañas interesadas por restar soberanía al Perú en la frontera y destruir una industria nacional próspera. Los indígenas han encontrado en la compañía trabajo, vestimenta y amparo frente a la barbarie del bosque.»
+          </blockquote>
+          <div class="src-author">— Alegato defensivo de la Casa Arana / The Peruvian Amazon Company (1913).</div>
+        </div>
+
+        <div class="source-card">
+          <span class="src-tag">Fuente Secundaria C • Historiografía (2009)</span>
+          <h3>Reestructuración Territorial y Éxodo al Ampiyacu</h3>
+          <blockquote>
+            «Los dos mayores procesos históricos en la Amazonía peruana —las reducciones misionales y el auge del caucho— causaron una profunda reconfiguración política y sociológica. A la desaparición física de numerosos pueblos se añade la reubicación forzada en zonas alejadas de sus territorios ancestrales... En la cuenca del Ampiyacu, los traslados de sobrevivientes huitotos y boras dirigidos por patrones para fundos agrícolas terminaron convirtiéndose, décadas después y tras la ley de 1974, en las actuales comunidades nativas tituladas.»
+          </blockquote>
+          <div class="src-author">— Alberto Chirif, Cien años después del caucho: Cambios y permanencias (2009).</div>
+        </div>
+
+        <div class="source-card">
+          <span class="src-tag">Fuente Secundaria D • Sociología Histórica (2016)</span>
+          <h3>La Ley N.° 20653 y la Titulación Comunal</h3>
+          <blockquote>
+            «En el periodo del caucho, la relación no es con el Estado; es con estos caucheros que esclavizaban a los indígenas para que les entreguen el caucho, los masacran, los relocalizan... Lo que hace el Gobierno de Velasco en 1974 es abrir un registro de comunidades nativas para que puedan inscribirse. A partir de ahí, comienza el recorrido de los pueblos de la Amazonía para hacerse reconocer y detener el atropello de la expropiación de sus tierras.»
+          </blockquote>
+          <div class="src-author">— María Isabel Remy, Historia de las comunidades indígenas y campesinas del Perú (IEP / Ministerio de Cultura, 2016).</div>
+        </div>
+      </div>
+
+      <!-- Nodos de Decisión Interactiva -->
+      <div style="margin-top: 18px;">
+        <div class="dilemma-card">
+          <span class="dilemma-role">Simulación Histórica 1 • Año 1911 (Cuenca del Putumayo)</span>
+          <h3>El Dilema del Juez Rómulo Paredes en La Chorrera</h3>
+          <p style="margin:0;font-size:0.93rem;">Como juez comisionado en el Putumayo, compruebas que los capataces de la Casa Arana prohíben sembrar chacras y someten a los Huitoto y Bora a servidumbre por deudas. Los agentes de la empresa te presionan para archivar el caso invocando la «defensa de la soberanía fronteriza». ¿Qué decisión tomas?</p>
+          <div class="dilemma-btns">
+            <button type="button" class="dilemma-opt" onclick="resolverDilema(this, false, 'Consecuencia: Encubres la extracción de plusvalía mediante el terror corporativo y permites que el exterminio demográfico continúe impune.')">
+              Opción A: Aceptar el alegato empresarial de «civilización y soberanía» y archivar las denuncias.
+            </button>
+            <button type="button" class="dilemma-opt" onclick="resolverDilema(this, true, '¡Decisión Histórica Correcta! Rómulo Paredes redactó un extenso informe judicial (1912) demostrando que el hambre forzada y la prohibición de chacras fueron mecanismos deliberados de explotación.')">
+              Opción B: Documentar los testimonios indígenas, denunciar el hambre forzada y emitir órdenes de captura.
+            </button>
+          </div>
+          <div class="dilemma-feedback"></div>
+        </div>
+
+        <div class="dilemma-card">
+          <span class="dilemma-role">Simulación Histórica 2 • Año 1975 (Cuenca del Río Ampiyacu)</span>
+          <h3>La Asamblea de Titulación bajo la Ley N.° 20653</h3>
+          <p style="margin:0;font-size:0.93rem;">Eres personero comunal Bora-Huitoto en Pucaurquillo tras décadas de servidumbre en fundos patronales. Se promulga la Ley de Comunidades Nativas N.° 20653 (1974), pero el antiguo patrón amenaza con retirar herramientas si se inscriben ante el Estado. ¿Qué camino eliges?</p>
+          <div class="dilemma-btns">
+            <button type="button" class="dilemma-opt" onclick="resolverDilema(this, false, 'Consecuencia: Se perpetúa la dependencia servil del fundo y la comunidad queda sin personería jurídica frente a madereros y terceros.')">
+              Opción A: Mantener la sujeción al patrón del fundo para no perder el suministro de herramientas.
+            </button>
+            <button type="button" class="dilemma-opt" onclick="resolverDilema(this, true, '¡Decisión Histórica Correcta! Las familias del Ampiyacu se inscribieron en el registro oficial, expulsaron a los patrones y titularon sus tierras comunales inalienables.')">
+              Opción B: Inscribir la Comunidad Nativa, obtener personería jurídica y titular las tierras comunales.
+            </button>
+          </div>
+          <div class="dilemma-feedback"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         SECCIÓN 5: BATERÍA EVALUATIVA DE 10 PREGUNTAS DE OPCIÓN MÚLTIPLE
+         ======================================================================== -->
+    <section>
+      <div class="sec-header">
+        <span class="sec-num">5</span>
+        <h2>Evaluación Histórica: 10 Preguntas de Opción Múltiple</h2>
+      </div>
+      <p class="lead-text">
+        Responde las 10 preguntas de análisis histórico y contraste de fuentes. Cada acierto equivale a <strong>1 punto</strong> (escala de 0 a 10 puntos, equivalente hasta 20 puntos en escala vigesimal).
+      </p>
+
+      <div id="quiz-container"></div>
+
+      <div class="score-banner">
+        <span>Respondidas: <strong id="count-answered">0</strong> / 10</span>
+        <span>Puntaje Acumulado: <strong id="count-score">0</strong> / 10 pts (<strong id="count-vigesimal">0</strong> / 20)</span>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         SECCIÓN 6: EVIDENCIA — CAPTURA Y ENVÍO DE INFOGRAFÍA (< 150 KB)
+         ======================================================================== -->
+    <section>
+      <div class="sec-header">
+        <span class="sec-num">6</span>
+        <h2>Evidencia de Aprendizaje: Infografía Histórica y Analítica</h2>
+      </div>
+      <p class="lead-text">
+        Completa tus datos, redacta la síntesis de tu infografía (integrando al menos 4 etnias de familias lingüísticas distintas y el contraste de fuentes) y sube o toma la fotografía de tu trabajo. El sistema comprimirá automáticamente la imagen en Canvas a menos de <strong>150 KB</strong> en formato Base64 para guardarla en Firebase Firestore.
+      </p>
+
+      <div class="form-group">
+        <label for="input-nombre">Apellidos y Nombres del Estudiante *</label>
+        <input type="text" id="input-nombre" class="form-control" placeholder="Ej.: Aspajo Ruiz, Carlos Eduardo" autocomplete="name">
+      </div>
+
+      <div class="grid-cards cols-2" style="margin-top:0; margin-bottom:14px;">
+        <div class="form-group" style="margin-bottom:0;">
+          <label for="input-seccion">Grado y Sección *</label>
+          <select id="input-seccion" class="form-control">
+            <option value="4to A">4.° de Secundaria - Sección A</option>
+            <option value="4to B">4.° de Secundaria - Sección B</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label for="input-etnias">Etnias analizadas en tu infografía (mín. 4 familias) *</label>
+          <input type="text" id="input-etnias" class="form-control" placeholder="Ej.: Shipibo (Pano), Asháninka (Arawak), Awajún (Jíbaro), Huitoto">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="input-sintesis">Síntesis Argumentativa / Contraste de Fuentes de tu Infografía *</label>
+        <textarea id="input-sintesis" class="form-control" rows="3" placeholder="Explica brevemente cómo contrastaste las fuentes (Paredes vs. Casa Arana; Chirif y Remy) y la continuidad histórica en tu infografía..."></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button type="button" class="btn-primary" id="btn-camara">📷 Tomar Foto de Infografía</button>
+        <button type="button" class="btn-secondary" id="btn-galeria">🖼️ Seleccionar de Galería</button>
+      </div>
+
+      <input type="file" id="file-camara" accept="image/*" capture="environment" hidden>
+      <input type="file" id="file-galeria" accept="image/*" hidden>
+
+      <div id="preview-box">
+        <img id="img-preview" alt="Vista previa de la infografía comprimida">
+        <div id="compression-stats"></div>
+      </div>
+
+      <div class="btn-row" style="margin-top: 18px;">
+        <button type="button" class="btn-primary" id="btn-enviar" disabled style="width: 100%; font-size: 1.05rem;">
+          🚀 Guardar Evaluación y Evidencia en Firebase
+        </button>
+      </div>
+
+      <div id="result-panel"></div>
+    </section>
+
+  </main>
+
+  <footer>
+    Colegio Experimental UNAP • Ciencias Sociales 4.° de Secundaria • Sesión 03 • Proyecto Firebase: misclases4to-173c1
+  </footer>
+
+  <script>
+    /* ==========================================================================
+       CONFIGURACIÓN E INICIALIZACIÓN DE FIREBASE (misclases4to-173c1)
+       ========================================================================== */
+    const firebaseConfig = {
+      apiKey: "AIzaSyCINo4JIVeXkkkfgUx1FLE18W9Xy73DVHk",
+      authDomain: "misclases4to-173c1.firebaseapp.com",
+      projectId: "misclases4to-173c1",
+      storageBucket: "misclases4to-173c1.firebasestorage.app",
+      messagingSenderId: "315238242891",
+      appId: "1:315238242891:web:66496d1140259060684bce"
+    };
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        auth.signInAnonymously().catch(() => {});
+      }
+    });
+
+    /* ==========================================================================
+       MOTOR DE AUDIO INTERACTIVO NATIVO (WEB AUDIO API)
+       Incluye la función global solicitada: reproducirSonido(tipo)
+       ========================================================================== */
+    let audioCtx = null;
+    let sonidoActivo = localStorage.getItem('sonido_semana3') !== 'off';
+
+    function obtenerContextoAudio() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) audioCtx = new AudioContextClass();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function emitirTono(frecuenciaInicial, inicioSeg, duracionSeg, tipoOnda = 'sine', volumen = 0.12, frecuenciaFinal = null) {
+      if (!sonidoActivo) return;
+      try {
+        const ctx = obtenerContextoAudio();
+        if (!ctx) return;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = tipoOnda;
+        osc.frequency.setValueAtTime(frecuenciaInicial, ctx.currentTime + inicioSeg);
+        if (frecuenciaFinal) {
+          osc.frequency.exponentialRampToValueAtTime(frecuenciaFinal, ctx.currentTime + inicioSeg + duracionSeg);
+        }
+        gain.gain.setValueAtTime(volumen, ctx.currentTime + inicioSeg);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + inicioSeg + duracionSeg);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(ctx.currentTime + inicioSeg);
+        osc.stop(ctx.currentTime + inicioSeg + duracionSeg + 0.02);
+      } catch (e) {}
+    }
+
+    function reproducirSonido(tipo = 'click') {
+      if (!sonidoActivo) return;
+      switch (tipo) {
+        case 'click':
+          emitirTono(520, 0, 0.08, 'sine', 0.12, 760);
+          break;
+        case 'close':
+          emitirTono(640, 0, 0.08, 'sine', 0.10, 420);
+          break;
+        case 'correct':
+          emitirTono(587.33, 0, 0.11, 'triangle', 0.14);
+          emitirTono(880, 0.09, 0.18, 'triangle', 0.15);
+          break;
+        case 'wrong':
+          emitirTono(240, 0, 0.18, 'sawtooth', 0.10, 160);
+          emitirTono(180, 0.14, 0.22, 'sawtooth', 0.10, 120);
+          break;
+        case 'photo':
+          emitirTono(1200, 0, 0.04, 'square', 0.08);
+          emitirTono(800, 0.05, 0.06, 'square', 0.08);
+          break;
+        case 'success':
+          [523.25, 659.25, 783.99, 1046.5].forEach((f, idx) => {
+            emitirTono(f, idx * 0.10, 0.24, 'triangle', 0.15);
+          });
+          break;
+        default:
+          emitirTono(500, 0, 0.06, 'sine', 0.10);
+      }
+    }
+
+    const btnAudioToggle = document.getElementById('btn-audio-toggle');
+    const audioIcon = document.getElementById('audio-icon');
+    const audioLabel = document.getElementById('audio-label');
+
+    function actualizarBotonAudio() {
+      audioIcon.textContent = sonidoActivo ? '🔊' : '🔇';
+      audioLabel.textContent = sonidoActivo ? 'Sonido activo' : 'Silenciado';
+    }
+    actualizarBotonAudio();
+
+    btnAudioToggle.addEventListener('click', () => {
+      sonidoActivo = !sonidoActivo;
+      localStorage.setItem('sonido_semana3', sonidoActivo ? 'on' : 'off');
+      actualizarBotonAudio();
+      if (sonidoActivo) reproducirSonido('click');
+    });
+
+    document.addEventListener('pointerdown', (e) => {
+      const btn = e.target.closest('button');
+      if (!btn || btn.id === 'btn-audio-toggle' || btn.classList.contains('folder-btn') || btn.classList.contains('quiz-option')) return;
+      reproducirSonido('click');
+    });
+
+    function mostrarToast(mensaje) {
+      const toast = document.getElementById('toast-msg');
+      toast.textContent = mensaje;
+      toast.classList.add('visible');
+      clearTimeout(toast._timer);
+      toast._timer = setTimeout(() => toast.classList.remove('visible'), 3000);
+    }
+
+    /* ==========================================================================
+       VISOR LIGHTBOX PARA AMPLIAR IMÁGENES
+       ========================================================================== */
+    const lightboxModal = document.getElementById('lightbox-modal');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxCaption = document.getElementById('lightbox-caption');
+    const lightboxClose = document.getElementById('lightbox-close');
+
+    function ampliarImagen(src, caption) {
+      reproducirSonido('click');
+      lightboxImg.src = src;
+      lightboxCaption.textContent = caption || '';
+      lightboxModal.classList.add('active');
+    }
+
+    lightboxClose.addEventListener('click', () => {
+      reproducirSonido('close');
+      lightboxModal.classList.remove('active');
+    });
+
+    lightboxModal.addEventListener('click', (e) => {
+      if (e.target === lightboxModal) {
+        reproducirSonido('close');
+        lightboxModal.classList.remove('active');
+      }
+    });
+
+    /* ==========================================================================
+       2. INTERACCIÓN DE LAS CARPETAS DESPLEGABLES
+       ========================================================================== */
+    document.querySelectorAll('.folder-item').forEach((item) => {
+      const btn = item.querySelector('.folder-btn');
+      const content = item.querySelector('.folder-content');
+
+      btn.addEventListener('click', () => {
+        const estaAbierta = item.classList.toggle('open');
+        btn.setAttribute('aria-expanded', estaAbierta ? 'true' : 'false');
+
+        reproducirSonido('click');
+
+        if (estaAbierta) {
+          content.style.maxHeight = content.scrollHeight + 45 + 'px';
+        } else {
+          content.style.maxHeight = '0px';
+        }
+      });
+    });
+
+    window.addEventListener('resize', () => {
+      document.querySelectorAll('.folder-item.open .folder-content').forEach((c) => {
+        c.style.maxHeight = c.scrollHeight + 45 + 'px';
+      });
+    });
+
+    /* ==========================================================================
+       NODOS DE DECISIÓN INTERACTIVA (SIMULACIONES DE ROL)
+       ========================================================================== */
+    function resolverDilema(boton, esCorrecta, textoFeedback) {
+      reproducirSonido(esCorrecta ? 'correct' : 'wrong');
+      const card = boton.closest('.dilemma-card');
+      const fb = card.querySelector('.dilemma-feedback');
+      fb.style.display = 'block';
+      fb.style.backgroundColor = esCorrecta ? '#D1FAE5' : '#FEE2E2';
+      fb.style.borderLeft = esCorrecta ? '4px solid #15803D' : '4px solid #B91C1C';
+      fb.textContent = textoFeedback;
+    }
+
+    /* ==========================================================================
+       4. BATERÍA EVALUATIVA DE 10 PREGUNTAS DE OPCIÓN MÚLTIPLE
+       ========================================================================== */
+    const PREGUNTAS = [
+      {
+        tema: "1. Dinámica Várzea vs. Interfluvio",
+        enunciado: "¿Cuál es la diferencia fundamental en las condiciones materiales de producción entre los pueblos ribereños de várzea (Omagua, Kukama, Shipibo) y los pueblos de interfluvio o tierra firme (Asháninka, Awajún)?",
+        opciones: [
+          "La várzea poseía suelos estériles y baja población, mientras que el interfluvio concentraba grandes ciudades amuralladas.",
+          "La várzea aprovechaba diques aluviales fértiles (barrizales) y recursos acuícolas para sostener alta densidad demográfica y cultivos de ciclo corto; el interfluvio dependía de la agricultura itinerante de barbecho largo (20-40 años), caza y alta movilidad.",
+          "Los pueblos de várzea desconocían la navegación fluvial y dependían exclusivamente de la ganadería altoandina.",
+          "Ambos espacios ecológicos aplicaban exactamente el mismo monocultivo intensivo con arado de hierro."
+        ],
+        correcta: 1,
+        explicacion: "Las riberas inundables (várzea) depositaban limo fértil anual permitiendo agricultura de ciclo corto y pesca masiva; en cambio, la tierra firme (interfluvio) exigía barbechos largos de 20 a 40 años para evitar la lixiviación del suelo tropical."
+      },
+      {
+        tema: "2. Nodo Económico del Cerro de la Sal",
+        enunciado: "Desde el análisis de las redes de intercambio prehispánicas, ¿qué función cumplía el Cerro de la Sal bajo control de los pueblos Yanesha y Asháninka en la Selva Central?",
+        opciones: [
+          "Era un socavón de plata administrado por encomenderos españoles desde el siglo XV.",
+          "Constituía un nodo macrorregional de articulación económica donde etnias amazónicas y andinas (Taramas, Huancas) trocaban sal gema, plumas, curare y algodón por herramientas de piedra, textiles y cobre.",
+          "Funcionaba como una frontera militar cerrada que impedía todo contacto entre los Andes y la Amazonía.",
+          "Fue un almacén exclusivo de caucho creado por la Compañía de Jesús."
+        ],
+        correcta: 1,
+        explicacion: "El Cerro de la Sal articulaba el comercio interétnico prehispánico entre los Andes y la Amazonía mediante el trueque de valores de uso estratégicos."
+      },
+      {
+        tema: "3. Impacto del Modelo Misional Colonial",
+        enunciado: "¿Qué consecuencias socioterritoriales y demográficas produjo la imposición de las reducciones misionales jesuitas (Maynas) y franciscanas (Ocopa) durante los siglos XVII y XVIII?",
+        opciones: [
+          "Consolidó la autonomía de las malocas multifamiliares y triplicó la población nativa gracias a la medicina colonial.",
+          "Destruyó las malocas comunales para imponer la vivienda nuclear y el control productivo, provocando además epidemias de viruela y sarampión que redujeron entre el 50 % y el 70 % de la población reducida.",
+          "Respetó la dispersión territorial indígena y eliminó toda forma de trabajo obligatorio.",
+          "Otorgó títulos de propiedad comunal inalienable a los pueblos Omagua y Jebero."
+        ],
+        correcta: 1,
+        explicacion: "El confinamiento forzoso en pueblos de trazado ortogonal desestructuró la maloca multifamiliar y convirtió a las reducciones en focos epidémicos devastadores entre 1660 y 1740."
+      },
+      {
+        tema: "4. Rebelión de Juan Santos Atahualpa (1742-1756)",
+        enunciado: "¿Por qué la rebelión liderada por Juan Santos Atahualpa (1742-1756) representa un hito de liberación anticolonial y recuperación de los medios de producción?",
+        opciones: [
+          "Porque firmó un contrato con la Corona española para administrar las haciendas cocaleras.",
+          "Porque articuló una alianza pan-amazónica (Asháninka, Yanesha, Nomatsiguenga) que destruyó 27 misiones franciscanas, expulsó al poder colonial de la Selva Central y mantuvo la soberanía territorial por más de un siglo.",
+          "Porque trasladó a las comunidades de la Selva Central hacia los fundos gomeros del río Putumayo.",
+          "Porque fue un conflicto exclusivo entre órdenes religiosas sin participación indígena."
+        ],
+        correcta: 1,
+        explicacion: "Mediante tácticas de guerrilla y dominio geográfico en el Gran Pajonal y el Cerro de la Sal, la insurrección erradicó la sujeción misional y recuperó el control indígena del territorio."
+      },
+      {
+        tema: "5. Sistema de Habilitación y Enganche Cauchero",
+        enunciado: "Durante la Fiebre del Caucho (1880-1914), ¿cómo operaba el mecanismo de «habilitación y enganche» sobre la fuerza de trabajo indígena?",
+        opciones: [
+          "Como un régimen salarial moderno supervisado por sindicatos y jueces laborales.",
+          "Como un mecanismo de endeudamiento forzado donde los patrones entregaban mercaderías sobrevaloradas (machetes, telas, conservas) a cambio de cuotas de látex impagables, imponiendo servidumbre y terror corporativo.",
+          "Como un subsidio estatal gratuito para fomentar la agricultura familiar amazónica.",
+          "Como un trueque voluntario y equitativo administrado por los curacas ribereños."
+        ],
+        correcta: 1,
+        explicacion: "La deuda perpetua servía de coartada para encadenar la mano de obra indígena a la extracción de plusvalía para el mercado industrial europeo y norteamericano."
+      },
+      {
+        tema: "6. Informe Judicial del Juez Rómulo Paredes (1912)",
+        enunciado: "De acuerdo con la Fuente Primaria A del Juez Rómulo Paredes (1912), ¿por qué el hambre se convirtió en «el más terrible flagelo» contra los pueblos Huitoto, Bora y Ocaina en el Putumayo?",
+        opciones: [
+          "Porque las tierras del Putumayo sufrieron una helada climática durante doce años seguidos.",
+          "Porque los jefes de sección de la empresa cauchera prohibieron a los indígenas cultivar sus chacras de subsistencia para obligarlos a dedicar el 100 % de su tiempo a extraer caucho con el mínimo gasto.",
+          "Porque las comunidades indígenas desconocían el cultivo de la yuca antes del siglo XX.",
+          "Porque el bloqueo naval extranjero impidió la exportación de alimentos desde Iquitos."
+        ],
+        correcta: 1,
+        explicacion: "Paredes demostró que la prohibición deliberada de sembrar chacras destruyó la base alimentaria autónoma indígena para maximizar las ganancias de la Casa Arana."
+      },
+      {
+        tema: "7. Crítica Ideológica al Alegato de la Casa Arana (1913)",
+        enunciado: "Al contrastar el alegato defensivo de la Casa Arana (Fuente B, 1913) con el informe de Paredes, ¿qué función cumplía el discurso empresarial de «llevar la civilización y defender la soberanía frente a la barbarie»?",
+        opciones: [
+          "Constituía una descripción objetiva de los programas educativos y sanitarios implementados en La Chorrera.",
+          "Operaba como una justificación ideológica para encubrir el genocidio de más del 75 % de la población del Putumayo y deslegitimar las denuncias judiciales presentándolas como complots extranjeros.",
+          "Reconocía la culpabilidad de los capataces y proponía indemnizar a las familias Huitoto y Bora.",
+          "Promovía la creación de reservas territoriales para pueblos en aislamiento voluntario."
+        ],
+        correcta: 1,
+        explicacion: "El contraste de fuentes revela cómo la retórica de 'civilización vs. barbarie' y el falso nacionalismo fronterizo fueron usados por la Peruvian Amazon Company para ocultar el trabajo esclavo."
+      },
+      {
+        tema: "8. Éxodo al Ampiyacu y Servidumbre Post-Caucho",
+        enunciado: "Según el análisis historiográfico de Alberto Chirif (Fuente C, 2009), ¿qué ocurrió con los sobrevivientes Huitoto, Bora y Ocaina tras la caída del caucho y cómo se vincula con las actuales comunidades nativas?",
+        opciones: [
+          "Retornaron inmediatamente a Colombia con pensiones vitalicias otorgadas por la Casa Arana.",
+          "Fueron trasladados forzosamente por patrones (como Miguel Loayza) hacia fundos privados en la cuenca del río Ampiyacu bajo relaciones serviles, espacios que tras la Ley de 1974 se transformaron en comunidades nativas tituladas.",
+          "Abandonaron la Amazonía para migrar en su totalidad hacia las haciendas azucareras de la costa norte.",
+          "Se extinguieron por completo sin dejar descendencia ni memoria cultural en Loreto."
+        ],
+        correcta: 1,
+        explicacion: "Los sobrevivientes reubicados en los fundos del Ampiyacu lograron recomponer su tejido social y, mediante la Ley N.° 20653 (1974), expulsaron a los patrones y titularon sus comunidades."
+      },
+      {
+        tema: "9. Alcances y Límites de la Ley N.° 20653 (1974)",
+        enunciado: "Teniendo en cuenta a María Isabel Remy (Fuente D) y el Eje 5, ¿cuál fue el logro histórico de la Ley de Comunidades Nativas N.° 20653 (1974) y cuál fue su principal limitación estructural?",
+        opciones: [
+          "Logró privatizar la selva en parcelas individuales, pero prohibió el uso de lenguas originarias.",
+          "Reconoció por primera vez la personería jurídica y la propiedad comunal inalienable, pero fragmentó el espacio en «islas comunales» sin reconocer el Territorio Étnico Integral y mantuvo el subsuelo bajo dominio del Estado.",
+          "Entregó la propiedad absoluta del petróleo, gas y minerales del subsuelo a las federaciones indígenas.",
+          "Suprimió los registros civiles comunales y restableció las encomiendas coloniales."
+        ],
+        correcta: 1,
+        explicacion: "Aunque la Ley 20653 liberó a las comunidades de los patrones y les dio personería legal, fraccionó el territorio y reservó el subsuelo al Estado, originando conflictos socioambientales posteriores."
+      },
+      {
+        tema: "10. Saberes Ecológicos, Diseño Kené y Memoria Histórica",
+        enunciado: "¿Por qué la agroforestería policultural amazónica, el diseño Kené (Shipibo-Konibo) y la pintura sobre llanchama (Bora y Huitoto) constituyen formas de resistencia cultural y sostenibilidad frente al extractivismo?",
+        opciones: [
+          "Porque reemplazan la biodiversidad del bosque por monocultivos industriales de exportación rápida.",
+          "Porque custodian sistemas científicos de regeneración ecológica del bosque tropical, cartografías simbólicas patrimoniales y una memoria crítica que denuncia los abusos históricos y exige justicia ante el Estado.",
+          "Porque son técnicas decorativas introducidas por la Peruvian Amazon Company en 1910.",
+          "Porque promueven el abandono de las lenguas indígenas en favor de una cultura homogénea."
+        ],
+        correcta: 1,
+        explicacion: "La asociación policultural regenera el ecosistema secundario, mientras que el arte Kené y la pintura en llanchama (Yahuarcani, Churay) reafirman la agencia histórica e intelectual de los pueblos amazónicos."
+      }
+    ];
+
+    const estadoRespuestas = new Array(PREGUNTAS.length).fill(null);
+    const quizContainer = document.getElementById('quiz-container');
+
+    PREGUNTAS.forEach((preg, idx) => {
+      const card = document.createElement('div');
+      card.className = 'quiz-card';
+      card.innerHTML = `
+        <span class="quiz-meta">${preg.tema}</span>
+        <p class="quiz-question">${preg.enunciado}</p>
+        <div class="quiz-options-wrap">
+          ${preg.opciones.map((op, opIdx) => `
+            <button type="button" class="quiz-option" data-q="${idx}" data-opt="${opIdx}">
+              ${String.fromCharCode(65 + opIdx)}) ${op}
+            </button>
+          `).join('')}
+        </div>
+        <div class="quiz-explain" id="explain-${idx}"></div>
+      `;
+
+      card.querySelectorAll('.quiz-option').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          if (card.classList.contains('answered')) return;
+          const elegida = parseInt(btn.getAttribute('data-opt'), 10);
+          estadoRespuestas[idx] = elegida;
+          card.classList.add('answered');
+
+          const acertada = elegida === preg.correcta;
+          btn.classList.add(acertada ? 'correct' : 'incorrect');
+          if (!acertada) {
+            card.querySelectorAll('.quiz-option')[preg.correcta].classList.add('correct');
+          }
+
+          const expEl = document.getElementById(`explain-${idx}`);
+          expEl.innerHTML = (acertada ? '<strong>✅ ¡Respuesta Correcta! (+1 pt):</strong> ' : '<strong>❌ Respuesta Incorrecta (0 pts):</strong> ') + preg.explicacion;
+
+          reproducirSonido(acertada ? 'correct' : 'wrong');
+          actualizarMarcador();
+        });
+      });
+
+      quizContainer.appendChild(card);
+    });
+
+    function obtenerPuntajeQuiz() {
+      return estadoRespuestas.reduce((acc, resp, i) => acc + (resp === PREGUNTAS[i].correcta ? 1 : 0), 0);
+    }
+
+    function actualizarMarcador() {
+      const respondidas = estadoRespuestas.filter(r => r !== null).length;
+      const puntaje = obtenerPuntajeQuiz();
+      document.getElementById('count-answered').textContent = respondidas;
+      document.getElementById('count-score').textContent = puntaje;
+      document.getElementById('count-vigesimal').textContent = puntaje * 2;
+      verificarFormularioListo();
+    }
+
+    /* ==========================================================================
+       5. CAPTURA Y COMPRESIÓN AUTOMÁTICA EN CANVAS A BASE64 (< 150 KB)
+       ========================================================================== */
+    let imagenBase64Comprimida = null;
+    let pesoImagenKB = 0;
+    const LIMITE_BYTES = 145 * 1024; // < 150 KB estrictos
+
+    const btnCamara = document.getElementById('btn-camara');
+    const btnGaleria = document.getElementById('btn-galeria');
+    const fileCamara = document.getElementById('file-camara');
+    const fileGaleria = document.getElementById('file-galeria');
+
+    btnCamara.addEventListener('click', () => fileCamara.click());
+    btnGaleria.addEventListener('click', () => fileGaleria.click());
+
+    [fileCamara, fileGaleria].forEach((input) => {
+      input.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files[0]) {
+          comprimirImagenCanvas(e.target.files[0]);
+          e.target.value = '';
+        }
+      });
+    });
+
+    function calcularBytesBase64(dataUrl) {
+      const base64Str = dataUrl.split(',')[1] || '';
+      return Math.ceil((base64Str.length * 3) / 4);
+    }
+
+    function comprimirImagenCanvas(archivo) {
+      if (!archivo.type.startsWith('image/')) {
+        reproducirSonido('wrong');
+        mostrarToast('Por favor selecciona un archivo de imagen válido.');
+        return;
+      }
+
+      const statsEl = document.getElementById('compression-stats');
+      const previewBox = document.getElementById('preview-box');
+      const imgPreview = document.getElementById('img-preview');
+
+      previewBox.style.display = 'block';
+      statsEl.textContent = 'Comprimiendo imagen a menos de 150 KB...';
+
+      const objectUrl = URL.createObjectURL(archivo);
+      const img = new Image();
+
+      img.onload = () => {
+        URL.revokeObjectURL(objectUrl);
+
+        let maxLado = 1000;
+        let ancho = img.naturalWidth;
+        let alto = img.naturalHeight;
+        let escala = Math.min(1, maxLado / Math.max(ancho, alto));
+
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        let calidad = 0.78;
+        let resultadoDataUrl = '';
+        let bytesFinales = Infinity;
+
+        while (bytesFinales > LIMITE_BYTES && escala >= 0.25) {
+          canvas.width = Math.max(240, Math.round(ancho * escala));
+          canvas.height = Math.max(180, Math.round(alto * escala));
+          ctx.fillStyle = '#FFFFFF';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+          calidad = 0.78;
+          while (calidad >= 0.32) {
+            resultadoDataUrl = canvas.toDataURL('image/jpeg', calidad);
+            bytesFinales = calcularBytesBase64(resultadoDataUrl);
+            if (bytesFinales <= LIMITE_BYTES) break;
+            calidad -= 0.08;
+          }
+
+          if (bytesFinales <= LIMITE_BYTES) break;
+          escala *= 0.82;
+        }
+
+        imagenBase64Comprimida = resultadoDataUrl;
+        pesoImagenKB = Number((bytesFinales / 1024).toFixed(1));
+
+        imgPreview.src = resultadoDataUrl;
+        const pesoOriginalKB = (archivo.size / 1024).toFixed(1);
+        statsEl.textContent = `✅ Imagen optimizada: ${pesoOriginalKB} KB → ${pesoImagenKB} KB (${canvas.width}×${canvas.height} px • Límite < 150 KB cumplido)`;
+
+        reproducirSonido('photo');
+        mostrarToast(`Infografía lista (${pesoImagenKB} KB)`);
+        verificarFormularioListo();
+      };
+
+      img.onerror = () => {
+        URL.revokeObjectURL(objectUrl);
+        reproducirSonido('wrong');
+        statsEl.textContent = 'No se pudo procesar la imagen seleccionada.';
+      };
+
+      img.src = objectUrl;
+    }
+
+    ['input-nombre', 'input-seccion', 'input-etnias', 'input-sintesis'].forEach((id) => {
+      document.getElementById(id).addEventListener('input', verificarFormularioListo);
+    });
+
+    function verificarFormularioListo() {
+      const nombreOk = document.getElementById('input-nombre').value.trim().length >= 4;
+      const etniasOk = document.getElementById('input-etnias').value.trim().length >= 4;
+      const sintesisOk = document.getElementById('input-sintesis').value.trim().length >= 10;
+      const fotoOk = Boolean(imagenBase64Comprimida);
+
+      document.getElementById('btn-enviar').disabled = !(nombreOk && etniasOk && sintesisOk && fotoOk);
+    }
+
+    /* ==========================================================================
+       6. GUARDADO ATÓMICO EN FIREBASE FIRESTORE (COLECCIÓN: evaluaciones)
+       ========================================================================== */
+    function obtenerNivelCNEB(nota20) {
+      if (nota20 >= 18) return { codigo: 'AD', texto: 'AD • Logro Destacado (18-20)', clase: 'badge-AD' };
+      if (nota20 >= 14) return { codigo: 'A',  texto: 'A • Logro Esperado (14-17)',  clase: 'badge-A' };
+      if (nota20 >= 11) return { codigo: 'B',  texto: 'B • En Proceso (11-13)',      clase: 'badge-B' };
+      return { codigo: 'C', texto: 'C • En Inicio (00-10)', clase: 'badge-C' };
+    }
+
+    document.getElementById('btn-enviar').addEventListener('click', async () => {
+      const sinResponder = estadoRespuestas.filter(r => r === null).length;
+      if (sinResponder > 0) {
+        const confirmar = confirm(`Tienes ${sinResponder} pregunta(s) sin responder en el cuestionario. ¿Deseas enviar tu evaluación de todos modos?`);
+        if (!confirmar) return;
+      }
+
+      const btnEnviar = document.getElementById('btn-enviar');
+      btnEnviar.disabled = true;
+      btnEnviar.textContent = '⏳ Guardando en Firebase Firestore...';
+
+      const puntaje10 = obtenerPuntajeQuiz();
+      const notaVigesimal = puntaje10 * 2;
+      const nivel = obtenerNivelCNEB(notaVigesimal);
+      const user = auth.currentUser;
+
+      const payload = {
+        semana: "Semana 03",
+        semana_numero: 3,
+        titulo_sesion: "Reconocemos la Participación Histórica de los Pueblos Originarios Amazónicos en la Construcción del Perú",
+        competencia: "Construye interpretaciones históricas",
+        institucion: "Colegio Experimental UNAP",
+        estudiante: document.getElementById('input-nombre').value.trim(),
+        seccion: document.getElementById('input-seccion').value,
+        etnias_infografia: document.getElementById('input-etnias').value.trim(),
+        sintesis_infografia: document.getElementById('input-sintesis').value.trim(),
+        puntaje_quiz_10: puntaje10,
+        nota_vigesimal: notaVigesimal,
+        nivel_logro: nivel.codigo,
+        respuestas_quiz: estadoRespuestas,
+        imagen_base64: imagenBase64Comprimida,
+        imagen_peso_kb: pesoImagenKB,
+        uid: user ? user.uid : 'anonimo',
+        fecha_envio: firebase.firestore.FieldValue.serverTimestamp(),
+        timestamp_cliente: new Date().toISOString()
+      };
+
+      try {
+        await db.collection('evaluaciones').add(payload);
+
+        reproducirSonido('success');
+        mostrarToast('¡Evaluación guardada exitosamente en Firestore!');
+        btnEnviar.textContent = '✅ Evaluación Enviada Correctamente';
+
+        const panel = document.getElementById('result-panel');
+        panel.style.display = 'block';
+        panel.innerHTML = `
+          <span class="badge-cneb ${nivel.clase}">${nivel.texto}</span>
+          <h3>Calificación Preliminar: ${notaVigesimal} / 20</h3>
+          <p style="margin:0;font-weight:700;">Cuestionario: ${puntaje10}/10 aciertos • Infografía comprimida (${pesoImagenKB} KB) registrada en la colección <code>evaluaciones</code> (Semana 03).</p>
+        `;
+        panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        if (typeof window.enviarEntrega === 'function') {
+          try {
+            window.enviarEntrega(3, 'Construye interpretaciones históricas', notaVigesimal, JSON.stringify(payload));
+          } catch (e) {}
+        }
+      } catch (error) {
+        console.error('Error al guardar en Firestore:', error);
+        reproducirSonido('wrong');
+        btnEnviar.disabled = false;
+        btnEnviar.textContent = '🚀 Reintentar Envío a Firebase';
+        mostrarToast('Error al guardar en Firebase: ' + (error.message || error.code));
+      }
+    });
+  </script>
+</body>
+</html>
