@@ -27,14 +27,9 @@
 
       /* Colores de las 4 Zonas Geo-Históricas */
       --zone-red: #DC2626;
-      --zone-red-bg: #FEF2F2;
       --zone-yellow: #CA8A04;
-      --zone-yellow-dot: #FACC15;
-      --zone-yellow-bg: #FEFCE8;
       --zone-green: #16A34A;
-      --zone-green-bg: #F0FDF4;
       --zone-blue: #1D4ED8;
-      --zone-blue-bg: #EFF6FF;
 
       --danger: #B91C1C;
       --danger-bg: #FEF2F2;
@@ -198,7 +193,6 @@
       flex-wrap: wrap;
     }
 
-    /* Bloque de síntesis teórica materialista */
     .thesis-box {
       background-color: var(--bg-white);
       border-left: 5px solid var(--green-accent);
@@ -274,26 +268,28 @@
     }
 
     /* ==========================================================================
-       1. MAPA INTERACTIVO TÁCTIL Y PUNTOS DE COLORES
+       1. MAPA INTERACTIVO TÁCTIL Y PROGRESO DE EXPLORACIÓN / INFERENCIAS
        ========================================================================== */
     .exploration-progress {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
       gap: 10px;
       background-color: var(--bg-green-tint);
       border: 1.5px solid var(--green-accent);
       border-radius: var(--radius-sm);
       padding: 9px 12px;
       margin-bottom: 12px;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       font-weight: 800;
       color: var(--text-black);
     }
 
     .progress-track {
       flex: 1;
-      max-width: 150px;
+      min-width: 110px;
+      max-width: 160px;
       height: 10px;
       background-color: #CBD5E1;
       border-radius: 999px;
@@ -325,7 +321,6 @@
       object-fit: cover;
     }
 
-    /* Botones táctiles sobre los 4 puntos del mapa (mín. 48x48px área táctil) */
     .map-hotspot {
       position: absolute;
       transform: translate(-50%, -50%);
@@ -386,7 +381,6 @@
     .hotspot-blue .map-hotspot-core { background-color: #2563EB; }
     .hotspot-blue .map-hotspot-pulse { border: 3px solid #1D4ED8; background-color: rgba(37, 99, 235, 0.30); }
 
-    /* Botones rápidos debajo del mapa para pulgar con una sola mano */
     .zone-quick-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -426,12 +420,74 @@
     }
 
     /* ==========================================================================
-       MODAL DE DOS NIVELES: GALERÍA VERTICAL (NIVEL 1) Y SUBFICHA (NIVEL 2)
+       RECUADRO DE INFERENCIA REFLEXIVA DE RESPUESTA ABIERTA (PUEBLOS Y SÍNTESIS)
+       ========================================================================== */
+    .inference-box {
+      background-color: var(--bg-green-tint);
+      border: 2px solid var(--green-accent);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      margin-top: 16px;
+    }
+
+    .inference-label-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background-color: var(--green-accent);
+      color: var(--bg-white);
+      font-weight: 900;
+      font-size: 0.8rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-bottom: 9px;
+      letter-spacing: 0.02em;
+    }
+
+    .inference-prompt-text {
+      margin: 0 0 10px 0;
+      color: var(--text-black);
+      font-weight: 800;
+      font-size: 0.95rem;
+      line-height: 1.44;
+    }
+
+    .inference-textarea {
+      width: 100%;
+      min-height: 96px;
+      padding: 10px 12px;
+      background-color: var(--bg-white);
+      color: var(--text-black);
+      border: 2px solid var(--text-charcoal);
+      border-radius: 10px;
+      font-size: 0.96rem;
+      line-height: 1.48;
+      resize: vertical;
+    }
+
+    .inference-textarea:focus {
+      outline: none;
+      border-color: var(--green-accent);
+      box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.22);
+    }
+
+    .inference-save-indicator {
+      margin: 6px 0 0 0;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--green-dark);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* ==========================================================================
+       MODAL MULTINIVEL EN ÁRBOL: CÁPSULAS DESPLEGABLES Y RETRATOS VERTICALES
        ========================================================================== */
     .zone-modal-backdrop {
       position: fixed;
       inset: 0;
-      background-color: rgba(15, 23, 42, 0.78);
+      background-color: rgba(15, 23, 42, 0.80);
       z-index: 1000;
       display: none;
       align-items: flex-end;
@@ -452,8 +508,8 @@
 
     .zone-modal-sheet {
       width: 100%;
-      max-width: 680px;
-      max-height: 93dvh;
+      max-width: 700px;
+      max-height: 94dvh;
       background-color: var(--bg-white);
       border-radius: 20px 20px 0 0;
       border-top: 4px solid var(--green-accent);
@@ -467,7 +523,7 @@
       .zone-modal-sheet {
         border-radius: 18px;
         border: 3px solid var(--green-accent);
-        max-height: 88vh;
+        max-height: 90vh;
       }
     }
 
@@ -480,8 +536,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
-      padding: 12px 15px;
+      gap: 8px;
+      padding: 11px 14px;
       background-color: var(--bg-green-tint);
       border-bottom: 2px solid var(--border-neutral);
       flex-shrink: 0;
@@ -490,10 +546,44 @@
     .zone-modal-badge {
       display: inline-flex;
       align-items: center;
-      gap: 7px;
+      gap: 6px;
       font-weight: 900;
-      font-size: 0.92rem;
+      font-size: 0.88rem;
       color: var(--text-black);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .topbar-actions {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      flex-shrink: 0;
+    }
+
+    .btn-topbar-back {
+      display: none;
+      background-color: var(--bg-white);
+      color: var(--text-black);
+      border: 2px solid var(--green-accent);
+      border-radius: 9px;
+      padding: 8px 11px;
+      min-height: 40px;
+      font-weight: 900;
+      font-size: 0.84rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn-topbar-back.visible {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .btn-topbar-back:active {
+      transform: scale(0.96);
     }
 
     .btn-close-map-modal {
@@ -501,10 +591,10 @@
       color: var(--bg-white);
       border: none;
       border-radius: 9px;
-      padding: 9px 13px;
-      min-height: 42px;
+      padding: 8px 12px;
+      min-height: 40px;
       font-weight: 800;
-      font-size: 0.86rem;
+      font-size: 0.85rem;
       cursor: pointer;
       white-space: nowrap;
     }
@@ -514,12 +604,11 @@
     }
 
     .zone-modal-body {
-      padding: 16px 15px 24px;
+      padding: 16px 14px 26px;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
     }
 
-    /* Transiciones suaves entre Nivel 1 y Nivel 2 */
     .modal-level-view {
       display: none;
       animation: fadeSlideView 0.22s ease-out;
@@ -530,41 +619,196 @@
     }
 
     @keyframes fadeSlideView {
-      from { opacity: 0; transform: translateX(14px); }
+      from { opacity: 0; transform: translateX(12px); }
       to { opacity: 1; transform: translateX(0); }
     }
 
-    .zone-context-box {
+    .level-a-banner {
       background-color: var(--bg-green-tint);
       border: 2px solid var(--green-accent);
       border-radius: var(--radius-md);
       padding: 13px 14px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
-    .zone-context-box h3 {
-      margin: 0 0 6px 0;
-      font-size: 1.12rem;
+    .level-a-kicker {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--green-accent);
+      margin-bottom: 3px;
+    }
+
+    .level-a-banner h3 {
+      margin: 0 0 4px 0;
+      font-size: 1.16rem;
       color: var(--text-black);
       font-weight: 900;
+      line-height: 1.24;
     }
 
-    .zone-context-box p {
+    .level-a-hint {
       margin: 0;
-      font-size: 0.94rem;
-      color: var(--text-black);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-charcoal);
     }
 
-    .gallery-heading {
-      margin: 0 0 10px 0;
+    /* ==========================================================================
+       CÁPSULAS INTERACTIVAS / ACORDEONES EN ÁRBOL (ANIMACIÓN FLUIDA + IMAGEN)
+       ========================================================================== */
+    .capsules-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .capsule-card {
+      background-color: var(--bg-white);
+      border: 2px solid var(--text-charcoal);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .capsule-card.open {
+      border-color: var(--green-accent);
+      box-shadow: 0 4px 12px rgba(21, 128, 61, 0.12);
+    }
+
+    .capsule-header-btn {
+      width: 100%;
+      min-height: 54px;
+      background-color: var(--bg-white);
+      border: none;
+      padding: 12px 13px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      text-align: left;
+      cursor: pointer;
+      transition: background-color 0.18s ease;
+    }
+
+    .capsule-card.open .capsule-header-btn {
+      background-color: var(--bg-green-tint);
+      border-bottom: 1.5px solid var(--border-neutral);
+    }
+
+    .capsule-header-btn:active {
+      background-color: var(--bg-green-badge);
+    }
+
+    .capsule-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .capsule-icon-box {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background-color: var(--bg-green-tint);
+      border: 1.5px solid var(--green-accent);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.08rem;
+      flex-shrink: 0;
+    }
+
+    .capsule-card.open .capsule-icon-box {
+      background-color: var(--green-accent);
+      color: var(--bg-white);
+    }
+
+    .capsule-title-text {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: var(--text-black);
+      line-height: 1.28;
+    }
+
+    .capsule-arrow {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background-color: #F1F5F9;
+      color: var(--text-black);
+      font-size: 0.85rem;
+      font-weight: 900;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.26s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.2s ease;
+    }
+
+    .capsule-card.open .capsule-arrow {
+      transform: rotate(180deg);
+      background-color: var(--green-accent);
+      color: var(--bg-white);
+    }
+
+    .capsule-collapse {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .capsule-card.open .capsule-collapse {
+      grid-template-rows: 1fr;
+    }
+
+    .capsule-inner {
+      overflow: hidden;
+    }
+
+    .capsule-body-content {
+      padding: 13px 14px 15px;
+      background-color: var(--bg-white);
+    }
+
+    .capsule-body-content p {
+      margin: 0 0 12px 0;
+      color: var(--text-black);
       font-size: 0.94rem;
+      line-height: 1.56;
+    }
+
+    .capsule-img-wrap {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 2px solid var(--border-neutral);
+      background-color: #F8FAFC;
+    }
+
+    .capsule-img-wrap img {
+      width: 100%;
+      max-height: 260px;
+      object-fit: cover;
+      border-radius: 8px;
+      display: block;
+    }
+
+    .tree-section-label {
+      margin: 14px 0 9px 0;
+      font-size: 0.9rem;
       font-weight: 900;
       text-transform: uppercase;
       letter-spacing: 0.03em;
       color: var(--green-accent);
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    /* Galería de Tarjetas Verticales (Estilo Retrato Móvil 3:4) */
     .portrait-cards-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -675,7 +919,13 @@
       text-align: center;
     }
 
-    /* NIVEL 2: Ficha Detallada del Pueblo */
+    .nav-dual-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
     .btn-return-zone {
       display: inline-flex;
       align-items: center;
@@ -691,7 +941,6 @@
       font-size: 0.92rem;
       padding: 10px 14px;
       cursor: pointer;
-      margin-bottom: 14px;
     }
 
     .btn-return-zone:active {
@@ -699,9 +948,25 @@
       background-color: var(--bg-green-badge);
     }
 
+    .btn-close-inline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      background-color: var(--text-charcoal);
+      color: var(--bg-white);
+      border: none;
+      border-radius: 10px;
+      font-weight: 800;
+      font-size: 0.88rem;
+      padding: 10px 14px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
     .detail-hero-card {
       display: grid;
-      grid-template-columns: 115px 1fr;
+      grid-template-columns: 112px 1fr;
       gap: 13px;
       align-items: center;
       background-color: var(--bg-green-tint);
@@ -735,7 +1000,7 @@
 
     .detail-title-group h3 {
       margin: 0 0 6px 0;
-      font-size: 1.28rem;
+      font-size: 1.26rem;
       color: var(--text-black);
       font-weight: 900;
       line-height: 1.2;
@@ -746,163 +1011,23 @@
       background-color: var(--bg-white);
       border: 1.5px solid var(--green-accent);
       color: var(--text-black);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 800;
-      padding: 4px 8px;
+      padding: 3px 8px;
       border-radius: 6px;
       margin-bottom: 6px;
     }
 
-    .detail-sub-block {
-      background-color: var(--bg-white);
-      border: 2px solid var(--border-neutral);
-      border-radius: var(--radius-md);
-      padding: 13px 14px;
-      margin-bottom: 12px;
-    }
-
-    .detail-sub-block h4 {
-      margin: 0 0 7px 0;
-      font-size: 0.98rem;
-      color: var(--green-accent);
-      font-weight: 900;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .detail-sub-block p,
-    .detail-sub-block li {
-      color: var(--text-black);
-      font-size: 0.94rem;
-      margin: 0;
-    }
-
-    .detail-sub-block ul {
-      margin: 6px 0 0 0;
-      padding-left: 18px;
-    }
-
-    .detail-sub-block li + li {
-      margin-top: 6px;
-    }
-
-    /* ==========================================================================
-       2. CUESTIONARIO INFERENCIAL MATERIALISTA (5 PREGUNTAS CLAVE)
-       ========================================================================== */
-    .quiz-scoreboard {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
-      background-color: var(--bg-green-tint);
-      border: 2px solid var(--green-accent);
-      border-radius: var(--radius-md);
-      padding: 12px 14px;
-      margin-bottom: 16px;
-      font-weight: 800;
-      color: var(--text-black);
-    }
-
-    .quiz-item-card {
-      background-color: var(--bg-white);
-      border: 2px solid var(--border-neutral);
-      border-radius: var(--radius-md);
-      padding: 15px 14px;
-      margin-bottom: 14px;
-    }
-
-    .quiz-q-tag {
-      display: inline-block;
-      background-color: var(--bg-green-badge);
-      color: var(--text-black);
-      font-weight: 900;
-      font-size: 0.78rem;
-      padding: 3px 9px;
-      border-radius: 6px;
-      margin-bottom: 8px;
-      text-transform: uppercase;
-    }
-
-    .quiz-q-text {
-      margin: 0 0 12px 0;
-      font-size: 1.02rem;
-      font-weight: 800;
-      color: var(--text-black);
-      line-height: 1.38;
-    }
-
-    .quiz-options-list {
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
-    }
-
-    .quiz-opt-btn {
-      width: 100%;
-      min-height: 50px;
-      text-align: left;
-      background-color: var(--bg-white);
-      color: var(--text-black);
-      border: 2px solid var(--text-charcoal);
-      border-radius: 10px;
-      padding: 11px 13px;
-      font-weight: 600;
-      font-size: 0.94rem;
-      line-height: 1.38;
-      cursor: pointer;
-      transition: background-color 0.14s ease, transform 0.1s ease;
-    }
-
-    .quiz-opt-btn:active:not(:disabled) {
-      transform: scale(0.99);
-    }
-
-    .quiz-opt-btn.is-correct {
-      background-color: var(--bg-green-badge);
-      border-color: var(--green-accent);
-      border-width: 2.5px;
-      color: var(--text-black);
-      font-weight: 800;
-    }
-
-    .quiz-opt-btn.is-wrong {
-      background-color: var(--danger-bg);
-      border-color: var(--danger);
-      border-width: 2.5px;
-      color: var(--text-black);
-      font-weight: 700;
-    }
-
-    .quiz-opt-btn:disabled {
-      cursor: default;
-    }
-
-    .quiz-feedback-box {
+    .pueblo-detail-pane {
       display: none;
-      margin-top: 12px;
-      padding: 11px 13px;
-      border-radius: var(--radius-sm);
-      font-size: 0.91rem;
-      color: var(--text-black);
-      line-height: 1.45;
     }
 
-    .quiz-feedback-box.ok {
+    .pueblo-detail-pane.active {
       display: block;
-      background-color: var(--bg-green-tint);
-      border-left: 5px solid var(--green-accent);
-    }
-
-    .quiz-feedback-box.err {
-      display: block;
-      background-color: var(--danger-bg);
-      border-left: 5px solid var(--danger);
     }
 
     /* ==========================================================================
-       3. FORMULARIO DE ENTREGA DE EVIDENCIA Y COMPRESIÓN CANVAS (<100 KB)
+       FORMULARIO DE EVIDENCIA SIMPLIFICADO Y COMPRESIÓN CANVAS (<100 KB)
        ========================================================================== */
     .form-field {
       margin-bottom: 15px;
@@ -1020,7 +1145,7 @@
       border: 2px solid var(--text-black);
       border-radius: 12px;
       font-weight: 900;
-      font-size: 1.04rem;
+      font-size: 1.02rem;
       padding: 14px 18px;
       cursor: pointer;
       display: inline-flex;
@@ -1050,7 +1175,6 @@
       font-weight: 600;
     }
 
-    /* Panel de Confirmación Post-Envío */
     .submission-success-card {
       display: none;
       margin-top: 18px;
@@ -1096,7 +1220,6 @@
       border: 2px solid var(--green-dark);
     }
 
-    /* Toast flotante */
     .toast-banner {
       position: fixed;
       bottom: 18px;
@@ -1143,7 +1266,7 @@
       <p>Comprendemos cómo el espacio biofísico, las fuerzas productivas y los ciclos extractivos moldearon la tecnología, organización comunal y resistencia de las naciones amazónicas.</p>
       <div class="auth-status-bar" id="auth-status-bar">
         <span>🔗</span>
-        <span id="auth-status-text">Sincronizando sesión con la Web Matriz...</span>
+        <span id="auth-status-text">Sincronizando sesión activa con la Web Matriz...</span>
       </div>
     </header>
 
@@ -1154,20 +1277,20 @@
     </aside>
 
     <!-- ========================================================================
-         1. MAPA INTERACTIVO Y NAVEGACIÓN EN DOS NIVELES (SUBFICHAS VERTICALES)
+         1. MAPA INTERACTIVO Y EXPLORACIÓN CON PREGUNTAS DE INFERENCIA ABIERTAS
          ======================================================================== -->
     <section class="section-card" id="seccion-mapa">
       <div class="section-title-row">
         <span class="section-badge-num">1</span>
-        <h2>Mapa Territorial Interactivo (Dos Niveles)</h2>
+        <h2>Mapa Territorial Interactivo e Inferencia</h2>
       </div>
       <p class="section-instruction">
-        <strong>Paso 1:</strong> Toca cualquiera de los <strong>4 puntos de colores</strong> del mapa (o los botones inferiores) para analizar la base material de la zona.<br>
-        <strong>Paso 2:</strong> Toca el <strong>retrato vertical</strong> de cada pueblo para abrir su ficha detallada.
+        <strong>Paso 1:</strong> Toca cada uno de los <strong>4 puntos de colores</strong> del mapa y explora los 9 pueblos originarios.<br>
+        <strong>Paso 2:</strong> Al final de la ficha de cada pueblo, responde su <strong>Pregunta de Inferencia Materialista</strong> y completa abajo la <strong>Síntesis Territorial</strong>.
       </p>
 
       <div class="exploration-progress" aria-live="polite">
-        <span id="explored-counter">Pueblos explorados: 0 / 9</span>
+        <span id="explored-counter">Inferencias respondidas: 0 / 10</span>
         <div class="progress-track">
           <div class="progress-fill" id="explored-bar"></div>
         </div>
@@ -1180,6 +1303,7 @@
           alt="Mapa territorial de la Amazonía peruana con 4 zonas geo-históricas: Várzea, Selva Central, Alto Marañón-Pongos y Cuenca del Putumayo"
           class="map-base-img"
           id="mapa-principal-img"
+          onerror="this.onerror=null; this.src='https://placehold.co/600x400/15803d/ffffff?text=Imagen+en+proceso';"
         >
 
         <!-- Punto Rojo: Várzea / Riberas Fértiles -->
@@ -1188,7 +1312,7 @@
           class="map-hotspot hotspot-red"
           style="left: 57.94%; top: 42.11%;"
           data-zone="rojo"
-          aria-label="Abrir Zona Roja: Várzea y Riberas Fértiles (Omaguas, Kukama-Kukamiria, Shipibo-Konibo)"
+          aria-label="Abrir Zona Roja: Várzea y Riberas Fértiles (Omagua, Kukama-Kukamiria, Shipibo-Konibo)"
         >
           <span class="map-hotspot-pulse"></span>
           <span class="map-hotspot-core"></span>
@@ -1235,11 +1359,11 @@
       <div class="zone-quick-grid">
         <button type="button" class="zone-quick-btn" data-zone="rojo">
           <span class="zone-dot-indicator" style="background-color:#EF4444;"></span>
-          <span>🔴 Várzea / Riberas Fértiles (3 pueblos)</span>
+          <span>🔴 Várzea y Riberas Fértiles (3 pueblos)</span>
         </button>
         <button type="button" class="zone-quick-btn" data-zone="amarillo">
           <span class="zone-dot-indicator" style="background-color:#FACC15;"></span>
-          <span>🟡 Interfluvios / Selva Central (2 pueblos)</span>
+          <span>🟡 Interfluvios y Selva Central (2 pueblos)</span>
         </button>
         <button type="button" class="zone-quick-btn" data-zone="verde">
           <span class="zone-dot-indicator" style="background-color:#22C55E;"></span>
@@ -1247,74 +1371,52 @@
         </button>
         <button type="button" class="zone-quick-btn" data-zone="azul">
           <span class="zone-dot-indicator" style="background-color:#2563EB;"></span>
-          <span>🔵 Putumayo y Ampiyacu (2 pueblos)</span>
+          <span>🔵 Putumayo y el Caucho (2 pueblos)</span>
         </button>
       </div>
+
+      <!-- 🌐 SÍNTESIS TERRITORIAL (PREGUNTA ABIERTA 10 - AL COMPLETAR / CERRAR EL MAPA) -->
+      <div class="inference-box" id="bloque-sintesis-territorial" style="margin-top: 18px;">
+        <span class="inference-label-pill">✍️ Pregunta de Inferencia Materialista • 🌐 Síntesis Territorial</span>
+        <p class="inference-prompt-text">
+          Habiendo recorrido las 4 zonas: ¿Por qué la forma en que un pueblo consigue su alimento y trabaja su tierra determina cómo se organiza, cómo vive y cómo se defiende? Plantea una conclusión clara.
+        </p>
+        <textarea
+          id="resp_sintesis"
+          class="inference-textarea"
+          rows="4"
+          placeholder="Escribe tu conclusión relacionando la obtención de alimentos y el trabajo de la tierra con la organización comunal y la defensa del territorio..."
+        ></textarea>
+        <p class="inference-save-indicator">
+          <span id="status_resp_sintesis">⏳ Respuesta pendiente</span>
+          <span>Guardado automático en borrador</span>
+        </p>
+      </div>
     </section>
 
     <!-- ========================================================================
-         2. CUESTIONARIO INFERENCIAL MATERIALISTA (5 PREGUNTAS CLAVE)
-         ======================================================================== -->
-    <section class="section-card" id="seccion-cuestionario">
-      <div class="section-title-row">
-        <span class="section-badge-num">2</span>
-        <h2>Cuestionario Inferencial Materialista</h2>
-      </div>
-      <p class="section-instruction">
-        Responde las 5 preguntas clave analizando cómo las condiciones materiales de existencia explican la organización social e histórica de cada pueblo. Cada acierto equivale a <strong>4 puntos</strong>.
-      </p>
-
-      <div class="quiz-scoreboard" aria-live="polite">
-        <span>Respondidas: <strong id="quiz-answered-count">0</strong> / 5</span>
-        <span>Nota Preliminar: <strong id="quiz-score-vigesimal">0</strong> / 20</span>
-      </div>
-
-      <div id="quiz-list-container"></div>
-    </section>
-
-    <!-- ========================================================================
-         3. ZONA DE ENTREGA DE EVIDENCIA: INFOGRAFÍA Y FOTO COMPRIMIDA
+         2. ZONA DE ENTREGA DE EVIDENCIA SIMPLIFICADA (SIN CAMPOS REDUNDANTES)
          ======================================================================== -->
     <section class="section-card" id="seccion-entrega">
       <div class="section-title-row">
-        <span class="section-badge-num">3</span>
-        <h2>Entrega de Evidencia: Infografía y Análisis</h2>
+        <span class="section-badge-num">2</span>
+        <h2>Entrega de Evaluación y Evidencia: Infografía</h2>
       </div>
       <p class="section-instruction">
-        Completa tus datos, redacta tu explicación materialista sobre el pueblo elegido y toma una foto nítida a tu infografía elaborada en clase.
+        Tu identidad se vincula automáticamente desde tu sesión iniciada en la Web Matriz. Selecciona el pueblo trabajado en tu infografía, redacta tu justificación y adjunta tu fotografía.
       </p>
 
       <form id="evidence-form" novalidate>
         <div class="form-field">
-          <label for="student-name">1. Nombres y Apellidos completos *</label>
-          <input
-            type="text"
-            id="student-name"
-            class="form-control"
-            placeholder="Ej.: Valeria Ríos Ahuanari"
-            autocomplete="name"
-            required
-          >
-        </div>
-
-        <div class="form-field">
-          <label for="student-section">2. Grado y Sección *</label>
-          <select id="student-section" class="form-control" required>
-            <option value="4.° A">4.° A — Secundaria (C.E. UNAP)</option>
-            <option value="4.° B">4.° B — Secundaria (C.E. UNAP)</option>
-          </select>
-        </div>
-
-        <div class="form-field">
-          <label for="selected-people">3. Pueblo Originario Analizado en tu Infografía *</label>
-          <select id="selected-people" class="form-control" required>
-            <option value="">— Selecciona un pueblo amazónico —</option>
-            <optgroup label="🔴 Zona 1: Várzea / Riberas Fértiles">
-              <option value="Omaguas">Omaguas</option>
+          <label for="puebloAnalizado">Selector del Pueblo Originario *</label>
+          <select id="puebloAnalizado" class="form-control" required>
+            <option value="">— Selecciona un pueblo estudiado —</option>
+            <optgroup label="🔴 Zona 1: Várzea y Riberas Fértiles">
+              <option value="Omagua">Omagua</option>
               <option value="Kukama-Kukamiria">Kukama-Kukamiria</option>
               <option value="Shipibo-Konibo">Shipibo-Konibo</option>
             </optgroup>
-            <optgroup label="🟡 Zona 2: Interfluvios / Selva Central">
+            <optgroup label="🟡 Zona 2: Interfluvios y Selva Central">
               <option value="Asháninka">Asháninka</option>
               <option value="Yanesha">Yanesha</option>
             </optgroup>
@@ -1322,7 +1424,7 @@
               <option value="Awajún">Awajún</option>
               <option value="Wampis">Wampis</option>
             </optgroup>
-            <optgroup label="🔵 Zona 4: Cuenca del Putumayo y Ampiyacu">
+            <optgroup label="🔵 Zona 4: Cuenca del Putumayo y el Caucho">
               <option value="Huitoto (Murui-Muinane)">Huitoto (Murui-Muinane)</option>
               <option value="Bora">Bora</option>
             </optgroup>
@@ -1330,16 +1432,17 @@
         </div>
 
         <div class="form-field">
-          <label for="materialist-explanation">4. ¿Cómo influyó el espacio geográfico y la base material en la tecnología, organización y cultura de ese pueblo? *</label>
+          <label for="textoJustificacion">¿Cómo influyó el espacio geográfico y la base material en la tecnología, organización y cultura de este pueblo? *</label>
           <textarea
-            id="materialist-explanation"
+            id="textoJustificacion"
             class="form-control"
-            placeholder="Explica con tus palabras el vínculo entre su ecosistema (ríos/suelos), sus herramientas de producción y su organización comunal o resistencia histórica..."
+            rows="4"
+            placeholder="Sintetiza cómo las características de sus suelos, ríos y recursos determinaron sus herramientas, vida comunitaria y resistencia histórica..."
             required
           ></textarea>
         </div>
 
-        <!-- CÁMARA Y COMPRESIÓN AUTOMÁTICA EN CANVAS -->
+        <!-- CÁMARA Y COMPRESIÓN AUTOMÁTICA EN CANVAS (< 100 KB) -->
         <div class="camera-box">
           <input
             type="file"
@@ -1371,17 +1474,17 @@
         </div>
 
         <button type="submit" id="btn-submit-all" class="btn-submit-firestore" disabled>
-          🚀 Enviar Evidencia a la Matriz (Semana 03)
+          🚀 Enviar Evaluación y Evidencia de la Semana 3
         </button>
         <p class="validation-hint" id="form-validation-hint">
-          Completa las 5 preguntas del cuestionario, tus datos, tu explicación y adjunta la foto de tu infografía para activar el envío.
+          Selecciona el pueblo analizado, escribe tu síntesis y adjunta la foto de tu infografía para habilitar el envío.
         </p>
       </form>
 
       <!-- PANEL DE CONFIRMACIÓN FINAL -->
       <div class="submission-success-card" id="submission-success-card" aria-live="polite">
         <div style="font-size:2.4rem;">✅</div>
-        <h3>¡Evidencia de la Semana 03 Registrada!</h3>
+        <h3>¡Evaluación y Evidencia de la Semana 03 Enviadas!</h3>
         <p id="submission-summary-text"></p>
         <a href="index.html" class="btn-return-final">⬅️ Volver a la Matriz Principal</a>
       </div>
@@ -1390,37 +1493,54 @@
   </main>
 
   <!-- ==========================================================================
-       MODAL INTERACTIVO DE DOS NIVELES (ZONA -> TARJETAS VERTICALES -> SUBFICHA)
+       MODAL INTERACTIVO EN ÁRBOL (NIVEL A: ZONA/CÁPSULAS -> NIVEL B: PUEBLO + INFERENCIA)
        ========================================================================== -->
   <div class="zone-modal-backdrop" id="zone-modal" role="dialog" aria-modal="true" aria-labelledby="modal-zone-title">
     <div class="zone-modal-sheet">
       <div class="zone-modal-topbar">
         <span class="zone-modal-badge" id="modal-zone-badge">📍 Zona Territorial</span>
-        <button type="button" class="btn-close-map-modal" id="btn-close-zone-modal">✕ Cerrar Mapa</button>
+        <div class="topbar-actions">
+          <button type="button" class="btn-topbar-back" id="btn-topbar-back">↩️ Volver</button>
+          <button type="button" class="btn-close-map-modal" id="btn-close-zone-modal">✕ Cerrar</button>
+        </div>
       </div>
 
       <div class="zone-modal-body" id="zone-modal-scroll">
-        <!-- NIVEL 1: EXPLICACIÓN MATERIALISTA DE LA ZONA + GALERÍA DE TARJETAS VERTICALES -->
+        <!-- NIVEL A: TERRITORIO E HISTORIA GENERAL (CÁPSULAS DESPLEGABLES) + RETRATOS VERTICALES -->
         <div class="modal-level-view active" id="modal-level-1">
-          <div class="zone-context-box" id="zone-context-box">
+          <div class="level-a-banner" id="zone-context-box">
+            <span class="level-a-kicker">Nivel A • Territorio e Historia General</span>
             <h3 id="modal-zone-title"></h3>
-            <p id="modal-zone-explanation"></p>
+            <p class="level-a-hint">👇 Toca cada cápsula interactiva para desplegar su análisis materialista e imagen:</p>
           </div>
-          <p class="gallery-heading">👥 Toca un retrato vertical para abrir sus particularidades:</p>
+
+          <div class="capsules-stack" id="zone-capsules-container"></div>
+
+          <p class="tree-section-label">👥 Nivel B • Pueblos Originarios (Toca un retrato para abrir su ficha y pregunta):</p>
           <div class="portrait-cards-grid" id="portrait-cards-grid"></div>
         </div>
 
-        <!-- NIVEL 2: SUBFICHA DETALLADA DEL PUEBLO SELECCIONADO -->
+        <!-- NIVEL B: FICHAS PREMONTADAS DE LOS 9 PUEBLOS CON SUS TEXTAREAS PERSISTENTES -->
         <div class="modal-level-view" id="modal-level-2">
-          <button type="button" class="btn-return-zone" id="btn-back-to-zone-top">
-            ↩️ Volver a la lista de pueblos de esta zona
-          </button>
+          <div class="nav-dual-row">
+            <button type="button" class="btn-return-zone" id="btn-back-to-zone-top">
+              ↩️ Volver
+            </button>
+            <button type="button" class="btn-close-inline" id="btn-close-inline-top">
+              ✕ Cerrar
+            </button>
+          </div>
 
           <div id="people-detail-content"></div>
 
-          <button type="button" class="btn-return-zone" id="btn-back-to-zone-bottom" style="margin-top:14px; margin-bottom:0;">
-            ↩️ Volver a la lista de pueblos de esta zona
-          </button>
+          <div class="nav-dual-row" style="margin-top:16px; margin-bottom:0;">
+            <button type="button" class="btn-return-zone" id="btn-back-to-zone-bottom">
+              ↩️ Volver
+            </button>
+            <button type="button" class="btn-close-inline" id="btn-close-inline-bottom">
+              ✕ Cerrar
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -1448,25 +1568,7 @@
     const auth = typeof firebase !== "undefined" ? firebase.auth() : null;
     const db = typeof firebase !== "undefined" ? firebase.firestore() : null;
 
-    let usuarioAutenticado = null;
-
-    if (auth) {
-      auth.onAuthStateChanged((user) => {
-        usuarioAutenticado = user || null;
-        const statusText = document.getElementById("auth-status-text");
-        const nameInput = document.getElementById("student-name");
-        if (user) {
-          const display = user.displayName || user.email || "Estudiante";
-          statusText.innerHTML = "Sesión conectada con la Matriz: <strong>" + escaparHTML(display) + "</strong>";
-          if (user.displayName && !nameInput.value.trim()) {
-            nameInput.value = user.displayName;
-            validarEstadoFormulario();
-          }
-        } else {
-          statusText.textContent = "Modo directo activo: completa tus nombres completos para registrar tu entrega en Firestore.";
-        }
-      });
-    }
+    let nombrePerfilFirestore = "";
 
     function escaparHTML(str) {
       return String(str || "")
@@ -1474,6 +1576,65 @@
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;");
+    }
+
+    if (auth) {
+      auth.onAuthStateChanged(async (user) => {
+        const statusText = document.getElementById("auth-status-text");
+        if (user) {
+          nombrePerfilFirestore = user.displayName || "";
+          if (!nombrePerfilFirestore && db) {
+            try {
+              const docUsr = await db.collection("usuarios").doc(user.uid).get();
+              if (docUsr.exists && docUsr.data().nombre) {
+                nombrePerfilFirestore = docUsr.data().nombre;
+              }
+            } catch (e) {}
+          }
+          const etiquetaUsuario = nombrePerfilFirestore || user.email || "Estudiante";
+          statusText.innerHTML = "Sesión activa en la Matriz: <strong>" + escaparHTML(etiquetaUsuario) + "</strong>";
+        } else {
+          statusText.innerHTML = "No se detectó sesión iniciada. Te recomendamos ingresar desde <a href='index.html' style='color:#15803D;font-weight:800;'>la Web Matriz</a> antes de enviar.";
+        }
+      });
+    }
+
+    const FALLBACK_PLACEHOLDER_URL = "https://placehold.co/600x400/15803d/ffffff?text=Imagen+en+proceso";
+
+    /* ==========================================================================
+       ESTADO GLOBAL DE LAS 10 PREGUNTAS ABIERTAS DE INFERENCIA MATERIALISTA
+       ========================================================================== */
+    const STORAGE_KEY_INFERENCIA = "unap_semana3_respuestas_inferencia_v1";
+
+    const respuestasInferencia = {
+      omagua: "",
+      kukama: "",
+      shipibo: "",
+      ashaninka: "",
+      yanesha: "",
+      awajun: "",
+      wampis: "",
+      huitoto: "",
+      bora: "",
+      sintesis_territorial: ""
+    };
+
+    // Restaurar borradores locales si el alumno recargó accidentalmente su navegador móvil
+    try {
+      const guardadoLocal = JSON.parse(localStorage.getItem(STORAGE_KEY_INFERENCIA) || "null");
+      if (guardadoLocal && typeof guardadoLocal === "object") {
+        Object.keys(respuestasInferencia).forEach((k) => {
+          if (typeof guardadoLocal[k] === "string") {
+            respuestasInferencia[k] = guardadoLocal[k];
+          }
+        });
+      }
+    } catch (e) {}
+
+    function persistirBorradorInferencia() {
+      try {
+        localStorage.setItem(STORAGE_KEY_INFERENCIA, JSON.stringify(respuestasInferencia));
+      } catch (e) {}
     }
 
     /* ==========================================================================
@@ -1526,14 +1687,17 @@
           emitirNota(523.25, 0, 0.08, "sine", 0.13);
           emitirNota(659.25, 0.06, 0.14, "sine", 0.14);
           break;
+        case "capsula_abrir":
+          emitirNota(587.33, 0, 0.055, "sine", 0.11);
+          emitirNota(783.99, 0.045, 0.085, "triangle", 0.12);
+          break;
+        case "capsula_cerrar":
+          emitirNota(659.25, 0, 0.05, "sine", 0.09);
+          emitirNota(493.88, 0.04, 0.07, "sine", 0.09);
+          break;
         case "volver":
           emitirNota(523.25, 0, 0.07, "sine", 0.11);
           emitirNota(392.00, 0.06, 0.11, "sine", 0.11);
-          break;
-        case "acierto":
-          emitirNota(523.25, 0, 0.11, "triangle", 0.16);
-          emitirNota(659.25, 0.09, 0.11, "triangle", 0.16);
-          emitirNota(783.99, 0.18, 0.22, "triangle", 0.18);
           break;
         case "error":
           emitirNota(240, 0, 0.15, "sawtooth", 0.11);
@@ -1576,228 +1740,438 @@
     }
 
     /* ==========================================================================
-       GENERADOR DE RETRATO PLACEHOLDER SVG SI LA FOTO AÚN NO SE COPIA EN img/
-       ========================================================================== */
-    function crearRetratoFallbackSVG(nombrePueblo, rutaArchivo, colorHex) {
-      const svg = `
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" width="300" height="400">
-          <rect width="300" height="400" fill="#F0FDF4"/>
-          <rect x="10" y="10" width="280" height="380" rx="14" fill="#FFFFFF" stroke="${colorHex}" stroke-width="5"/>
-          <circle cx="150" cy="135" r="54" fill="${colorHex}" opacity="0.16"/>
-          <circle cx="150" cy="122" r="26" fill="${colorHex}"/>
-          <path d="M98 188 C98 156, 202 156, 202 188 Z" fill="${colorHex}"/>
-          <text x="150" y="246" text-anchor="middle" font-family="system-ui, sans-serif" font-size="21" font-weight="900" fill="#000000">${nombrePueblo}</text>
-          <text x="150" y="276" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#15803D">Pueblo Originario Amazónico</text>
-          <rect x="34" y="314" width="232" height="36" rx="8" fill="#F0FDF4" stroke="#15803D" stroke-width="1.5"/>
-          <text x="150" y="337" text-anchor="middle" font-family="monospace" font-size="12" font-weight="700" fill="#0F172A">${rutaArchivo}</text>
-        </svg>`;
-      return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg.trim());
-    }
-
-    // Fallback vectorial si img/mapa_amazonia.jpg no estuviese disponible
-    document.getElementById("mapa-principal-img").addEventListener("error", function () {
-      const mapaSvg = `
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 764">
-          <rect width="1024" height="764" fill="#E2E8F0"/>
-          <polygon points="180,290 460,110 920,40 940,320 640,560 430,710 150,550" fill="#86EFAC" stroke="#15803D" stroke-width="6"/>
-          <path d="M150,500 Q340,370 590,320 T880,280" fill="none" stroke="#1D4ED8" stroke-width="14"/>
-          <path d="M460,80 Q680,120 890,190" fill="none" stroke="#1D4ED8" stroke-width="9"/>
-          <path d="M450,680 Q510,490 610,335" fill="none" stroke="#1D4ED8" stroke-width="10"/>
-          <text x="780" y="290" font-family="sans-serif" font-size="34" font-weight="900" fill="#000000">★ IQUITOS</text>
-          <text x="430" y="310" font-family="sans-serif" font-size="26" font-weight="800" fill="#0F172A">RÍO AMAZONAS</text>
-          <text x="580" y="110" font-family="sans-serif" font-size="24" font-weight="800" fill="#0F172A">RÍO PUTUMAYO</text>
-          <text x="240" y="420" font-family="sans-serif" font-size="24" font-weight="800" fill="#0F172A">RÍO MARAÑÓN</text>
-          <text x="500" y="500" font-family="sans-serif" font-size="24" font-weight="800" fill="#0F172A">RÍO UCAYALI</text>
-        </svg>`;
-      this.src = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(mapaSvg.trim());
-    }, { once: true });
-
-    /* ==========================================================================
-       BASE DE DATOS HISTÓRICO-MATERIALISTA DE LAS 4 ZONAS Y 9 PUEBLOS ORIGINARIOS
+       ARQUITECTURA MULTINIVEL EN ÁRBOL + LAS 9 PREGUNTAS ABIERTAS POR PUEBLO
        ========================================================================== */
     const ZONAS_AMAZONIA = {
+      /* ----------------------------------------------------------------------
+         🔴 ZONA 1 (PUNTO ROJO): VÁRZEA Y RIBERAS FÉRTILES
+         ---------------------------------------------------------------------- */
       rojo: {
         id: "rojo",
-        etiqueta: "🔴 Punto Rojo • Zona 1",
-        titulo: "Várzea / Riberas Fértiles Inundables",
+        etiqueta: "🔴 Zona 1 • Várzea y Riberas Fértiles",
+        titulo: "Diques Aluviales, Barrizales y Crecientes Estacionales",
         colorHex: "#DC2626",
-        explicacionMaterialista:
-          "Las crecientes estacionales de los grandes ríos de aguas blancas (Amazonas, Marañón y Ucayali) depositan anualmente toneladas de limo andino fértil formando barrizales y restingas. Esta alta productividad agrícola de ciclo corto, sumada a la riqueza ictiológica de las cochas, permitió sostener aldeas permanentes con alta densidad demográfica, excedentes alimentarios y jefaturas complejas antes de la irrupción colonial.",
+        capsulasNivelA: [
+          {
+            icono: "🌊",
+            titulo: "La Dinámica de la Várzea y el Barro Fértil",
+            texto: "En las grandes cuencas de aguas blancas (ríos Amazonas, Ucayali y Marañón), el pulso anual de creciente y vaciante deposita millones de toneladas de sedimentos y limos andinos ricos en nutrientes minerales sobre los diques aluviales y playas de barrizal. Desde el materialismo histórico, esta fertilización natural gratuita permitió desarrollar una agricultura intensiva de ciclo corto (yuca, maíz, maní y frejol) sin agotar el suelo ni requerir migraciones constantes.",
+            imagen: "img/varzea_suelo.jpg"
+          },
+          {
+            icono: "🐟",
+            titulo: "La Biomasa Pesquera y las Grandes Aldeas Fluviales",
+            texto: "La extraordinaria abundancia hidrobiológica de ríos, cochas y tahuampas —con captura masiva de paiche, gamitana, boquichico y manejo en corrales de tortugas taricayas— garantizó un excedente permanente de proteína animal. Esta sólida infraestructura productiva sostuvo altas densidades demográficas precoloniales equivalentes a verdaderas ciudades lineales ribereñas con jefaturas complejas.",
+            imagen: "img/varzea_aldea.jpg"
+          }
+        ],
         pueblos: [
           {
             id: "omagua",
-            nombre: "Omaguas",
+            textareaId: "resp_omagua",
+            nombre: "Omagua",
             imagen: "img/omagua.jpg",
-            familia: "Familia lingüística Tupí-Guaraní • Río Amazonas y Napo",
-            resumenRetrato: "Cacicazgos fluviales densos, manejo de islas inundables y cerámica policromada.",
-            baseMaterial: [
-              "Dominio productivo de las islas aluviales y riberas inundables del río Amazonas mediante cultivos rápidos de yuca, maíz y maní sincronizados con el estiaje.",
-              "Tecnología de conservación proteica a gran escala: corrales acuáticos con miles de tortugas taricayas, pesca intensiva con redes y lanzas estólicas, y almacenamiento de harina de yuca (fariña).",
-              "Alfarería vidriada policromada con resinas vegetales para almacenar chicha de yuca, aceites de quelonios y excedentes comunales."
-            ],
-            particularidades: [
-              "Su excedente material sostuvo la mayor densidad demográfica precolonial de la Amazonía peruana, con extensos poblados continuos a lo largo de las riberas y cacicazgos fluviales articulados.",
-              "Durante los siglos XVII y XVIII sufrieron la concentración forzosa en las reducciones jesuitas de Maynas y el embate de los bandeirantes portugueses; el hacinamiento desató epidemias de viruela y sarampión que diezmaron hasta el 80 % de su población.",
-              "Hoy sus descendientes en Loreto (San Joaquín de Omaguas) revitalizan su lengua y memoria ribereña."
+            cabecera: "Familia lingüística Tupí-Guaraní • Riberas e islas del río Amazonas y Napo",
+            resumenRetrato: "Agricultura de barrizal, alfarería vidriada policromada y cacicazgos isleños.",
+            preguntaInferencia: "Los Omaguas criaban miles de tortugas y charapas en corrales inundables de río. ¿Por qué crees que un pueblo del río necesitó almacenar animales vivos en lugar de depender únicamente de la pesca diaria? Explica cómo influía la época de creciente.",
+            placeholderInferencia: "Analiza qué ocurre con la dispersión de los peces cuando el río crece e inunda la selva y cómo los corrales aseguraban proteína estable...",
+            secciones: [
+              {
+                nombreSeccion: "🛠️ Base Material, Ecológica y Tecnológica",
+                modulos: [
+                  {
+                    icono: "🏺",
+                    titulo: "Agricultura de Barrizal y Alfarería Vidriada",
+                    texto: "Los Omagua sincronizaron sus fuerzas productivas con la vaciante del río Amazonas para cosechar grandes volúmenes de yuca y maíz en pocos meses. Para conservar y redistribuir estos excedentes agrícolas, desarrollaron una sofisticada producción a gran escala de tinajas y vasijas cerámicas policromadas recubiertas con resinas vegetales vitrificadas, donde almacenaban harina de fariña, chicha de masato y aceite de huevos de quelonios.",
+                    imagen: "img/omagua_ceramica.jpg"
+                  }
+                ]
+              },
+              {
+                nombreSeccion: "🏛️ Particularidades Culturales y Organización Comunal",
+                modulos: [
+                  {
+                    icono: "🏝️",
+                    titulo: "Cacicazgos Fluviales y Dominio Isleño",
+                    texto: "Gracias al excedente alimentario ribereño y a la crianza de miles de quelonios acuáticos en corrales para los meses de creciente, articularon extensos cacicazgos fluviales que dominaban decenas de islas estratégicas del Amazonas. Esta potencia demográfica fue quebrada en los siglos XVII y XVIII por las reducciones coloniales y las epidemias de viruela y sarampión.",
+                    imagen: "img/omagua_islas.jpg"
+                  }
+                ]
+              }
             ]
           },
           {
             id: "kukama",
+            textareaId: "resp_kukama",
             nombre: "Kukama-Kukamiria",
             imagen: "img/kukama.jpg",
-            familia: "Familia lingüística Tupí-Guaraní • Bajo Marañón, Ucayali y Huallaga",
-            resumenRetrato: "Manejo científico de cochas y tipishcas, repoblamiento acuícola y cosmovisión fluvial.",
-            baseMaterial: [
-              "Gestión ecológica integral de cochas, tahuampas y tipishcas (meandros abandonados del río), combinando pesca selectiva (arpones, flechas y redes) con agricultura estacional en playas de arena y limo.",
-              "Ingeniería de navegación fluvial en canoas livianas labradas de una sola pieza maderable, adaptadas al transporte familiar y al intercambio intercomunal.",
-              "Programas contemporáneos de manejo comunitario y repoblamiento acuícola (paiche, arahuana y taricaya) en la Reserva Nacional Pacaya Samiria."
-            ],
-            particularidades: [
-              "Su superestructura simbólica refleja directamente su dependencia vital del río: la mitología fluvial viva concibe tres mundos interconectados y reconoce el mundo subacuático habitado por los karuara ('gente del agua'), regulando éticamente la extracción pesquera para impedir la depredación.",
-              "Protagonistas actuales de la defensa jurídica de los ríos Marañón y Huallaga como sujetos de derechos frente a los constantes derrames petroleros del Oleoducto Norperuano en Loreto."
+            cabecera: "Familia lingüística Tupí-Guaraní • Bajo Marañón, Ucayali, Huallaga y Samiria",
+            resumenRetrato: "Manejo tecnológico de cochas y tipishcas, mundo del agua y defensa de los ríos.",
+            preguntaInferencia: "Los Kukama establecieron normas estrictas sobre qué cochas pescar y cuándo dejarlas descansar. ¿Qué consecuencias materiales habría sufrido su pueblo si hubiesen pescado sin control en las lagunas durante la vaciante?",
+            placeholderInferencia: "Explica qué habría pasado con la reproducción de los peces, la alimentación futura de las aldeas y el equilibrio de las cochas...",
+            secciones: [
+              {
+                nombreSeccion: "🛠️ Base Material, Ecológica y Tecnológica",
+                modulos: [
+                  {
+                    icono: "🛶",
+                    titulo: "Manejo de Cochas, Tipishcas y Pesca con Redes",
+                    texto: "Perfeccionaron el dominio tecnológico de la dinámica fluvial mediante el aprovechamiento regulado de cochas y tipishcas (antiguos cauces en herradura ricos en plancton y peces). Combinaron canoas livianas de alta maniobrabilidad, balsas tradicionales, redes tejidas con fibra vegetal y rotación de lagunas para garantizar ciclos reproductivos sostenibles.",
+                    imagen: "img/kukama_pesca.jpg"
+                  }
+                ]
+              },
+              {
+                nombreSeccion: "🏛️ Particularidades Culturales y Organización Comunal",
+                modulos: [
+                  {
+                    icono: "💧",
+                    titulo: "El Mundo del Agua y Resistencia de Identidad",
+                    texto: "Su cosmovisión emerge directamente de su base material acuática: conciben las profundidades de los ríos como ciudades habitadas por los karuara o seres subacuáticos que exigen reciprocidad y sancionan la sobrepesca. Esta ética ecológica sustenta hoy la defensa jurídica de los ríos Marañón y Cuninico frente a los derrames petroleros.",
+                    imagen: "img/kukama_rio.jpg"
+                  }
+                ]
+              }
             ]
           },
           {
             id: "shipibo",
+            textareaId: "resp_shipibo",
             nombre: "Shipibo-Konibo",
             imagen: "img/shipibo.jpg",
-            familia: "Familia lingüística Pano • Cuenca media y baja del río Ucayali",
-            resumenRetrato: "Geometría analítica del diseño Kené, agricultura de barrizal y pesca de paiche.",
-            baseMaterial: [
-              "Aprovechamiento diferenciado de pisos ecológicos ribereños en el Ucayali: siembra de arroz, frejol y maní en barrizales bajos, y plátano, yuca, algodón y árboles frutales en restingas altas no inundables.",
-              "Tecnología especializada en la captura del paiche (Arapaima gigas) mediante arpones desmontables, canoas de cedro (nonti) y secado/salado para el sustento comunal e intercambio regional.",
-              "Producción textil en algodón nativo teñido con corteza de caoba y barro negro rico en hierro, además de cerámica fina bruñida con resinas naturales."
-            ],
-            particularidades: [
-              "Geometría analítica y cosmovisión material plasmada en el arte Kené (declarado Patrimonio Cultural de la Nación): circuitos lineales simétricos trazados por las mujeres que cartografían caminos fluviales, constelaciones, anatomía de la anaconda (Ronin) y redes de reciprocidad.",
-              "Fuerte cohesión política intercomunal organizada en federaciones (como FECONAU y ORAU) para defender sus tierras tituladas frente a invasiones madereras, palma aceitera y narcotráfico."
+            cabecera: "Familia lingüística Pano • Cuenca media y baja del río Ucayali",
+            resumenRetrato: "Agricultura ribereña de ciclo corto y cartografía geométrica del diseño Kené.",
+            preguntaInferencia: "La alfarería Shipibo utiliza arcillas del río para crear grandes tinajas de almacenamiento. ¿Por qué la conservación de alimentos y bebidas fermentadas (masato) fue fundamental para sostener sus poblados ribereños?",
+            placeholderInferencia: "Relaciona el almacenamiento en tinajas con las inundaciones estacionales, el agua segura/energía calórica y el trabajo colectivo (minga)...",
+            secciones: [
+              {
+                nombreSeccion: "🛠️ Base Material, Ecológica y Tecnológica",
+                modulos: [
+                  {
+                    icono: "🌱",
+                    titulo: "Agricultura Ribereña de Ciclo Corto",
+                    texto: "Organizan científicamente el territorio aluvial del río Ucayali diferenciando las restingas altas (plátano, algodón nativo y frutales) de las playas bajas y barrizales limosos, donde realizan siembras rápidas de yuca y leguminosas entre cada vaciante estacional, fabricando grandes tinajas cerámicas (chomo) con arcillas fluviales para conservar reservas y fermentar masato.",
+                    imagen: "img/shipibo_chacra.jpg"
+                  }
+                ]
+              },
+              {
+                nombreSeccion: "🏛️ Particularidades Culturales y Organización Comunal",
+                modulos: [
+                  {
+                    icono: "🌀",
+                    titulo: "El Diseño Geométrico Kené y las Plantas Maestras",
+                    texto: "El arte geométrico Kené (Patrimonio Cultural de la Nación), trazado por las maestras Shipibo-Konibo sobre cerámica y textiles teñidos con corteza de caoba y barro negro, constituye una cartografía material y espiritual que plasma los cauces fluviales del Ucayali, las plantas maestras y la cohesión intercomunal.",
+                    imagen: "img/shipibo_kene.jpg"
+                  }
+                ]
+              }
             ]
           }
         ]
       },
 
+      /* ----------------------------------------------------------------------
+         🟡 ZONA 2 (PUNTO AMARILLO): INTERFLUVIOS Y SELVA CENTRAL
+         ---------------------------------------------------------------------- */
       amarillo: {
         id: "amarillo",
-        etiqueta: "🟡 Punto Amarillo • Zona 2",
-        titulo: "Interfluvios / Selva Central",
+        etiqueta: "🟡 Zona 2 • Interfluvios y Selva Central",
+        titulo: "Colinas de Tierra Firme y el Eje del Cerro de la Sal",
         colorHex: "#CA8A04",
-        explicacionMaterialista:
-          "A diferencia de las riberas inundables, los suelos tropicales de colina (terra firme o interfluvio) tienen una capa de humus muy delgada que las lluvias torrenciales erosionan rápido. Por ello, los pueblos desarrollaron la agricultura itinerante de roza, tumba y quema con barbecho largo (descanso del bosque de 20 a 40 años), asentamientos dispersos móviles y el control estratégico del Cerro de la Sal como eje comercial interregional.",
+        capsulasNivelA: [
+          {
+            icono: "🌳",
+            titulo: "Suelos Frágiles y el Barbecho Largo (20 a 40 años)",
+            texto: "En las colinas interfluviales (terra firme) alejadas de las inundaciones fertilizadoras, los suelos tropicales son ácidos, arcillosos y poseen una delgada capa orgánica vulnerable a la erosión de las lluvias torrenciales. Esta restricción ecológica impidió el monocultivo sedentario fijo e impulsó la agricultura itinerante de roza, tumba y quema con barbecho largo (dejando descansar la parcela de 20 a 40 años para regenerar el bosque), determinando asentamientos dispersos y móviles.",
+            imagen: "img/interfluvio_suelo.jpg"
+          },
+          {
+            icono: "🧂",
+            titulo: "El Cerro de la Sal como Polo Geopolítico y Comercial",
+            texto: "Ubicado en el corazón de la Selva Central, el yacimiento del Cerro de la Sal funcionó durante siglos como el gran nodo geopolítico y económico interregional. Allí confluían caravanas de pueblos amazónicos y sociedades andinas (Taramas, Huancas e Incas) para articular el trueque directo: panes de sal gema, plumas y curare a cambio de hachas metálicas de cobre/bronce, herramientas líticas y tejidos altoandinos.",
+            imagen: "img/cerrosal_trueque.jpg"
+          }
+        ],
         pueblos: [
           {
             id: "ashaninka",
+            textareaId: "resp_ashaninka",
             nombre: "Asháninka",
             imagen: "img/ashaninka.jpg",
-            familia: "Familia lingüística Arawak • Ríos Ene, Tambo, Perené, Pichis y Gran Pajonal",
-            resumenRetrato: "Familias extensas en colinas, tejido de cushmas, arquería y resistencia anticolonial.",
-            baseMaterial: [
-              "Chacras policulturales itinerantes centradas en decenas de variedades de yuca dulce (kaniri), rotando parcelas con descansos forestales de 20 a 40 años para regenerar la fertilidad del suelo de colina.",
-              "Caza selectiva en monte alto mediante arcos de madera de chonta (piamenori) y flechas con puntas diferenciadas según la presa, complementada con pesca estacional con barbasco.",
-              "Hilado y tejido en telar de cintura de la cushma tradicional de algodón nativo teñida con corteza de árboles y achiote."
-            ],
-            particularidades: [
-              "Organización social basada en familias extensas autónomas y dispersas para no agotar la fauna ni el suelo del bosque interfluvial, unificándose bajo jefaturas guerreras (ovayeri) en tiempos de invasión externa.",
-              "Lideraron junto a Juan Santos Atahualpa (1742-1756) la mayor insurrección anticolonial amazónica: destruyeron 27 reducciones franciscanas, recuperaron el Cerro de la Sal y expulsaron al dominio español de la Selva Central por más de un siglo; en las décadas de 1980-1990 organizaron ejércitos comunales de autodefensa frente al terror de Sendero Luminoso y el MRTA."
+            cabecera: "Familia lingüística Arawak • Cuencas del Ene, Tambo, Perené, Pichis y Gran Pajonal",
+            resumenRetrato: "Textilería de cushmas en algodón nativo y rebelión anticolonial de 1742.",
+            preguntaInferencia: "En los suelos frágiles de colina, los Asháninka debían abandonar sus chacras cada 3 años y dejarlas descansar hasta 40 años (barbecho largo). ¿Cómo obligó este tipo de suelo a que las familias vivieran dispersas y no en una sola gran ciudad amurallada?",
+            placeholderInferencia: "Explica qué habría sucedido con los suelos y animales de caza alrededor si miles de personas se concentraban permanentemente en un solo punto...",
+            secciones: [
+              {
+                nombreSeccion: "🛠️ Base Material, Ecológica y Tecnológica",
+                modulos: [
+                  {
+                    icono: "🧶",
+                    titulo: "Textilería de Algodón Nativo y Cushmas",
+                    texto: "Junto al policultivo rotativo de la yuca dulce (kaniri) en colinas y la caza con arco de palma chonta, las mujeres Asháninka desarrollaron el cultivo doméstico de algodón nativo blanco y pardo. Mediante husos de madera y telares de cintura confeccionan la cushma, vestimenta resistente adaptada al monte interfluvial.",
+                    imagen: "img/ashaninka_telar.jpg"
+                  }
+                ]
+              },
+              {
+                nombreSeccion: "⚔️ Particularidades y Resistencia Histórica",
+                modulos: [
+                  {
+                    icono: "🏹",
+                    titulo: "La Rebelión de Juan Santos Atahualpa (1742) y Defensa Territorial",
+                    texto: "Cuando las reducciones franciscanas intentaron sedentarizarlos forzosamente rompiendo su patrón ecológico disperso y arrebatándoles el Cerro de la Sal, los Asháninka forjaron en 1742 una alianza pan-amazónica junto a Juan Santos Atahualpa, expulsando a las misiones coloniales y recuperando su autonomía territorial por más de un siglo.",
+                    imagen: "img/ashaninka_rebelion.jpg"
+                  }
+                ]
+              }
             ]
           },
           {
             id: "yanesha",
+            textareaId: "resp_yanesha",
             nombre: "Yanesha",
             imagen: "img/yanesha.jpg",
-            familia: "Familia lingüística Arawak • Valles de Oxapampa, Palcazu, Pichis y Villa Rica",
-            resumenRetrato: "Control de los panes de sal, trueque macro-regional con los Andes y herrería.",
-            baseMaterial: [
-              "Extracción minera superficial, ebullición en vasijas cerámicas y moldeado de panes sólidos de sal gema en el estratégico Cerro de la Sal.",
-              "La sal operó como una mercancía equivalente general que articuló vastas redes prehispánicas de trueque directo entre pueblos amazónicos y etnias andinas (Taramas, Huancas e Incas) a cambio de hachas de piedra y bronce, textiles y objetos metalúrgicos.",
-              "Adopción temprana y dominio autónomo de herrerías tradicionales con fuelles hidráulicos para forjar herramientas agrícolas y puntas de hierro de subsistencia sin depender de las misiones coloniales."
-            ],
-            particularidades: [
-              "Autoridad tradicional dual sustentada en el cornesha' (líder espiritual y político legitimado por su generosidad redistributiva, oratoria ritual y manejo de cantos sagrados).",
-              "Fueron pioneros contemporáneos en la organización política indígena al fundar en 1969 el Congreso Amuesha (FECONAYA), antecedente directo de la lucha por la Ley de Comunidades Nativas N.° 20653 (1974) frente al despojo de colonos y haciendas cafetaleras."
+            cabecera: "Familia lingüística Arawak • Valles de Oxapampa, Palcazu, Pichis y Villa Rica",
+            resumenRetrato: "Minería tradicional de panes de sal, herrería autónoma y tradición oral.",
+            preguntaInferencia: "Los Yanesha controlaban el Cerro de la Sal y viajaban largas distancias para intercambiarla con los pueblos andinos. ¿Qué herramientas y materiales necesitaban obtener de la sierra para mejorar su trabajo en el bosque amazónico?",
+            placeholderInferencia: "Menciona los instrumentos de piedra dura o metalurgia andina (cobre/bronce) y explica cómo facilitaban abrir chacras o tallar canoas...",
+            secciones: [
+              {
+                nombreSeccion: "🛠️ Base Material, Ecológica y Tecnológica",
+                modulos: [
+                  {
+                    icono: "⛏️",
+                    titulo: "Extracción y Minería Tradicional de Panes de Sal",
+                    texto: "Los especialistas Yanesha dominaron la extracción de vetas salinas y manantiales salobres en el Cerro de la Sal, tallando bloques compactos o evaporando salmuera en vasijas cerámicas hasta obtener panes sólidos transportados hacia los Andes a cambio de hachas líticas, objetos metalúrgicos de cobre y bronce, y textiles.",
+                    imagen: "img/yanesha_sal.jpg"
+                  }
+                ]
+              },
+              {
+                nombreSeccion: "🏛️ Particularidad Cultural y Organización",
+                modulos: [
+                  {
+                    icono: "🔥",
+                    titulo: "Herrería, Intercambio Metalúrgico y Tradición Oral",
+                    texto: "Su vínculo histórico con la metalurgia andina y el posterior dominio autónomo de herrerías con fuelles hidráulicos les permitió forjar herramientas agrícolas de hierro para el trabajo en el bosque sin depender de las misiones coloniales, preservando su memoria en cantos rituales coshamñats.",
+                    imagen: "img/yanesha_cultura.jpg"
+                  }
+                ]
+              }
             ]
           }
         ]
       },
 
+      /* ----------------------------------------------------------------------
+         🟢 ZONA 3 (PUNTO VERDE): ALTO MARAÑÓN Y PONGOS FLUVIALES
+         ---------------------------------------------------------------------- */
       verde: {
         id: "verde",
-        etiqueta: "🟢 Punto Verde • Zona 3",
-        titulo: "Alto Marañón y Pongos Fluviales",
+        etiqueta: "🟢 Zona 3 • Alto Marañón y Pongos",
+        titulo: "Los Pongos: Cañones Fluviales y Fortalezas Ecológicas",
         colorHex: "#15803D",
-        explicacionMaterialista:
-          "El relieve escarpado de cordilleras subandinas y cañones fluviales turbulentos (pongos de Rentema y Manseriche) actuó como un bastión natural frente a invasiones externas. Su base productiva combinó huertos biodiversos, caza silenciosa con cerbatana y veneno curare, y una estructura clánica descentralizada capaz de movilizarse militarmente para preservar su soberanía territorial.",
+        capsulasNivelA: [
+          {
+            icono: "⛰️",
+            titulo: "Geografía de Cañón Fluvial (Pongo de Manseriche y Rentema)",
+            texto: "En el tránsito entre los Andes septentrionales y la llanura amazónica, el río Marañón corta violentamente los contrafuertes rocosos formando estrechos cañones o pongos (como Rentema y Manseriche) con remolinos y murallas verticales. Esta topografía abrupta operó materialmente como una fortaleza defensiva natural que impidió el avance de ejércitos imperiales incas y expediciones armadas europeas.",
+            imagen: "img/pongo_manseriche.jpg"
+          },
+          {
+            icono: "🛡️",
+            titulo: "La Frontera Inexpugnable contra la Corona Española",
+            texto: "Cuando encomenderos españoles y misiones intentaron someter a las poblaciones del Alto Marañón y el río Santiago al lavado forzoso de oro y al pago de tributos en el siglo XVI, las alianzas clánicas indígenas destruyeron los enclaves coloniales (levantamiento general de 1599), preservando su independencia política, lingüística y territorial durante toda la era virreinal.",
+            imagen: "img/resistencia_antimisional.jpg"
+          }
+        ],
         pueblos: [
           {
             id: "awajun",
+            textareaId: "resp_awajun",
             nombre: "Awajún",
             imagen: "img/awajun.jpg",
-            familia: "Familia lingüística Jíbaro • Ríos Marañón, Cenepa, Nieva y Chinchipe",
-            resumenRetrato: "Liderazgo guerrero clánico, casas comunales fortificadas y expulsión colonial.",
-            baseMaterial: [
-              "Horticultura agroforestal femenina en chacras biodiversas (aja) que integran más de 50 variedades de yuca, plátano, maní y plantas medicinales bajo manejo regenerativo del bosque.",
-              "Caza de precisión en el dosel arbóreo mediante largas cerbatanas (uum) y dardos impregnados con curare vegetal (tseas), además de pesca colectiva con raíces de barbasco (timu).",
-              "Arquitectura de grandes casas comunales elípticas (jega) construidas con troncos de chonta en puntos elevados estratégicos para la defensa familiar."
-            ],
-            particularidades: [
-              "Sociedad sin Estado ni castas hereditarias: el prestigio y liderazgo guerrero (kakajam y pamuk) se alcanzaban por mérito personal, búsqueda de visión espiritual (ajutap) y capacidad probada para defender a la parentela.",
-              "En 1599 destruyeron las ciudades coloniales auríferas (como Logroño y Sevilla del Oro), expulsando definitivamente el sistema de encomiendas español; en el siglo XXI encabezaron la defensa del territorio comunal en el Paro Amazónico de Bagua (2009), logrando derogar los decretos privatizadores inspirados en la ideología del 'Perro del Hortelano'."
+            cabecera: "Familia lingüística Jíbaro • Cuencas del Marañón, Cenepa, Nieva y Chinchipe",
+            resumenRetrato: "Caza silenciosa con cerbatana y curare, y casas comunales fortificadas (Jiga).",
+            preguntaInferencia: "Para cazar en el dosel de los bosques altos, los Awajún desarrollaron la cerbatana larga con dardos de curare. ¿Por qué esta herramienta silenciosa era más eficaz para su sustento que armas que provocaran ruido o espantaran a las presas?",
+            placeholderInferencia: "Explica cómo el sigilo y el veneno paralizante permitían capturar aves o monos en lo alto sin ahuyentar a toda la manada del territorio...",
+            secciones: [
+              {
+                nombreSeccion: "🛠️ Base Material, Ecológica y Tecnológica",
+                modulos: [
+                  {
+                    icono: "🎯",
+                    titulo: "Caza de Precisión con Cerbatana y Veneno Curare",
+                    texto: "Complementando la agrobiodiversidad de las chacras femeninas (aja), los cazadores Awajún perfeccionaron una tecnología balística silenciosa para las copas de los árboles: largas cerbatanas de chonta pulida que disparan dardos impregnados en alcaloides vegetales paralizantes (curare), logrando precisión letal sin generar estampidas ni agotar la fauna local.",
+                    imagen: "img/awajun_cerbatana.jpg"
+                  }
+                ]
+              },
+              {
+                nombreSeccion: "🏛️ Estructura Social y Defensa Territorial",
+                modulos: [
+                  {
+                    icono: "🏠",
+                    titulo: "Arquitectura de Casas Comunales Elípticas (Jiga)",
+                    texto: "Su organización social clánica sin poder centralizado se materializó en la gran vivienda elíptica (jega / jiga), levantada con pilares de chonta en puntos estratégicos para albergar familias extensas y repeler ataques, tradición defensiva vigente hasta el Paro Amazónico de Bagua (2009).",
+                    imagen: "img/awajun_jiga.jpg"
+                  }
+                ]
+              }
             ]
           },
           {
             id: "wampis",
+            textareaId: "resp_wampis",
             nombre: "Wampis",
             imagen: "img/wampis.jpg",
-            familia: "Familia lingüística Jíbaro • Cuencas de los ríos Santiago (Kanus) y Morona (Kankaim)",
-            resumenRetrato: "Soberanía fluvial en cuencas altas y primer Gobierno Territorial Autónomo.",
-            baseMaterial: [
-              "Uso mancomunado e integral de las cuencas hidrográficas del Kanus (Santiago) y Kankaim (Morona), articulando zonas de caza en cabeceras de quebrada, pesca estacional de boquichico y agricultura itinerante de ribera alta.",
-              "Elaboración de embarcaciones para corrientes rápidas, cestería impermeable, cerámica fina y armas tradicionales de caza con recursos del bosque primario."
-            ],
-            particularidades: [
-              "Superando la fragmentación jurídica estatal en 'islas comunales' separadas, articularon pactos interclánicos e interétnicos históricos para resguardar más de 1.3 millones de hectáreas de bosque continuo.",
-              "En noviembre de 2015 constituyeron el Gobierno Territorial Autónomo de la Nación Wampis (GTANW), el primer gobierno indígena autónomo del Perú contemporáneo, ejerciendo vigilancia territorial directa contra la minería aurífera ilegal, la tala y los lotes petroleros sin consulta previa."
+            cabecera: "Familia lingüística Jíbaro • Cuencas de los ríos Santiago (Kanus) y Morona (Kankaim)",
+            resumenRetrato: "Dominio de ríos torrentosos y primer Gobierno Territorial Autónomo del Perú.",
+            preguntaInferencia: "Los Wampis aprovecharon la geografía estrecha y violenta de los pongos para frenar invasiones coloniales. ¿De qué manera el conocimiento de las corrientes y cañones fluviales se convirtió en su principal defensa territorial?",
+            placeholderInferencia: "Analiza la ventaja táctica de dominar remolinos, pasos angostos de roca y embarcaciones ligeras frente a tropas externas que desconocían el río...",
+            secciones: [
+              {
+                nombreSeccion: "🛠️ Base Material, Ecológica y Tecnológica",
+                modulos: [
+                  {
+                    icono: "🌊",
+                    titulo: "Dominio Fluvial en Ríos Torrentosos y Horticultura Itinerante",
+                    texto: "Adaptados a las corrientes rápidas, pongos y quebradas altas de las cuencas del Kanus (Santiago) y Kankaim (Morona), los Wampis dominaron la navegación táctica en rápidos peligrosos y el manejo rotativo de chacras policulturales en terrazas altas.",
+                    imagen: "img/wampis_rio.jpg"
+                  }
+                ]
+              },
+              {
+                nombreSeccion: "⚖️ Organización Política Contemporánea",
+                modulos: [
+                  {
+                    icono: "🏛️",
+                    titulo: "Gobierno Territorial Autónomo y Soberanía Indígena",
+                    texto: "En 2015 promulgaron el primer estatuto de autogobierno indígena contemporáneo del Perú: el Gobierno Territorial Autónomo de la Nación Wampis (GTANW), protegiendo integralmente sus cuencas frente a la minería ilegal y lotes petroleros.",
+                    imagen: "img/wampis_autogobierno.jpg"
+                  }
+                ]
+              }
             ]
           }
         ]
       },
 
+      /* ----------------------------------------------------------------------
+         🔵 ZONA 4 (PUNTO AZUL): CUENCA DEL PUTUMAYO Y EL CAUCHO
+         ---------------------------------------------------------------------- */
       azul: {
         id: "azul",
-        etiqueta: "🔵 Punto Azul • Zona 4",
+        etiqueta: "🔵 Zona 4 • Cuenca del Putumayo y el Caucho",
         titulo: "Cuenca del Putumayo y Reasentamiento en el Ampiyacu",
         colorHex: "#1D4ED8",
-        explicacionMaterialista:
-          "Entre 1880 y 1914, la Segunda Revolución Industrial (industria automotriz y eléctrica mundial) disparó la demanda de goma elástica. La Peruvian Amazon Company (Casa Arana) impuso en el Putumayo un régimen de terror corporativo: prohibió a los nativos sembrar sus chacras para esclavizar el 100 % de su tiempo en extraer látex, provocando el genocidio de más de 30,000 indígenas y el posterior traslado forzoso de sobrevivientes hacia fundos en el río Ampiyacu.",
+        capsulasNivelA: [
+          {
+            icono: "⚙️",
+            titulo: "La Época del Caucho y la Segunda Revolución Industrial",
+            texto: "Entre 1880 y 1914, el auge de la Segunda Revolución Industrial en Europa y Estados Unidos disparó una voraz demanda global de goma elástica para fabricar neumáticos de automóviles, bicicletas y aislantes eléctricos. La Amazonía norte fue subsumida violentamente al capital transnacional mediante la Casa Arana (Peruvian Amazon Company), que implantó un régimen paramilitar de terror corporativo y 'correrías' esclavistas sobre las naciones indígenas del Putumayo.",
+            imagen: "img/caucho_extraccion.jpg"
+          },
+          {
+            icono: "⛓️",
+            titulo: "El Etnocidio y la Deuda Artificial",
+            texto: "En las barracas caucheras se impuso el sistema de 'habilitación y enganche': deudas artificiales impagables por herramientas sobrevaloradas. Para arrancar la máxima plusvalía sin costo salarial, los capataces prohibieron estrictamente a los nativos cultivar sus propias chacras de comida, obligándolos a dedicar el 100 % de su tiempo a recolectar látex. El hambre deliberada, las torturas y ejecuciones exterminaron a más del 75 % de la población originaria.",
+            imagen: "img/caucho_barracas.jpg"
+          }
+        ],
         pueblos: [
           {
             id: "huitoto",
+            textareaId: "resp_huitoto",
             nombre: "Huitoto (Murui-Muinane)",
             imagen: "img/huitoto.jpg",
-            familia: "Familia lingüística Huitoto • Ríos Putumayo, Igara-Paraná, Ampiyacu y Napo",
-            resumenRetrato: "Memoria histórica en llanchama, ritual del mambeo y palabra de vida en la maloca.",
-            baseMaterial: [
-              "Ingeniería alimentaria para domesticar y desintoxicar la yuca brava o amarga (rica en ácido cianhídrico) mediante ralladores líticos y el exprimidor tubular tejido (tipití), obteniendo almidón y tortas nutritivas de casabe de larga duración.",
-              "Extracción sostenible de corteza del árbol ojé para confeccionar lienzos vegetales de llanchama y pigmentos minerales/vegetales del bosque.",
-              "Durante el boom cauchero sufrieron la destrucción deliberada de sus conucos y malocas por capataces de la Casa Arana, denunciada judicialmente por el juez Rómulo Paredes (1911) y Sir Roger Casement."
-            ],
-            particularidades: [
-              "Reconstrucción ética y política desde la maloca comunal a través del mambeadero nocturno: diálogo colectivo guiado por el mambe (polvo de hoja de coca tostada mezclada con ceniza de cetico) y el ambil (pasta de tabaco), donde los sabios transmiten el Rafue ('palabra de vida que se hace obra').",
-              "Sus artistas contemporáneos (como la familia Yahuarcani en Pebas/Ampiyacu) plasman sobre corteza de llanchama su cosmogonía y la memoria visual crítica contra el genocidio cauchero, desmontando el mito racista del 'salvaje' usado por los patrones."
+            cabecera: "Río Putumayo, Cara-Paraná, Igara-Paraná, Ampiyacu y Napo",
+            resumenRetrato: "Extracción sostenible vs. genocidio cauchero, mambeo en la maloca y arte en llanchama.",
+            preguntaInferencia: "Durante el auge del caucho, los patrones de la Casa Arana prohibieron a los nativos sembrar sus chacras de comida. ¿Cómo utilizó la empresa el hambre como herramienta material para someterlos al trabajo forzado del látex?",
+            placeholderInferencia: "Explica cómo al destruir su soberanía alimentaria los indígenas quedaban atados a las conservas sobrevaloradas del patrón y a cumplir cuotas de caucho para no morir...",
+            secciones: [
+              {
+                nombreSeccion: "🛠️ Base Material, Ecológica y Tecnológica",
+                modulos: [
+                  {
+                    icono: "🌲",
+                    titulo: "Ingeniería y Extracción Sostenible del Árbol (Shiringa/Balata)",
+                    texto: "Ancestralmente, los pueblos Murui-Muinane conocían las propiedades elásticas de resinas y látex del bosque (shiringa y balata) mediante incisiones cuidadosas que preservaban el árbol, junto con el exprimidor tejido tipití para procesar la yuca brava en casabe. En contraste, el extractivismo mercantil cauchero destruyó sus chacras y depredó el ecosistema.",
+                    imagen: "img/huitoto_shiringa.jpg"
+                  },
+                  {
+                    icono: "📜",
+                    titulo: "El Boom Cauchero y el Sufrimiento Colectivo",
+                    texto: "En estaciones de la Casa Arana como La Chorrera y El Encanto, familias enteras fueron sometidas a cuotas imposibles de caucho bajo castigos atroces con cepo, flagelaciones y hambre sistemática, crímenes documentados por el juez Rómulo Paredes (1911) y Sir Roger Casement.",
+                    imagen: "img/huitoto_cepo.jpg"
+                  }
+                ]
+              },
+              {
+                nombreSeccion: "🏛️ Particularidades Culturales y Organización Comunal",
+                modulos: [
+                  {
+                    icono: "🔥",
+                    titulo: "Reconstrucción Étnica y el Mambeo en la Maloca",
+                    texto: "Tras sobrevivir al genocidio, reconstruyeron su cohesión política levantando nuevamente la maloca comunal y practicando el mambeo nocturno (hoja de coca tostada con ceniza de cetico y tabaco ambil), transmitiendo el Rafue o 'palabra de vida'.",
+                    imagen: "img/huitoto_maloca.jpg"
+                  },
+                  {
+                    icono: "🎨",
+                    titulo: "Arte Contemporáneo y Resistencia (Familia Yahuarcani)",
+                    texto: "Sobre corteza de árbol ojé (llanchama) y con tintes naturales, artistas indígenas como la familia Yahuarcani en el río Ampiyacu plasman su memoria histórica y denuncian ante el mundo los crímenes del caucho.",
+                    imagen: "img/huitoto_arte.jpg"
+                  }
+                ]
+              }
             ]
           },
           {
             id: "bora",
+            textareaId: "resp_bora",
             nombre: "Bora",
             imagen: "img/bora.jpg",
-            familia: "Familia lingüística Bora • Cuencas de los ríos Cahuinari, Putumayo, Ampiyacu y Yaguasyacu",
-            resumenRetrato: "Comunicación con el tambor manguaré, Fiesta del Pijuayo y refundación en el Ampiyacu.",
-            baseMaterial: [
-              "Ingeniería acústica y telecomunicación ancestral en selva cerrada mediante el manguaré: par de grandes troncos ahuecados con fuego controlado (tambor macho y tambor hembra) percutidos con mazos recubiertos de caucho natural, capaces de transmitir mensajes codificados hasta a 20 km de distancia.",
-              "Manejo agroforestal de frutales amazónicos —especialmente la palmera de pijuayo (Bactris gasipaes), piña, caimito y yuca brava— junto con tejido maestro de fibras de chambira (hamacas y bolsos)."
-            ],
-            particularidades: [
-              "Celebración comunitaria de la Fiesta del Pijuayo (Pijuayo Jijɨ), ritual de reciprocidad intercomunal con máscaras pintadas que fortalece alianzas entre clanes y agradece la abundancia estacional del bosque.",
-              "Tras el colapso de los precios del caucho (1914), familias sobrevivientes fueron desplazadas forzosamente por patrones ex-caucheros hacia fundos madereros y agrícolas en la cuenca del río Ampiyacu (Loreto); gracias a su resistencia cultural y a la Ley de Comunidades Nativas de 1974, expulsaron el tutelaje patronal y titularon sus tierras comunales autónomas."
+            cabecera: "Cuencas del Ampiyacu y Yaguasyacu",
+            resumenRetrato: "Telecomunicación con el tambor manguaré, Fiesta del Pijuayo y titulación comunal (1974).",
+            preguntaInferencia: "El manguaré permite transmitir sonidos codificados a través de kilómetros de selva densa. ¿De qué forma este invento acústico ayudó a la supervivencia y coordinación comunitaria frente a peligros o faenas agrícolas?",
+            placeholderInferencia: "Explica cómo alertar incursiones enemigas o convocar mingas agrícolas sin cruzar horas de monte denso fortalecía su organización colectiva...",
+            secciones: [
+              {
+                nombreSeccion: "🛠️ Base Material, Ecológica y Tecnológica",
+                modulos: [
+                  {
+                    icono: "🥁",
+                    titulo: "Ingeniería Acústica y Telecomunicación Ancestral (El Manguaré)",
+                    texto: "Para comunicar malocas distantes a través de kilómetros de selva cerrada, los Bora crearon el manguaré: par de grandes troncos ahuecados con fuego controlado (macho y hembra) percutidos con mazos de caucho, capaces de emitir mensajes codificados de alerta, convocatoria a mingas o rituales hasta a 20 km.",
+                    imagen: "img/bora_manguare.jpg"
+                  },
+                  {
+                    icono: "🌴",
+                    titulo: "Manejo Agroforestal y Frutos Amazónicos",
+                    texto: "Sus chacras agroforestales asocian variedades de yuca, piña, caimito y palmeras de pijuayo (Bactris gasipaes), junto con el tejido de fibras de chambira para hamacas y redes de carga.",
+                    imagen: "img/bora_chacra.jpg"
+                  }
+                ]
+              },
+              {
+                nombreSeccion: "🏛️ Particularidades Culturales y Luchas",
+                modulos: [
+                  {
+                    icono: "🎭",
+                    titulo: "Celebración Comunitaria de la Fiesta del Pijuayo",
+                    texto: "Durante la cosecha del pijuayo celebran este ritual intercomunal con máscaras y cantos ancestrales que fortalecen alianzas entre clanes, redistribuyen excedentes y agradecen la fertilidad del bosque.",
+                    imagen: "img/bora_fiesta.jpg"
+                  },
+                  {
+                    icono: "📜",
+                    titulo: "Colapso Cauchero, Fundo Maderero y la Ley de Comunidades Nativas N° 20653 (1974)",
+                    texto: "Trasladados forzosamente al Ampiyacu bajo servidumbre maderera patronal después de 1914, conquistaron en 1974 —gracias a la Ley de Comunidades Nativas N.° 20653— la expulsión de los patrones y los títulos colectivos inalienables de sus tierras.",
+                    imagen: "img/bora_titulacion.jpg"
+                  }
+                ]
+              }
             ]
           }
         ]
@@ -1805,26 +2179,183 @@
     };
 
     /* ==========================================================================
-       LÓGICA DEL MAPA INTERACTIVO Y NAVEGACIÓN EN DOS NIVELES
+       CONSTRUCTOR DE CÁPSULAS TÁCTILES DESPLEGABLES (ACORDEÓN CON SONIDO E IMAGEN)
        ========================================================================== */
-    const pueblosExplorados = new Set();
+    function crearElementoCapsula(datosCapsula, abrirPorDefecto = false) {
+      const card = document.createElement("div");
+      card.className = "capsule-card" + (abrirPorDefecto ? " open" : "");
+
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "capsule-header-btn";
+      btn.setAttribute("aria-expanded", abrirPorDefecto ? "true" : "false");
+      btn.innerHTML = `
+        <span class="capsule-header-left">
+          <span class="capsule-icon-box">${escaparHTML(datosCapsula.icono || "📌")}</span>
+          <span class="capsule-title-text">${escaparHTML(datosCapsula.titulo)}</span>
+        </span>
+        <span class="capsule-arrow" aria-hidden="true">▾</span>
+      `;
+
+      const collapse = document.createElement("div");
+      collapse.className = "capsule-collapse";
+      collapse.innerHTML = `
+        <div class="capsule-inner">
+          <div class="capsule-body-content">
+            <p>${escaparHTML(datosCapsula.texto)}</p>
+            <div class="capsule-img-wrap">
+              <img
+                src="${escaparHTML(datosCapsula.imagen)}"
+                alt="${escaparHTML(datosCapsula.titulo)}"
+                loading="lazy"
+                onerror="this.onerror=null; this.src='${FALLBACK_PLACEHOLDER_URL}';"
+              >
+            </div>
+          </div>
+        </div>
+      `;
+
+      btn.addEventListener("click", () => {
+        const abriendo = !card.classList.contains("open");
+        card.classList.toggle("open", abriendo);
+        btn.setAttribute("aria-expanded", abriendo ? "true" : "false");
+        sonarEfecto(abriendo ? "capsula_abrir" : "capsula_cerrar");
+      });
+
+      card.appendChild(btn);
+      card.appendChild(collapse);
+      return card;
+    }
+
+    /* ==========================================================================
+       PREMONTAJE PERSISTENTE DE LAS 9 SUBFICHAS Y SUS TEXTAREAS DE INFERENCIA
+       (Garantiza que document.getElementById('resp_...') exista siempre en el DOM)
+       ========================================================================== */
     let zonaActivaId = null;
 
     const modalEl = document.getElementById("zone-modal");
     const modalScroll = document.getElementById("zone-modal-scroll");
     const level1View = document.getElementById("modal-level-1");
     const level2View = document.getElementById("modal-level-2");
+    const zoneCapsulesContainer = document.getElementById("zone-capsules-container");
     const portraitGrid = document.getElementById("portrait-cards-grid");
     const detailContainer = document.getElementById("people-detail-content");
+    const btnTopbarBack = document.getElementById("btn-topbar-back");
 
-    function actualizarProgresoExploracion() {
-      const total = 9;
-      const cant = pueblosExplorados.size;
-      document.getElementById("explored-counter").textContent = `Pueblos explorados: ${cant} / ${total}`;
-      document.getElementById("explored-bar").style.width = `${Math.round((cant / total) * 100)}%`;
+    function contarInferenciasRespondidas() {
+      return Object.values(respuestasInferencia).filter((txt) => String(txt || "").trim().length >= 5).length;
     }
 
-    function abrirZonaNivel1(zoneKey) {
+    function actualizarProgresoInferencias() {
+      const total = 10;
+      const respondidas = contarInferenciasRespondidas();
+      document.getElementById("explored-counter").textContent = `Inferencias respondidas: ${respondidas} / ${total}`;
+      document.getElementById("explored-bar").style.width = `${Math.round((respondidas / total) * 100)}%`;
+    }
+
+    function inicializarSubfichasPersistentes() {
+      detailContainer.innerHTML = "";
+
+      Object.values(ZONAS_AMAZONIA).forEach((zona) => {
+        zona.pueblos.forEach((pueblo) => {
+          const pane = document.createElement("div");
+          pane.className = "pueblo-detail-pane";
+          pane.id = `pane-pueblo-${pueblo.id}`;
+
+          // Cabecera del pueblo
+          const hero = document.createElement("div");
+          hero.className = "detail-hero-card";
+          hero.style.borderColor = zona.colorHex;
+          hero.innerHTML = `
+            <div class="detail-portrait-box">
+              <img
+                src="${escaparHTML(pueblo.imagen)}"
+                alt="Pueblo ${escaparHTML(pueblo.nombre)}"
+                onerror="this.onerror=null; this.src='${FALLBACK_PLACEHOLDER_URL}';"
+              >
+            </div>
+            <div class="detail-title-group">
+              <span class="detail-meta-pill">${escaparHTML(zona.etiqueta)}</span>
+              <h3>${escaparHTML(pueblo.nombre)}</h3>
+              <p style="margin:0; font-size:0.86rem; font-weight:700; color:#0F172A;">${escaparHTML(pueblo.cabecera)}</p>
+            </div>
+          `;
+          pane.appendChild(hero);
+
+          // Secciones y módulos desplegables
+          pueblo.secciones.forEach((sec, secIdx) => {
+            const secTitle = document.createElement("p");
+            secTitle.className = "tree-section-label";
+            secTitle.textContent = sec.nombreSeccion;
+            pane.appendChild(secTitle);
+
+            const stack = document.createElement("div");
+            stack.className = "capsules-stack";
+            sec.modulos.forEach((mod, modIdx) => {
+              stack.appendChild(crearElementoCapsula(mod, secIdx === 0 && modIdx === 0));
+            });
+            pane.appendChild(stack);
+          });
+
+          // Recuadro de Inferencia Reflexiva de Respuesta Abierta al final de la ficha
+          const valorInicial = respuestasInferencia[pueblo.id] || "";
+          const tieneTexto = valorInicial.trim().length >= 5;
+
+          const infBox = document.createElement("div");
+          infBox.className = "inference-box";
+          infBox.innerHTML = `
+            <span class="inference-label-pill">✍️ Pregunta de Inferencia Materialista</span>
+            <p class="inference-prompt-text">${escaparHTML(pueblo.preguntaInferencia)}</p>
+            <textarea
+              id="${pueblo.textareaId}"
+              class="inference-textarea"
+              rows="4"
+              placeholder="${escaparHTML(pueblo.placeholderInferencia)}"
+            ></textarea>
+            <p class="inference-save-indicator">
+              <span id="status_${pueblo.textareaId}">${tieneTexto ? "✅ Respuesta registrada" : "⏳ Respuesta pendiente"}</span>
+              <span>Guardado automático</span>
+            </p>
+          `;
+
+          const textareaEl = infBox.querySelector("textarea");
+          textareaEl.value = valorInicial;
+          const statusEl = infBox.querySelector(`#status_${pueblo.textareaId}`);
+
+          textareaEl.addEventListener("input", () => {
+            respuestasInferencia[pueblo.id] = textareaEl.value;
+            statusEl.textContent = textareaEl.value.trim().length >= 5 ? "✅ Respuesta registrada" : "⏳ Respuesta pendiente";
+            persistirBorradorInferencia();
+            actualizarProgresoInferencias();
+          });
+
+          pane.appendChild(infBox);
+          detailContainer.appendChild(pane);
+        });
+      });
+
+      // Inicializar el textarea #resp_sintesis (Síntesis Territorial al completar el mapa)
+      const textareaSintesis = document.getElementById("resp_sintesis");
+      const statusSintesis = document.getElementById("status_resp_sintesis");
+      textareaSintesis.value = respuestasInferencia.sintesis_territorial || "";
+      statusSintesis.textContent = textareaSintesis.value.trim().length >= 5 ? "✅ Respuesta registrada" : "⏳ Respuesta pendiente";
+
+      textareaSintesis.addEventListener("input", () => {
+        respuestasInferencia.sintesis_territorial = textareaSintesis.value;
+        statusSintesis.textContent = textareaSintesis.value.trim().length >= 5 ? "✅ Respuesta registrada" : "⏳ Respuesta pendiente";
+        persistirBorradorInferencia();
+        actualizarProgresoInferencias();
+      });
+
+      actualizarProgresoInferencias();
+    }
+
+    inicializarSubfichasPersistentes();
+
+    /* ==========================================================================
+       NAVEGACIÓN ENTRE MAPA, NIVEL A (ZONA) Y NIVEL B (FICHA DE PUEBLO)
+       ========================================================================== */
+    function abrirZonaNivelA(zoneKey) {
       const zona = ZONAS_AMAZONIA[zoneKey];
       if (!zona) return;
 
@@ -1833,11 +2364,16 @@
 
       document.getElementById("modal-zone-badge").textContent = zona.etiqueta;
       document.getElementById("modal-zone-title").textContent = zona.titulo;
-      document.getElementById("modal-zone-explanation").textContent = zona.explicacionMaterialista;
       document.getElementById("zone-context-box").style.borderColor = zona.colorHex;
+
+      zoneCapsulesContainer.innerHTML = "";
+      zona.capsulasNivelA.forEach((cap, idx) => {
+        zoneCapsulesContainer.appendChild(crearElementoCapsula(cap, idx === 0));
+      });
 
       renderizarTarjetasVerticales(zona);
 
+      btnTopbarBack.classList.remove("visible");
       level2View.classList.remove("active");
       level1View.classList.add("active");
 
@@ -1854,81 +2390,50 @@
         const btnCard = document.createElement("button");
         btnCard.type = "button";
         btnCard.className = "portrait-card";
-        const visitado = pueblosExplorados.has(pueblo.id);
-        const fallbackSrc = crearRetratoFallbackSVG(pueblo.nombre, pueblo.imagen, zona.colorHex);
+        const respondida = (respuestasInferencia[pueblo.id] || "").trim().length >= 5;
 
         btnCard.innerHTML = `
           <div class="portrait-img-frame">
-            <img src="${escaparHTML(pueblo.imagen)}" alt="Retrato del pueblo ${escaparHTML(pueblo.nombre)}">
-            ${visitado ? '<span class="visited-pill">✓ Visto</span>' : ""}
+            <img
+              src="${escaparHTML(pueblo.imagen)}"
+              alt="Retrato del pueblo ${escaparHTML(pueblo.nombre)}"
+              loading="lazy"
+              onerror="this.onerror=null; this.src='${FALLBACK_PLACEHOLDER_URL}';"
+            >
+            ${respondida ? '<span class="visited-pill">✓ Respondida</span>' : '<span class="visited-pill" style="background-color:#0F172A;">✍️ Inferir</span>'}
           </div>
           <div class="portrait-card-info">
             <div>
               <h4 class="portrait-card-name">${escaparHTML(pueblo.nombre)}</h4>
               <p class="portrait-card-summary">${escaparHTML(pueblo.resumenRetrato)}</p>
             </div>
-            <span class="portrait-cta-tag">Ver particularidades →</span>
+            <span class="portrait-cta-tag">${respondida ? "Ver / editar respuesta →" : "Abrir ficha y pregunta →"}</span>
           </div>
         `;
 
-        const imgEl = btnCard.querySelector("img");
-        imgEl.addEventListener("error", function () {
-          this.src = fallbackSrc;
-        }, { once: true });
-
-        btnCard.addEventListener("click", () => abrirSubfichaPuebloNivel2(zona, pueblo));
+        btnCard.addEventListener("click", () => abrirSubfichaPuebloNivelB(pueblo));
         portraitGrid.appendChild(btnCard);
       });
     }
 
-    function abrirSubfichaPuebloNivel2(zona, pueblo) {
+    function abrirSubfichaPuebloNivelB(pueblo) {
       sonarEfecto("ficha");
-      pueblosExplorados.add(pueblo.id);
-      actualizarProgresoExploracion();
 
-      const fallbackSrc = crearRetratoFallbackSVG(pueblo.nombre, pueblo.imagen, zona.colorHex);
+      document.querySelectorAll(".pueblo-detail-pane").forEach((el) => {
+        el.classList.toggle("active", el.id === `pane-pueblo-${pueblo.id}`);
+      });
 
-      detailContainer.innerHTML = `
-        <div class="detail-hero-card" style="border-color:${zona.colorHex};">
-          <div class="detail-portrait-box">
-            <img id="detail-pueblo-img" src="${escaparHTML(pueblo.imagen)}" alt="Pueblo ${escaparHTML(pueblo.nombre)}">
-          </div>
-          <div class="detail-title-group">
-            <span class="detail-meta-pill">${escaparHTML(zona.etiqueta)}</span>
-            <h3>${escaparHTML(pueblo.nombre)}</h3>
-            <p style="margin:0; font-size:0.86rem; font-weight:700; color:#0F172A;">${escaparHTML(pueblo.familia)}</p>
-          </div>
-        </div>
-
-        <div class="detail-sub-block">
-          <h4>🛠️ Base Material, Ecológica y Tecnológica</h4>
-          <ul>
-            ${pueblo.baseMaterial.map((item) => `<li>${escaparHTML(item)}</li>`).join("")}
-          </ul>
-        </div>
-
-        <div class="detail-sub-block">
-          <h4>🏛️ Particularidades Culturales, Rituales y Organización Comunal</h4>
-          <ul>
-            ${pueblo.particularidades.map((item) => `<li>${escaparHTML(item)}</li>`).join("")}
-          </ul>
-        </div>
-      `;
-
-      const detailImg = document.getElementById("detail-pueblo-img");
-      detailImg.addEventListener("error", function () {
-        this.src = fallbackSrc;
-      }, { once: true });
-
+      btnTopbarBack.classList.add("visible");
       level1View.classList.remove("active");
       level2View.classList.add("active");
       modalScroll.scrollTop = 0;
     }
 
-    function volverAGaleriaZona() {
+    function volverANivelAZona() {
       if (!zonaActivaId) return;
       sonarEfecto("volver");
       renderizarTarjetasVerticales(ZONAS_AMAZONIA[zonaActivaId]);
+      btnTopbarBack.classList.remove("visible");
       level2View.classList.remove("active");
       level1View.classList.add("active");
       modalScroll.scrollTop = 0;
@@ -1938,15 +2443,26 @@
       sonarEfecto("volver");
       modalEl.classList.remove("open");
       document.body.style.overflow = "";
+
+      // Si ya respondió inferencias de pueblos pero aún falta la Síntesis Territorial, orientar suavemente
+      const pueblosContestados = ["omagua", "kukama", "shipibo", "ashaninka", "yanesha", "awajun", "wampis", "huitoto", "bora"]
+        .filter((k) => (respuestasInferencia[k] || "").trim().length >= 5).length;
+      if (pueblosContestados >= 1 && (respuestasInferencia.sintesis_territorial || "").trim().length < 5) {
+        mostrarToast("🌐 Recuerda responder la Síntesis Territorial debajo del mapa.");
+      }
     }
 
     document.querySelectorAll("[data-zone]").forEach((btn) => {
-      btn.addEventListener("click", () => abrirZonaNivel1(btn.getAttribute("data-zone")));
+      btn.addEventListener("click", () => abrirZonaNivelA(btn.getAttribute("data-zone")));
     });
 
-    document.getElementById("btn-back-to-zone-top").addEventListener("click", volverAGaleriaZona);
-    document.getElementById("btn-back-to-zone-bottom").addEventListener("click", volverAGaleriaZona);
+    btnTopbarBack.addEventListener("click", volverANivelAZona);
+    document.getElementById("btn-back-to-zone-top").addEventListener("click", volverANivelAZona);
+    document.getElementById("btn-back-to-zone-bottom").addEventListener("click", volverANivelAZona);
+
     document.getElementById("btn-close-zone-modal").addEventListener("click", cerrarModalMapa);
+    document.getElementById("btn-close-inline-top").addEventListener("click", cerrarModalMapa);
+    document.getElementById("btn-close-inline-bottom").addEventListener("click", cerrarModalMapa);
 
     modalEl.addEventListener("click", (e) => {
       if (e.target === modalEl) cerrarModalMapa();
@@ -1959,170 +2475,13 @@
     });
 
     /* ==========================================================================
-       2. CUESTIONARIO INFERENCIAL MATERIALISTA (5 PREGUNTAS CLAVE)
+       CAPTURA DE CÁMARA Y COMPRESIÓN CANVAS INTACTA (< 100 KB EN BASE64)
        ========================================================================== */
-    const CUESTIONARIO_MATERIALISTA = [
-      {
-        etiqueta: "Pregunta 01 • Demografía y Base Ecológica",
-        pregunta: "¿Por qué pueblos como los Kukamas y Omaguas pudieron mantener aldeas más grandes y densas que las de tierra firme?",
-        opciones: [
-          "Porque importaban alimentos industrializados desde las ciudades costeras virreinales.",
-          "Porque los suelos aluviales de várzea se fertilizaban anualmente con el limo de las crecientes y ofrecían abundante pesca en cochas, sosteniendo cultivos de ciclo corto y excedentes permanentes.",
-          "Porque talaron por completo la selva para implantar ganadería vacuna extensiva.",
-          "Porque habitaban cumbres rocosas sin lluvias donde no existían inundaciones fluviales."
-        ],
-        correcta: 1,
-        explicacion: "En la várzea (riberas inundables), la renovación anual de nutrientes aluviales (barrizales) y la abundancia de proteína acuícola permitieron una alta productividad alimentaria concentrada, sosteniendo poblaciones densas y sedentarias."
-      },
-      {
-        etiqueta: "Pregunta 02 • Redes de Intercambio Prehispánicas",
-        pregunta: "¿Cuál fue la función socioeconómica primordial del Cerro de la Sal para los pueblos Asháninka y Yanesha?",
-        opciones: [
-          "Funcionó como una muralla militar para impedir todo contacto cultural con los pueblos andinos.",
-          "Fue un socavón de oro y plata administrado exclusivamente por encomenderos españoles.",
-          "Operó como un polo estratégico de extracción y articulación macro-regional donde la sal servía de mercancía equivalente para el trueque directo con etnias amazónicas y andinas.",
-          "Sirvió únicamente como refugio temporal deshabitado sin valor productivo ni comercial."
-        ],
-        correcta: 2,
-        explicacion: "Bajo control Yanesha y Asháninka, los panes de sal gema articularon vastas redes interétnicas prehispánicas con sociedades andinas (Taramas, Huancas, Incas) a cambio de herramientas líticas, textiles y objetos cobre-metalúrgicos."
-      },
-      {
-        etiqueta: "Pregunta 03 • Fuerzas Productivas en Tierra Firme",
-        pregunta: "¿Por qué el sistema de cultivo amazónico en colinas requería ciclos de descanso de hasta 40 años (barbecho largo)?",
-        opciones: [
-          "Porque los suelos tropicales de colina son frágiles y pobres en nutrientes profundos, por lo que necesitan décadas de regeneración del bosque secundario para evitar su erosión y agotamiento.",
-          "Porque las comunidades desconocían las estaciones de lluvia y sembraban al azar una sola vez por generación.",
-          "Porque las órdenes religiosas coloniales prohibían cosechar yuca durante cuarenta años seguidos.",
-          "Porque el suelo de colina era demasiado fértil y producía exceso de cosechas sin trabajo humano."
-        ],
-        correcta: 0,
-        explicacion: "En los interfluvios (colinas), los nutrientes están en la biomasa viva y no en el subsuelo arcilloso; el barbecho largo de 20 a 40 años demuestra una adaptación científica indígena para regenerar el bosque y evitar la degradación ecológica."
-      },
-      {
-        etiqueta: "Pregunta 04 • Régimen Cauchero y Coacción Laboral",
-        pregunta: "¿Por qué los patrones caucheros prohibían estrictamente a los nativos del Putumayo sembrar sus propias chacras de comida?",
-        opciones: [
-          "Para proteger los suelos amazónicos mediante programas empresariales de conservación ambiental.",
-          "Para destruir su autonomía alimentaria y forzarlos a dedicar el 100 % de su tiempo y fuerza de trabajo a extraer látex bajo dependencia absoluta y terror corporativo.",
-          "Porque la Casa Arana repartía gratuitamente raciones nutritivas suficientes y salarios justos en oro.",
-          "Porque las tierras del río Putumayo eran completamente estériles para el cultivo de la yuca."
-        ],
-        correcta: 1,
-        explicacion: "Como documentó el juez Rómulo Paredes (1911), suprimir las chacras indígenas (Huitoto, Bora, Ocaina) anulaba su autosuficiencia material, sometiendo toda su fuerza laboral a las cuotas de caucho y provocando un genocidio por hambre y castigos."
-      },
-      {
-        etiqueta: "Pregunta 05 • Propiedad Comunal y Reproducción Social",
-        pregunta: "¿Por qué para los pueblos amazónicos la titulación colectiva de su territorio es imprescindible para su supervivencia cultural y biológica?",
-        opciones: [
-          "Porque les permite dividir el bosque en lotes individuales para venderlos rápidamente a empresas extractivas.",
-          "Porque sin el uso colectivo e integral de bosques, cochas, ríos y zonas de rotación agrícola se destruye la base material que sostiene su alimentación, salud, organización comunal e identidad.",
-          "Porque la propiedad comunal es un requisito simbólico que no guarda relación con la caza, la pesca ni la agricultura.",
-          "Porque les otorga el monopolio privado para exportar petróleo sin respetar el equilibrio ecológico."
-        ],
-        correcta: 1,
-        explicacion: "Desde el materialismo histórico, la reproducción biológica, social y cultural de una comunidad amazónica depende de la integridad de sus medios de vida colectivos (bosques de caza, barbecho rotativo y cuencas hídricas), frente al despojo y la fragmentación."
-      }
-    ];
-
-    const respuestasElegidas = new Array(CUESTIONARIO_MATERIALISTA.length).fill(null);
-    const quizContainer = document.getElementById("quiz-list-container");
-
-    function renderizarCuestionario() {
-      quizContainer.innerHTML = "";
-      CUESTIONARIO_MATERIALISTA.forEach((item, qIndex) => {
-        const card = document.createElement("article");
-        card.className = "quiz-item-card";
-
-        const opcionesHTML = item.opciones.map((textoOp, optIndex) => {
-          const letra = String.fromCharCode(65 + optIndex);
-          return `
-            <button type="button" class="quiz-opt-btn" data-q="${qIndex}" data-opt="${optIndex}">
-              <strong>${letra})</strong> ${escaparHTML(textoOp)}
-            </button>
-          `;
-        }).join("");
-
-        card.innerHTML = `
-          <span class="quiz-q-tag">${escaparHTML(item.etiqueta)}</span>
-          <p class="quiz-q-text">${qIndex + 1}. ${escaparHTML(item.pregunta)}</p>
-          <div class="quiz-options-list">${opcionesHTML}</div>
-          <div class="quiz-feedback-box" id="quiz-fb-${qIndex}"></div>
-        `;
-
-        card.querySelectorAll(".quiz-opt-btn").forEach((btn) => {
-          btn.addEventListener("click", () => seleccionarRespuestaQuiz(qIndex, Number(btn.getAttribute("data-opt")), card));
-        });
-
-        quizContainer.appendChild(card);
-      });
-    }
-
-    function seleccionarRespuestaQuiz(qIndex, optIndex, cardEl) {
-      if (respuestasElegidas[qIndex] !== null) return;
-
-      const preg = CUESTIONARIO_MATERIALISTA[qIndex];
-      const esCorrecta = optIndex === preg.correcta;
-      respuestasElegidas[qIndex] = {
-        pregunta_numero: qIndex + 1,
-        pregunta: preg.pregunta,
-        opcion_elegida_indice: optIndex,
-        opcion_elegida_texto: preg.opciones[optIndex],
-        correcta: esCorrecta
-      };
-
-      const botones = cardEl.querySelectorAll(".quiz-opt-btn");
-      botones.forEach((b, idx) => {
-        b.disabled = true;
-        if (idx === preg.correcta) {
-          b.classList.add("is-correct");
-        } else if (idx === optIndex && !esCorrecta) {
-          b.classList.add("is-wrong");
-        }
-      });
-
-      const fb = document.getElementById(`quiz-fb-${qIndex}`);
-      fb.className = "quiz-feedback-box " + (esCorrecta ? "ok" : "err");
-      fb.innerHTML = (esCorrecta
-        ? "<strong>✅ ¡Inferencia correcta! (+4 pts):</strong> "
-        : "<strong>❌ Respuesta incorrecta (0 pts):</strong> ") + escaparHTML(preg.explicacion);
-
-      sonarEfecto(esCorrecta ? "acierto" : "error");
-      actualizarMarcadorQuiz();
-      validarEstadoFormulario();
-    }
-
-    function calcularNotaPreliminar() {
-      const aciertos = respuestasElegidas.filter((r) => r && r.correcta).length;
-      return {
-        aciertos,
-        nota20: aciertos * 4
-      };
-    }
-
-    function obtenerNivelLogroCNEB(nota20) {
-      if (nota20 >= 18) return "AD";
-      if (nota20 >= 14) return "A";
-      if (nota20 >= 11) return "B";
-      return "C";
-    }
-
-    function actualizarMarcadorQuiz() {
-      const respondidas = respuestasElegidas.filter((r) => r !== null).length;
-      const { nota20 } = calcularNotaPreliminar();
-      document.getElementById("quiz-answered-count").textContent = respondidas;
-      document.getElementById("quiz-score-vigesimal").textContent = nota20;
-    }
-
-    renderizarCuestionario();
-
-    /* ==========================================================================
-       3. CAPTURA DE CÁMARA Y COMPRESIÓN CANVAS AUTOMÁTICA (MÁX 800px, JPEG 0.65, <100 KB)
-       ========================================================================== */
-    let fotoInfografiaBase64 = null;
+    let imagenComprimidaBase64 = null;
     let fotoPesoKB = 0;
     const MAX_LADO_PX = 800;
     const CALIDAD_INICIAL_JPEG = 0.65;
-    const LIMITE_ESTRICTO_BYTES = 97 * 1024; // Garantiza < 100 KB reales
+    const LIMITE_ESTRICTO_BYTES = 97 * 1024; // Garantiza < 100 KB en Base64
 
     const inputCamera = document.getElementById("input-camera-capture");
     const inputGallery = document.getElementById("input-gallery-pick");
@@ -2175,7 +2534,6 @@
         let bytesResultado = Infinity;
         let calidadUsada = CALIDAD_INICIAL_JPEG;
 
-        // Primera pasada exacta: máx. 800px y calidad JPEG 0.65; si excediera 100 KB, ajusta suavemente
         while (bytesResultado > LIMITE_ESTRICTO_BYTES && factorEscala >= 0.35) {
           canvas.width = Math.max(240, Math.round(anchoOrig * factorEscala));
           canvas.height = Math.max(240, Math.round(altoOrig * factorEscala));
@@ -2196,7 +2554,7 @@
           factorEscala *= 0.85;
         }
 
-        fotoInfografiaBase64 = dataUrlResultado;
+        imagenComprimidaBase64 = dataUrlResultado;
         fotoPesoKB = Number((bytesResultado / 1024).toFixed(1));
 
         previewImg.src = dataUrlResultado;
@@ -2217,14 +2575,14 @@
     }
 
     /* ==========================================================================
-       VALIDACIÓN Y ENVÍO SEGURO A CLOUD FIRESTORE (COLECCIÓN: evaluaciones)
+       VALIDACIÓN Y ENVÍO ATÓMICO UNIFICADO A FIRESTORE (COLECCIÓN: evaluaciones)
        ========================================================================== */
     const formEl = document.getElementById("evidence-form");
     const btnSubmit = document.getElementById("btn-submit-all");
     const hintEl = document.getElementById("form-validation-hint");
     let envioCompletado = false;
 
-    ["student-name", "student-section", "selected-people", "materialist-explanation"].forEach((id) => {
+    ["puebloAnalizado", "textoJustificacion"].forEach((id) => {
       document.getElementById(id).addEventListener("input", validarEstadoFormulario);
       document.getElementById(id).addEventListener("change", validarEstadoFormulario);
     });
@@ -2232,119 +2590,127 @@
     function validarEstadoFormulario() {
       if (envioCompletado) return;
 
-      const nombreOk = document.getElementById("student-name").value.trim().length >= 4;
-      const puebloOk = document.getElementById("selected-people").value.trim() !== "";
-      const textoOk = document.getElementById("materialist-explanation").value.trim().length >= 15;
-      const quizOk = respuestasElegidas.every((r) => r !== null);
-      const fotoOk = Boolean(fotoInfografiaBase64);
+      const puebloOk = document.getElementById("puebloAnalizado").value.trim() !== "";
+      const sintesisOk = document.getElementById("textoJustificacion").value.trim().length >= 10;
+      const fotoOk = Boolean(imagenComprimidaBase64);
 
-      const todoListo = nombreOk && puebloOk && textoOk && quizOk && fotoOk;
+      const todoListo = puebloOk && sintesisOk && fotoOk;
       btnSubmit.disabled = !todoListo;
 
       if (todoListo) {
         hintEl.style.color = "#15803D";
-        hintEl.textContent = "✅ Todo completo. Toca el botón superior para registrar tu evidencia en Cloud Firestore.";
+        hintEl.textContent = "✅ Pueblo, síntesis e infografía listos. Presiona el botón para registrar tu entrega en Firestore.";
       } else {
         const faltantes = [];
-        if (!quizOk) faltantes.push("responder las 5 preguntas");
-        if (!nombreOk) faltantes.push("escribir tus nombres");
-        if (!puebloOk) faltantes.push("elegir el pueblo analizado");
-        if (!textoOk) faltantes.push("redactar tu explicación (mín. 15 caracteres)");
-        if (!fotoOk) faltantes.push("tomar/adjuntar la foto de tu infografía");
+        if (!puebloOk) faltantes.push("seleccionar el pueblo originario");
+        if (!sintesisOk) faltantes.push("escribir la síntesis justificativa");
+        if (!fotoOk) faltantes.push("adjuntar la foto de tu infografía");
         hintEl.style.color = "#0F172A";
         hintEl.textContent = "Pendiente: " + faltantes.join(", ") + ".";
       }
+    }
+
+    function construirResumenLecturaDocente(pueblo, justificacion, mapaRespuestas) {
+      const etiquetas = [
+        ["Omagua", mapaRespuestas.omagua],
+        ["Kukama-Kukamiria", mapaRespuestas.kukama],
+        ["Shipibo-Konibo", mapaRespuestas.shipibo],
+        ["Asháninka", mapaRespuestas.ashaninka],
+        ["Yanesha", mapaRespuestas.yanesha],
+        ["Awajún", mapaRespuestas.awajun],
+        ["Wampis", mapaRespuestas.wampis],
+        ["Huitoto (Murui-Muinane)", mapaRespuestas.huitoto],
+        ["Bora", mapaRespuestas.bora],
+        ["🌐 Síntesis Territorial", mapaRespuestas.sintesis_territorial]
+      ];
+
+      const bloqueInferencias = etiquetas
+        .map(([nom, val]) => `• ${nom}: ${val ? val.trim() : "(Sin respuesta)"}`)
+        .join("\n");
+
+      return (
+        `📌 PUEBLO ANALIZADO EN INFOGRAFÍA: ${pueblo}\n` +
+        `📝 JUSTIFICACIÓN MATERIALISTA:\n${justificacion}\n\n` +
+        `✍️ RESPUESTAS DE INFERENCIA EN EL MAPA:\n${bloqueInferencias}`
+      );
     }
 
     formEl.addEventListener("submit", async (e) => {
       e.preventDefault();
       if (envioCompletado || btnSubmit.disabled) return;
 
-      if (!db) {
-        mostrarToast("Error: SDK de Cloud Firestore no disponible.");
+      const puebloVal = document.getElementById("puebloAnalizado").value.trim();
+      const justificacionVal = document.getElementById("textoJustificacion").value.trim();
+
+      if (!puebloVal || !justificacionVal || !imagenComprimidaBase64) {
+        sonarEfecto("error");
+        mostrarToast("Selecciona el pueblo, redacta la síntesis y adjunta tu infografía.");
         return;
       }
 
       btnSubmit.disabled = true;
-      btnSubmit.textContent = "⏳ Enviando evidencia a Cloud Firestore...";
+      btnSubmit.textContent = "⏳ Guardando evaluación y evidencia en Firestore...";
 
-      const nombreAlumno = document.getElementById("student-name").value.trim();
-      const seccionAlumno = document.getElementById("student-section").value;
-      const puebloAnalizado = document.getElementById("selected-people").value;
-      const explicacionAlumno = document.getElementById("materialist-explanation").value.trim();
+      const user = firebase.auth().currentUser;
 
-      const { aciertos, nota20 } = calcularNotaPreliminar();
-      const nivelLogro = obtenerNivelLogroCNEB(nota20);
+      const paqueteInferencias = {
+        omagua: (document.getElementById("resp_omagua")?.value ?? respuestasInferencia.omagua ?? "").trim(),
+        kukama: (document.getElementById("resp_kukama")?.value ?? respuestasInferencia.kukama ?? "").trim(),
+        shipibo: (document.getElementById("resp_shipibo")?.value ?? respuestasInferencia.shipibo ?? "").trim(),
+        ashaninka: (document.getElementById("resp_ashaninka")?.value ?? respuestasInferencia.ashaninka ?? "").trim(),
+        yanesha: (document.getElementById("resp_yanesha")?.value ?? respuestasInferencia.yanesha ?? "").trim(),
+        awajun: (document.getElementById("resp_awajun")?.value ?? respuestasInferencia.awajun ?? "").trim(),
+        wampis: (document.getElementById("resp_wampis")?.value ?? respuestasInferencia.wampis ?? "").trim(),
+        huitoto: (document.getElementById("resp_huitoto")?.value ?? respuestasInferencia.huitoto ?? "").trim(),
+        bora: (document.getElementById("resp_bora")?.value ?? respuestasInferencia.bora ?? "").trim(),
+        sintesis_territorial: (document.getElementById("resp_sintesis")?.value ?? respuestasInferencia.sintesis_territorial ?? "").trim()
+      };
 
-      const user = usuarioAutenticado || (auth ? auth.currentUser : null);
-      const userEmail = user && user.email ? user.email.trim().toLowerCase() : "";
-      const userUid = user && user.uid ? user.uid : "estudiante_movil";
+      const nombreEstudianteFinal = user
+        ? (user.displayName || nombrePerfilFirestore || "Estudiante")
+        : "Estudiante Registrado";
 
-      // Texto enriquecido compatible con el visor docente de index.html
-      const textoConsolidadoDocente =
-        `[Sección: ${seccionAlumno} | Pueblo Analizado: ${puebloAnalizado} | Trivia: ${aciertos}/5 (${nota20}/20) | Infografía adjunta: ${fotoPesoKB} KB]\n\n` +
-        explicacionAlumno;
-
-      const documentoEvaluacion = {
+      const payloadEvaluacion = {
+        uid: user ? user.uid : "anonimo",
+        estudiante_id: user ? user.uid : "anonimo",
+        estudiante_nombre: nombreEstudianteFinal,
+        estudiante_email: user && user.email ? user.email.toLowerCase() : "sin-correo",
         semana: "Semana 03",
         semana_numero: 3,
-        institucion: "Colegio Experimental UNAP - Iquitos",
-        competencia: "Construye interpretaciones históricas",
-
-        // Identificación sincronizada con Web Matriz (index.html)
-        uid: userUid,
-        estudiante_id: userUid,
-        estudiante_nombre: nombreAlumno,
-        estudiante: nombreAlumno,
-        estudiante_email: userEmail,
-        seccion: seccionAlumno,
-
-        // Análisis e Infografía
-        pueblo_analizado: puebloAnalizado,
-        explicacion_espacio_geografico: explicacionAlumno,
-        texto_interpretacion: textoConsolidadoDocente,
-        foto_infografia_base64: fotoInfografiaBase64,
-        foto_infografia_peso_kb: fotoPesoKB,
-
-        // Cuestionario y Calificación Preliminar
-        respuestas: respuestasElegidas,
-        respuestas_trivia: respuestasElegidas,
-        aciertos_trivia_5: aciertos,
-        nota_preliminar_trivia: nota20,
-        puntaje_vigesimal: nota20,
-        puntaje: nota20,
-        nivel_logro: nivelLogro,
-
-        // Estado para revisión docente en index.html
-        calificado_por_docente: false,
-        retroalimentacion_docente: "",
-        nota_final_docente: null,
         fecha: firebase.firestore.FieldValue.serverTimestamp(),
-        fecha_envio: firebase.firestore.FieldValue.serverTimestamp(),
-        timestamp_cliente: new Date().toISOString()
+        pueblo_analizado: puebloVal,
+        texto_justificacion: justificacionVal,
+        texto_interpretacion: construirResumenLecturaDocente(puebloVal, justificacionVal, paqueteInferencias),
+        foto_infografia_base64: imagenComprimidaBase64,
+        respuestas_inferencia: paqueteInferencias,
+        calificado_por_docente: false,
+        nota_final_docente: null,
+        retroalimentacion_docente: ""
       };
 
       try {
-        await db.collection("evaluaciones").add(documentoEvaluacion);
+        await firebase.firestore().collection("evaluaciones").add(payloadEvaluacion);
 
         envioCompletado = true;
-        sonarEfecto("exito");
-        mostrarToast("¡Entrega guardada en la Matriz con éxito!");
+        try { localStorage.removeItem(STORAGE_KEY_INFERENCIA); } catch (errStorage) {}
 
-        btnSubmit.textContent = "✅ Evidencia Enviada a Cloud Firestore";
+        sonarEfecto("exito");
+        mostrarToast("¡Evaluación y evidencia de la Semana 03 registradas!");
+
+        btnSubmit.textContent = "✅ Evaluación y Evidencia Enviadas";
         hintEl.style.display = "none";
 
-        // Bloquear controles tras envío exitoso
-        ["student-name", "student-section", "selected-people", "materialist-explanation", "btn-trigger-camera", "btn-trigger-gallery"].forEach((id) => {
+        ["puebloAnalizado", "textoJustificacion", "btn-trigger-camera", "btn-trigger-gallery", "resp_sintesis"].forEach((id) => {
           const ctrl = document.getElementById(id);
           if (ctrl) ctrl.disabled = true;
         });
 
+        const cantInferencias = Object.values(paqueteInferencias).filter((v) => v.length > 0).length;
         const successCard = document.getElementById("submission-success-card");
         document.getElementById("submission-summary-text").innerHTML =
-          `Estudiante: <strong>${escaparHTML(nombreAlumno)}</strong> (${escaparHTML(seccionAlumno)})<br>` +
-          `Pueblo analizado: <strong>${escaparHTML(puebloAnalizado)}</strong> • Infografía comprimida: <strong>${fotoPesoKB} KB</strong><br>` +
-          `Nota preliminar de trivia: <strong>${nota20} / 20 (${nivelLogro})</strong> sincronizada con la Web Matriz.`;
+          `Estudiante: <strong>${escaparHTML(payloadEvaluacion.estudiante_nombre)}</strong> (${escaparHTML(payloadEvaluacion.estudiante_email)})<br>` +
+          `Pueblo analizado: <strong>${escaparHTML(puebloVal)}</strong> • Foto comprimida: <strong>${fotoPesoKB} KB</strong><br>` +
+          `Inferencias enviadas: <strong>${cantInferencias} / 10</strong> • Pendiente de calificación docente en la Matriz.`;
 
         successCard.classList.add("visible");
         successCard.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -2352,8 +2718,8 @@
         console.error("Error al enviar a Cloud Firestore:", err);
         sonarEfecto("error");
         btnSubmit.disabled = false;
-        btnSubmit.textContent = "🚀 Reintentar Envío a la Matriz (Semana 03)";
-        mostrarToast("Error de conexión al guardar: " + (err.message || "Intenta nuevamente"));
+        btnSubmit.textContent = "🚀 Enviar Evaluación y Evidencia de la Semana 3";
+        mostrarToast("Error al guardar en Firestore: " + (err.message || "Intenta nuevamente"));
       }
     });
   </script>
