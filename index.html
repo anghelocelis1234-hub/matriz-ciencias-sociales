@@ -1639,6 +1639,9 @@
       (Sin texto de análisis presentado).
     </div>
 
+    <!-- VISOR OBLIGATORIO DE FOTOGRAFÍA / INFOGRAFÍA ENVIADA -->
+    <div id="califContenedorFotoEvidencia"></div>
+
     <!-- PANEL DE CALIFICACIÓN EN VIVO -->
     <div style="border-top:1px solid var(--borde); padding-top:14px; margin-top:14px;">
       <label style="font-size:0.84rem; font-weight:700; color:#0f172a; display:block;">
@@ -3271,6 +3274,11 @@ function renderizarTablaDocente() {
     const avatarFila = obtenerDatosAvatar(infoUsr.avatar);
     const rangoFila = INFO_RANGOS[infoUsr.rango] || INFO_RANGOS["Grado 3 / 4"];
 
+    // Miniatura de infografía para registros de la Semana 03
+    const esSemana03 = extraerNumeroSemana(r.semana ?? r.semana_numero) === 3;
+    const fotoInfografiaTabla = r.foto_infografia_base64 || r.imagen_base64 || "";
+    const tieneMiniaturaSem03 = esSemana03 && typeof fotoInfografiaTabla === "string" && fotoInfografiaTabla.startsWith("data:image");
+
     return `
       <tr>
         <td>
@@ -3278,6 +3286,7 @@ function renderizarTablaDocente() {
             <div class="avatar-mini-tabla" data-export-ignore="true" style="border-color:${rangoFila.color};" title="${sanitize(avatarFila.nombre)} · ${sanitize(rangoFila.nombre)}">
               <img src="${avatarFila.imagen}" alt="" onerror="this.onerror=null; this.src='${avatarFila.fallback}';">
             </div>
+            ${tieneMiniaturaSem03 ? `<img src="${fotoInfografiaTabla}" alt="Infografía Semana 03" data-export-ignore="true" title="📸 Infografía entregada — Haz clic para revisar" onclick="abrirModalCalificarDocente('${r.id}')" style="width: 38px; height: 38px; object-fit: cover; border-radius: 4px; vertical-align: middle; margin-right: 8px; cursor: pointer; border: 1px solid #15803d; flex-shrink: 0;">` : ""}
             <strong>${sanitize(nombreEstudiante)}</strong>
           </div>
         </td>
@@ -3304,6 +3313,28 @@ function renderizarTablaDocente() {
 }
 
 /**
+ * Abre la fotografía en Base64 en tamaño completo en una nueva pestaña
+ * convirtiéndola a Blob URL para evitar el bloqueo de data: URLs en Chrome/Edge.
+ */
+function abrirImagenEvidenciaCompleta(dataUrl) {
+  if (!dataUrl) return;
+  try {
+    const partes = dataUrl.split(",");
+    const mimeMatch = partes[0].match(/:(.*?);/);
+    const mime = mimeMatch ? mimeMatch[1] : "image/jpeg";
+    const binStr = atob(partes[1]);
+    const len = binStr.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) bytes[i] = binStr.charCodeAt(i);
+    const blob = new Blob([bytes], { type: mime });
+    const blobUrl = URL.createObjectURL(blob);
+    window.open(blobUrl, "_blank");
+  } catch (e) {
+    window.open(dataUrl, "_blank");
+  }
+}
+
+/**
  * 8. MODAL DOCENTE: REVISAR TRABAJO, CALIFICACIÓN EN VIVO Y RETROALIMENTACIÓN
  */
 function abrirModalCalificarDocente(docId) {
@@ -3311,6 +3342,7 @@ function abrirModalCalificarDocente(docId) {
   if (!doc) return;
 
   evaluacionSeleccionadaParaCalificar = doc;
+  const data = doc;
 
   const semTexto = formatoSemanaDosDigitos(doc.semana);
   const nombreEstudiante = obtenerNombreEstudiante(doc);
@@ -3322,6 +3354,40 @@ function abrirModalCalificarDocente(docId) {
 
   const texto = doc.texto_interpretacion || doc.analisis_escrito || doc.produccion || doc.texto || doc.interpretacion || "(Sin texto de análisis histórico presentado en esta sesión)";
   elem("califTextoAlumno").textContent = texto;
+
+  // Renderizado visual obligatorio de la fotografía de infografía en Base64
+  const fotoInfografia = data.foto_infografia_base64 || data.imagen_base64 || "";
+  const tieneFoto = Boolean(fotoInfografia && typeof fotoInfografia === "string" && fotoInfografia.startsWith("data:image"));
+  const contenedorFoto = elem("califContenedorFotoEvidencia");
+
+  if (contenedorFoto) {
+    if (tieneFoto) {
+      const nombreArchivoLimpio = (data.estudiante_nombre || nombreEstudiante || "alumno").replace(/\s+/g, "_").replace(/[^a-zA-Z0-9_-]/g, "");
+      contenedorFoto.innerHTML = `
+        <div style="margin: 15px 0; text-align: center; background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
+          <p style="font-weight: bold; margin-bottom: 8px; color: #0f172a;">📸 Evidencia: Infografía del Estudiante</p>
+
+          <!-- Visor de la foto -->
+          <img id="imgEvidenciaDocente"
+               src="${fotoInfografia}"
+               alt="Infografía del estudiante"
+               style="max-width: 100%; max-height: 480px; border-radius: 6px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); cursor: pointer; object-fit: contain; background: #fff;"
+               onclick="abrirImagenEvidenciaCompleta(this.src)"
+               title="Haz clic para abrir en tamaño completo" />
+
+          <div style="margin-top: 10px;">
+            <a href="${fotoInfografia}"
+               download="infografia_${nombreArchivoLimpio || 'alumno'}.jpg"
+               style="display: inline-block; font-size: 13px; color: #15803d; text-decoration: underline; font-weight: 600;">
+               ⬇️ Descargar fotografía original
+            </a>
+          </div>
+        </div>
+      `;
+    } else {
+      contenedorFoto.innerHTML = `<p style="color: #64748b; font-style: italic; margin: 10px 0;">No se adjuntó fotografía en esta entrega.</p>`;
+    }
+  }
 
   // Cargar valores existentes o sugeridos
   const notaActual = doc.puntaje_vigesimal ?? doc.puntaje ?? 16;
