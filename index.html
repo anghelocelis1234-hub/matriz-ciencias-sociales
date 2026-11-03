@@ -2,6 +2,9 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<!-- This site is hosted on Netlify. Anyone can build and deploy a site
+     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=23983b06-f694-498f-b350-14ca16f9fc82
+     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Matriz Educativa CNEB | Ciencias Sociales - I.E. Aplicación UNAP</title>
 <!-- Librería de partículas para celebración formativa -->
@@ -1455,16 +1458,6 @@
       (No se encontró texto de análisis registrado para esta semana).
     </div>
 
-    <!-- EVIDENCIA EXTENDIDA SEMANA 03 (solo se muestra si hay datos) -->
-    <div id="resS3Extra" style="display:none; margin-bottom:14px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:12px; gap:14px; align-items:center;">
-      <img id="resS3Thumb" alt="Tu infografía" title="Toca para ampliar" style="width:96px; height:96px; object-fit:cover; border-radius:10px; border:1px solid #cbd5e1; cursor:zoom-in; flex-shrink:0;">
-      <div style="font-size:0.86rem; color:#1e293b; line-height:1.6;">
-        <div>🌿 <strong>Pueblo analizado:</strong> <span id="resS3Pueblo">--</span></div>
-        <div>🧠 <strong>Trivia:</strong> <span id="resS3Trivia">--</span></div>
-        <div>🎯 <strong>Nota del docente:</strong> <span id="resS3Nota" style="font-weight:800;">Pendiente de revisión</span></div>
-      </div>
-    </div>
-
     <!-- CAJA DESTACADA DE RECOMENDACIÓN DOCENTE -->
     <div class="box-recomendacion-docente">
       <h4>👨‍🏫 Recomendaciones y Retroalimentación del Docente</h4>
@@ -1677,56 +1670,6 @@
       <div class="alert-msg" id="msgGuardarCalif" style="margin-top:8px;"></div>
     </div>
   </div>
-</div>
-
-<!-- 8.1 MODAL DE REVISIÓN Y CALIFICACIÓN DE ENTREGA / INFOGRAFÍA (SEMANA 03) -->
-<div class="overlay" id="modalRevisarS3">
-  <div class="modal-box medium" style="max-width:760px; max-height:92vh; overflow-y:auto;">
-    <button class="modal-close" data-close="modalRevisarS3">&times;</button>
-
-    <h3 style="font-size:1.15rem; color:#0f172a; margin-bottom:8px;">🔍 Revisar Entrega / Infografía · Semana 03</h3>
-
-    <!-- Cabecera de identificación -->
-    <div id="s3Cabecera" style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:12px 14px; margin-bottom:14px; display:flex; flex-wrap:wrap; gap:8px 18px; align-items:center; font-size:0.86rem; color:#1e293b;"></div>
-
-    <!-- Evidencia visual -->
-    <label style="font-size:0.82rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">🖼️ Fotografía de la infografía:</label>
-    <div id="s3FotoWrap" style="background:#0f172a; border-radius:10px; padding:8px; text-align:center; margin-bottom:8px;">
-      <img id="s3FotoImg" alt="Infografía del estudiante" style="max-width:100%; max-height:500px; width:auto; height:auto; object-fit:contain; border-radius:6px; display:none;">
-      <div id="s3SinFoto" style="color:#94a3b8; padding:24px; font-size:0.86rem;">El estudiante no adjuntó fotografía.</div>
-    </div>
-    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;">
-      <button type="button" class="btn btn-outline btn-sm" id="btnS3Zoom">🔎 Ver en Pantalla Completa</button>
-      <button type="button" class="btn btn-outline btn-sm" id="btnS3Descargar">⬇️ Descargar Imagen</button>
-    </div>
-
-    <!-- Texto explicativo -->
-    <label style="font-size:0.82rem; font-weight:700; color:#334155; display:block; margin-bottom:4px;">📄 Texto explicativo del estudiante:</label>
-    <div id="s3Texto" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:8px; padding:12px 14px; color:#0f172a; font-size:0.9rem; line-height:1.5; white-space:pre-wrap; max-height:200px; overflow-y:auto; margin-bottom:14px;"></div>
-
-    <!-- Calificación manual -->
-    <div style="border-top:1px solid var(--borde); padding-top:14px;">
-      <div class="form-group">
-        <label for="notaFinalDocente">Nota final vigesimal (0 a 20) <span id="s3NivelPreview" style="margin-left:8px; font-weight:800;"></span></label>
-        <input type="number" id="notaFinalDocente" min="0" max="20" class="form-control" style="font-weight:700; font-size:1.05rem;">
-      </div>
-      <div class="form-group">
-        <label for="retroalimentacionDocente">Retroalimentación formativa:</label>
-        <textarea id="retroalimentacionDocente" rows="4" class="form-control" placeholder="Escribe recomendaciones pedagógicas..."></textarea>
-      </div>
-      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:10px;">
-        <button type="button" class="btn btn-outline" onclick="cerrarModal('modalRevisarS3')">Cancelar</button>
-        <button type="button" class="btn btn-pri" id="btnGuardarS3">Guardar Calificación y Enviar a Alumno</button>
-      </div>
-      <div class="alert-msg" id="msgGuardarS3" style="margin-top:8px;"></div>
-    </div>
-  </div>
-</div>
-
-<!-- 8.2 OVERLAY DE ZOOM DE FOTOGRAFÍA -->
-<div class="overlay" id="modalZoomFoto" style="background:rgba(2,6,23,0.92); z-index:1100;">
-  <button class="modal-close" data-close="modalZoomFoto" style="position:fixed; top:14px; right:18px; color:#fff; font-size:2rem; z-index:1101;">&times;</button>
-  <img id="zoomFotoImg" alt="Infografía ampliada" style="max-width:96vw; max-height:94vh; object-fit:contain; border-radius:8px; cursor:zoom-out;" onclick="cerrarModal('modalZoomFoto')">
 </div>
 
 <!-- CONTENEDOR DE NOTIFICACIONES FLOTANTES (TOAST) -->
@@ -3093,7 +3036,7 @@ async function abrirResultadosEstudiante(semanaNum) {
       snap.forEach(doc => {
         const d = doc.data();
         const mailDoc = (d.estudiante_email || d.correo || d.email || d.correo_estudiante || "").trim().toLowerCase();
-        const semDoc = extraerNumeroSemana(d.semana ?? d.semana_numero);
+        const semDoc = extraerNumeroSemana(d.semana);
         if (mailDoc === userEmail && semDoc === semanaNum) {
           listaAlumnoSem.push({ id: doc.id, ...d });
         }
@@ -3124,7 +3067,7 @@ async function abrirResultadosEstudiante(semanaNum) {
   elem("resCompetenciaCapacidad").textContent = `Competencia: ${sesion.competencia} | Criterio CNEB`;
 
   // Producción escrita del alumno (taller histórico)
-  const textoAlumno = data.texto_justificacion || data.texto_interpretacion || data.analisis_escrito || data.produccion || data.texto || data.interpretacion || "(Sin texto redactado en el taller histórico)";
+  const textoAlumno = data.texto_interpretacion || data.analisis_escrito || data.produccion || data.texto || data.interpretacion || "(Sin texto redactado en el taller histórico)";
   elem("resTextoAlumno").textContent = textoAlumno;
 
   // Cuadro destacado con el feedback del profesor
@@ -3151,29 +3094,6 @@ async function abrirResultadosEstudiante(semanaNum) {
       </div>`;
   }
 
-  // Evidencia extendida de la Semana 03: miniatura, pueblo analizado, trivia y nota del docente
-  const bloqueS3 = elem("resS3Extra");
-  if (bloqueS3) {
-    const tieneS3 = esEntregaSemana3(data) && (data.foto_infografia_base64 || data.pueblo_analizado);
-    if (tieneS3) {
-      const thumb = elem("resS3Thumb");
-      if (data.foto_infografia_base64) {
-        thumb.src = srcInfografia(data.foto_infografia_base64);
-        thumb.style.display = "block";
-        thumb.onclick = () => abrirZoomFoto(thumb.src);
-      } else {
-        thumb.style.display = "none";
-      }
-      elem("resS3Pueblo").textContent = data.pueblo_analizado || "—";
-      elem("resS3Trivia").textContent = (data.puntaje_trivia !== undefined && data.puntaje_trivia !== null) ? `${data.puntaje_trivia} / 10` : "—";
-      const evS3 = resolverEvaluacion(data);
-      elem("resS3Nota").textContent = evS3.revisada ? `${evS3.puntaje} / 20 (${evS3.nivel})` : "Pendiente de revisión";
-      bloqueS3.style.display = "flex";
-    } else {
-      bloqueS3.style.display = "none";
-    }
-  }
-
   // Interacción para volver a detonar la celebración al tocar la medalla grande del modal
   elem("resMedalla").onclick = () => animarCelebracionMedalla(nivel, sesion.link);
 
@@ -3189,7 +3109,7 @@ async function abrirResultadosEstudiante(semanaNum) {
  */
 function obtenerNombreEstudiante(r) {
   if (!r) return "Estudiante";
-  const nom = r.estudiante_nombre_completo || r.estudiante_nombre || r.nombre || r.estudiante || r.displayName || "";
+  const nom = r.estudiante_nombre || r.nombre || r.estudiante || r.displayName || "";
   if (nom && nom.trim() !== "") return nom.trim();
   const email = r.estudiante_email || r.correo || r.email || "";
   if (email && email.includes("@")) {
@@ -3303,7 +3223,7 @@ function filtrarNotasDocente() {
   const query = elem("filtroEstudiante").value.trim().toLowerCase();
 
   // 1. Filtrar las evaluaciones que corresponden a la semana seleccionada
-  const evaluacionesSemana = listaEvaluacionesGlobal.filter(item => coincideSemana(item.semana ?? item.semana_numero, semFiltro));
+  const evaluacionesSemana = listaEvaluacionesGlobal.filter(item => coincideSemana(item.semana, semFiltro));
 
   // 2. Agrupar por estudiante (estudiante_email en minúsculas)
   const gruposPorEstudiante = {};
@@ -3323,7 +3243,7 @@ function filtrarNotasDocente() {
 
   // 4. Filtrar por búsqueda de texto (nombre o correo)
   return consolidados.filter(item => {
-    const nombre = (item.estudiante_nombre_completo || item.nombre || item.estudiante_nombre || item.estudiante || "").toLowerCase();
+    const nombre = (item.nombre || item.estudiante_nombre || item.estudiante || "").toLowerCase();
     const correo = (item.estudiante_email || item.correo || item.email || item.correo_estudiante || "").toLowerCase();
     return !query || nombre.includes(query) || correo.includes(query);
   });
@@ -3340,7 +3260,7 @@ function renderizarTablaDocente() {
 
   elem("tablaBody").innerHTML = datos.map((r, idx) => {
     const nivel = resolverEvaluacion(r).nivel;
-    const semTexto = formatoSemanaDosDigitos(r.semana ?? r.semana_numero);
+    const semTexto = formatoSemanaDosDigitos(r.semana);
     const nota = resolverEvaluacion(r).puntaje ?? "--";
     const calificado = !!r.calificado_por_docente;
     const nombreEstudiante = obtenerNombreEstudiante(r);
