@@ -427,6 +427,7 @@
     }
 
     /* IMAGEN DEL MAPA */
+  /* IMAGEN DEL MAPA (AL FONDO) */
     #mapa-img,
     .mapa-img,
     .panorama-img {
@@ -437,13 +438,13 @@
       position: absolute !important;
       top: 0;
       left: 0;
-      z-index: 1;
-      pointer-events: none;
+      z-index: 1 !important;
+      pointer-events: none !important;
       opacity: 1 !important;
       visibility: visible !important;
     }
 
-    /* CAPA DE PINES */
+    /* CAPA DE PINES (POR ENCIMA Y CON CLICS HABILITADOS) */
     #pins-layer,
     .capa-pines {
       position: absolute !important;
@@ -451,8 +452,13 @@
       left: 0;
       width: 100% !important;
       height: 100% !important;
-      z-index: 10;
-      pointer-events: none;
+      z-index: 50 !important;
+      pointer-events: auto !important;
+    }
+
+    .map-pin {
+      z-index: 60 !important;
+      pointer-events: auto !important;
     }
 
     @keyframes pinPulse {
