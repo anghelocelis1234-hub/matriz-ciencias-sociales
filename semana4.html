@@ -384,7 +384,7 @@
     }
 
     /* ==========================================================================
-       1. CONTENEDOR INDESTRUCTIBLE DEL MAPA Y PINES (REGLA ESTRICTA)
+       CONTENEDOR DEL MAPA Y PINES
        ========================================================================== */
     .panorama-viewport {
       position: relative;
@@ -409,13 +409,13 @@
       position: relative !important;
       width: 100% !important;
       max-width: 1100px !important;
-      aspect-ratio: 16 / 9 !important; /* Fuerza la proporción del mapa */
-      min-height: 480px !important;    /* Prohibido colapsar a 0px */
+      aspect-ratio: 16 / 9 !important;
+      min-height: 520px !important;
       background: #0f172a;
       margin: 0 auto;
+      display: block !important;
     }
 
-    /* En modo deslizable sobre móviles mantiene el ancho proporcional a 480px de alto (854x480 = 16:9) */
     .panorama-viewport:not(.fit-mode) .mapa-contenedor {
       min-width: 854px;
     }
@@ -426,9 +426,7 @@
       min-height: 720px !important;
     }
 
-    /* ==========================================================================
-       2. IMAGEN DEL MAPA (OCUPA TODO EL LIENZO SIN DEFORMARSE)
-       ========================================================================== */
+    /* IMAGEN DEL MAPA */
     #mapa-img,
     .mapa-img,
     .panorama-img {
@@ -441,11 +439,11 @@
       left: 0;
       z-index: 1;
       pointer-events: none;
+      opacity: 1 !important;
+      visibility: visible !important;
     }
 
-    /* ==========================================================================
-       3. CAPA DE PINES (POSICIONADA DE FORMA ABSOLUTA SOBRE EL ÁREA 16:9)
-       ========================================================================== */
+    /* CAPA DE PINES */
     #pins-layer,
     .capa-pines {
       position: absolute !important;
@@ -457,7 +455,6 @@
       pointer-events: none;
     }
 
-    /* PINES INTERACTIVOS (1 AL 15) */
     @keyframes pinPulse {
       0% {
         box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.75), 0 4px 10px rgba(0, 0, 0, 0.45);
@@ -1176,7 +1173,7 @@
 
   <!-- BARRA SUPERIOR FIJA -->
   <nav class="top-fixed-nav" aria-label="Navegación principal">
-    <a href="../index.html" class="btn-back-matriz">⬅️ Volver a la Matriz Principal</a>
+    <a href="index.html" class="btn-back-matriz">⬅️ Volver a la Matriz Principal</a>
     <div class="top-nav-right">
       <span class="session-badge-top">Sesión N.° 04 • Cuenca Amazónica</span>
       <button type="button" id="btn-toggle-audio" class="btn-audio" aria-label="Activar o silenciar sonidos">
@@ -1237,10 +1234,10 @@
         <span id="reflection-counter-badge">Reflexiones: 0 / 15</span>
       </div>
 
-      <!-- LIENZO PANORÁMICO INDESTRUCTIBLE (16:9, min-height: 480px) -->
+      <!-- LIENZO PANORÁMICO INDESTRUCTIBLE (16:9, min-height: 520px) -->
       <div class="panorama-viewport" id="panorama-viewport">
         <div class="mapa-contenedor mapa-wrapper panorama-stage" id="panorama-stage">
-          <img id="mapa-img" src="../img/mapa.jpg" alt="Mapa Cuenca Amazónica" class="mapa-img panorama-img">
+          <img id="mapa-img" src="img/mapa.jpg" alt="Mapa Cuenca Amazónica" class="mapa-img panorama-img">
           <div id="pins-layer" class="capa-pines"></div>
         </div>
       </div>
@@ -1356,7 +1353,7 @@
         <div style="font-size:2.3rem;">✅</div>
         <h3 id="submission-success-title">¡Evidencia de la Semana 04 Registrada!</h3>
         <p id="submission-summary-text"></p>
-        <a href="../index.html" class="btn-back-matriz" style="width:100%; justify-content:center; padding:13px;">⬅️ Volver a la Matriz Principal</a>
+        <a href="index.html" class="btn-back-matriz" style="width:100%; justify-content:center; padding:13px;">⬅️ Volver a la Matriz Principal</a>
         <button
           type="button"
           id="btn-enable-resubmit"
@@ -1386,8 +1383,8 @@
         <h2 class="modal-point-title" id="modal-point-title">Título del Punto</h2>
 
         <div class="modal-media-frame">
-          <img id="modal-point-img" src="../img/imagen1.jpg" alt="Ilustración del punto de la cuenca">
-          <span class="modal-img-caption" id="modal-img-filename">../img/imagen1.jpg</span>
+          <img id="modal-point-img" src="img/imagen1.jpg" alt="Ilustración del punto de la cuenca">
+          <span class="modal-img-caption" id="modal-img-filename">img/imagen1.jpg</span>
         </div>
 
         <div class="modal-info-grid">
@@ -1430,14 +1427,14 @@
 
   <script>
     /* ==========================================================================
-       DATASET OFICIAL DE LOS 15 PUNTOS (RUTA RELATIVA DIRECTA ../img/imagen[id].jpg)
+       DATASET OFICIAL DE LOS 15 PUNTOS (RUTA RELATIVA DIRECTA img/imagen[id].jpg)
        ========================================================================== */
     const puntosSemana4 = [
       {
         id: 1,
         x: 13.5,
         y: 6.2,
-        imagen: "../img/imagen1.jpg",
+        imagen: "img/imagen1.jpg",
         titulo: "Divisoria de Aguas (Divortium Aquarum)",
         categoria: "Geografía Física y Geología",
         concepto: "Línea orográfica imaginaria que sigue las crestas y cumbres más elevadas de la Cordillera de los Andes. Actúa como el límite material continental: una gota de lluvia que precipita un centímetro hacia el oeste drena hacia las costas del Océano Pacífico, mientras que si cae hacia la vertiente oriental inicia su recorrido por la cuenca del Amazonas rumbo al Atlántico.",
@@ -1448,7 +1445,7 @@
         id: 2,
         x: 15.2,
         y: 30.5,
-        imagen: "../img/imagen2.jpg",
+        imagen: "img/imagen2.jpg",
         titulo: "Cuenca Alta: Cabeceras y Torrentes",
         categoria: "Mecánica Fluvial",
         concepto: "Zona de cabecera caracterizada por fuertes pendientes topográficas, bajas temperaturas y alta energía cinética del agua. La fuerza hidráulica genera un proceso dominante de meteorización y erosión vertical del lecho rocoso, desprendiendo los minerales que alimentarán la cuenca.",
@@ -1459,7 +1456,7 @@
         id: 3,
         x: 38.0,
         y: 32.8,
-        imagen: "../img/imagen3.jpg",
+        imagen: "img/imagen3.jpg",
         titulo: "Cuenca Media: Valles de Transición",
         categoria: "Dinámica Fluvial",
         concepto: "Zona donde el relieve pierde inclinación abrupta al ingresar a la selva alta o rupa-rupa. La energía del río disminuye su poder erosivo directo y se convierte en un vector fundamental de transporte masivo de sedimentos y carga sólida.",
@@ -1470,7 +1467,7 @@
         id: 4,
         x: 59.5,
         y: 41.5,
-        imagen: "../img/imagen4.jpg",
+        imagen: "img/imagen4.jpg",
         titulo: "Cuenca Baja: Llanura Aluvial",
         categoria: "Geomorfología",
         concepto: "Zona de mínima gradiente altimétrica (con desniveles menores a 100 m s.n.m.). Al perder velocidad de arrastre, el agua serpentea libremente formando amplios meandros, lagunas de herradura (tipishcas o cochas) y extensas llanuras de inundación periódica.",
@@ -1481,7 +1478,7 @@
         id: 5,
         x: 63.0,
         y: 16.5,
-        imagen: "../img/imagen5.jpg",
+        imagen: "img/imagen5.jpg",
         titulo: "Ríos Aéreos: La Bomba Biótica",
         categoria: "Climatología y Termodinámica",
         concepto: "Corrientes atmosféricas masivas compuestas por millones de toneladas de vapor de agua. Son generadas por la evapotranspiración de los árboles del bosque continuo; viajan hacia el oeste hasta chocar con la muralla andina, condensándose y descargando las lluvias torrenciales que alimentan la red fluvial sudamericana.",
@@ -1492,7 +1489,7 @@
         id: 6,
         x: 72.0,
         y: 34.2,
-        imagen: "../img/imagen6.jpg",
+        imagen: "img/imagen6.jpg",
         titulo: "Dosel Forestal y Evapotranspiración",
         categoria: "Ecología Vegetal",
         concepto: "Estructura vegetal continua de copas arbóreas que intercepta el impacto directo de las gotas de lluvia, evitando la erosión del suelo arenoso selvático y liberando compuestos orgánicos volátiles que nuclean las gotas de agua en las nubes.",
@@ -1503,7 +1500,7 @@
         id: 7,
         x: 77.2,
         y: 53.8,
-        imagen: "../img/imagen7.jpg",
+        imagen: "img/imagen7.jpg",
         titulo: "Aguas Blancas (Turbias): Riqueza Andina",
         categoria: "Limnología",
         concepto: "Cursos fluviales que nacen en los Andes (como el Marañón, Ucayali y Amazonas). Su color café con leche se debe a la inmensa carga de sedimentos minerales en suspensión; poseen pH neutro (6.5 - 7.5) y alta conductividad eléctrica, constituyendo los ecosistemas más productivos biológicamente.",
@@ -1514,7 +1511,7 @@
         id: 8,
         x: 86.8,
         y: 61.5,
-        imagen: "../img/imagen8.jpg",
+        imagen: "img/imagen8.jpg",
         titulo: "Aguas Negras: El Río Nanay",
         categoria: "Limnología y Bioquímica",
         concepto: "Ríos autóctonos de la llanura amazónica que drenan bosques de varillal y suelos de arena blanca podzólica. Sus aguas son químicamente ácidas (pH 4.0 - 5.0), pobres en nutrientes minerales disueltos y de color té oscuro debido a la lixiviación de taninos y ácidos húmicos de la hojarasca descompuesta.",
@@ -1525,7 +1522,7 @@
         id: 9,
         x: 60.5,
         y: 57.5,
-        imagen: "../img/imagen9.jpg",
+        imagen: "img/imagen9.jpg",
         titulo: "Confluencia Marañón - Ucayali (Nauta)",
         categoria: "Hidrografía",
         concepto: "Punto geográfico e hidrológico exacto donde convergen el río Marañón y el río Ucayali para dar nacimiento formal y nominal al Río Amazonas en territorio peruano, multiplicando exponencialmente el caudal hidráulico.",
@@ -1536,7 +1533,7 @@
         id: 10,
         x: 41.2,
         y: 53.5,
-        imagen: "../img/imagen10.jpg",
+        imagen: "img/imagen10.jpg",
         titulo: "Afluente Huallaga: Aporte Longitudinal",
         categoria: "Red Fluvial",
         concepto: "Gran afluente andino de la margen derecha del río Marañón. Drena valles interandinos y de selva alta, arrastrando una gran carga de sedimentos agrícolas antes de que el Marañón se una con el Ucayali.",
@@ -1547,7 +1544,7 @@
         id: 11,
         x: 43.8,
         y: 72.8,
-        imagen: "../img/imagen11.jpg",
+        imagen: "img/imagen11.jpg",
         titulo: "Barriales y Playas: Agricultura de Vaciante",
         categoria: "Materialidad y Economía Agrícola",
         concepto: "Suelos aluviales recientes depositados durante la época de vaciante fluvial. Son barros ricos en limo y nutrientes andinos que no requieren abono químico, aprovechados para la siembra intensiva de ciclo corto (arroz, frijol chiclayo, maní, maíz).",
@@ -1558,7 +1555,7 @@
         id: 12,
         x: 59.8,
         y: 73.0,
-        imagen: "../img/imagen12.jpg",
+        imagen: "img/imagen12.jpg",
         titulo: "Restingas: Terrazas No Inundables",
         categoria: "Geomorfología y Asentamientos",
         concepto: "Franjas de tierra más elevadas ubicadas a lo largo de las riberas aluviales. Al sufrir inundaciones muy cortas o no inundarse durante la creciente regular, permiten cultivos de ciclo largo (yuca, plátano, frutales nativos) y la instalación de viviendas comunitarias.",
@@ -1569,7 +1566,7 @@
         id: 13,
         x: 54.0,
         y: 75.0,
-        imagen: "../img/imagen13.jpg",
+        imagen: "img/imagen13.jpg",
         titulo: "Vías de Comunicación y Transporte",
         categoria: "Infraestructura Fluvial",
         concepto: "En un territorio sin conectividad terrestre con el resto del país, los cursos de agua operan como las verdaderas autopistas estructurales. Lanchas de carga, motonaves y peque-peques sostienen el transporte de mercancías, combustibles y personas.",
@@ -1580,7 +1577,7 @@
         id: 14,
         x: 70.2,
         y: 62.5,
-        imagen: "../img/imagen14.jpg",
+        imagen: "img/imagen14.jpg",
         titulo: "Seguridad Alimentaria y Migración Ictiológica",
         categoria: "Soberanía Alimentaria y Biología",
         concepto: "La pesca artesanal provee más del 70% de la proteína consumida por los loretanos. Peces reofílicos (como bagres migratorios: zúngaros, dorados) recorren miles de kilómetros río arriba conectando biológicamente la llanura con los ríos andinos para desovar.",
@@ -1591,7 +1588,7 @@
         id: 15,
         x: 75.5,
         y: 75.5,
-        imagen: "../img/imagen15.jpg",
+        imagen: "img/imagen15.jpg",
         titulo: "Vulnerabilidad: Vaciante y Sequía Extrema",
         categoria: "Crisis Climática y Presión Antrópica",
         concepto: "Pérdida drástica del caudal fluvial ocasionada por la combinación de calentamiento global, el fenómeno de El Niño y la deforestación de cabeceras. La vaciante récord expone fondos de lodo seco, encalla embarcaciones y desestabiliza las tomas de captación de agua potable.",
@@ -1914,10 +1911,10 @@
 
     function escaparHTML(str) {
       return String(str || "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;");
+        .replace(/&/g, "&")
+        .replace(/</g, "<")
+        .replace(/>/g, ">")
+        .replace(/"/g, """);
     }
 
     if (auth) {
@@ -1936,7 +1933,7 @@
           const etiqueta = nombrePerfilFirestore || user.email || "Estudiante";
           statusText.innerHTML = "🔗 Sesión activa en la Matriz: <strong>" + escaparHTML(etiqueta) + "</strong>";
         } else {
-          statusText.innerHTML = "🔗 Sin sesión iniciada. Puedes explorar toda la cuenca o ingresar desde <a href='../index.html' style='color:#15803D;font-weight:800;'>la Matriz General</a>.";
+          statusText.innerHTML = "🔗 Sin sesión iniciada. Puedes explorar toda la cuenca o ingresar desde <a href='index.html' style='color:#15803D;font-weight:800;'>la Matriz General</a>.";
         }
       });
     }
