@@ -11,14 +11,10 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
   <style>
-    /* ==========================================================================
-       SISTEMA DE DISEÑO MOBILE-FIRST Y ALTO CONTRASTE (C.E. APLICACIÓN UNAP)
-       ========================================================================== */
     :root {
       --bg-white: #FFFFFF;
       --bg-slate: #F8FAFC;
       --bg-green-tint: #F0FDF4;
-      --bg-green-badge: #DCFCE7;
       --bg-amber-tint: #FFFBEB;
       --bg-blue-tint: #EFF6FF;
       --green-accent: #15803D;
@@ -30,7 +26,6 @@
       --text-black: #000000;
       --text-charcoal: #0F172A;
       --text-muted: #334155;
-      --border-strong: #15803D;
       --border-neutral: #CBD5E1;
       --radius-lg: 16px;
       --radius-md: 12px;
@@ -69,9 +64,7 @@
       font-size: 1rem;
     }
 
-    /* ==========================================================================
-       BARRA SUPERIOR FIJA: RETORNO A LA MATRIZ Y CONTROL DE AUDIO
-       ========================================================================== */
+    /* BARRA SUPERIOR FIJA */
     .top-fixed-nav {
       position: fixed;
       top: 0;
@@ -108,10 +101,6 @@
 
     .btn-back-matriz:hover {
       background-color: var(--green-dark);
-    }
-
-    .btn-back-matriz:active {
-      transform: scale(0.97);
     }
 
     .top-nav-right {
@@ -154,13 +143,7 @@
       white-space: nowrap;
     }
 
-    .btn-audio:active {
-      transform: scale(0.96);
-    }
-
-    /* ==========================================================================
-       CONTENEDOR CENTRAL Y CABECERA PEDAGÓGICA
-       ========================================================================== */
+    /* CONTENEDOR CENTRAL Y CABECERA */
     .app-container {
       width: 100%;
       max-width: 1140px;
@@ -264,9 +247,7 @@
       font-size: 0.95rem;
     }
 
-    /* ==========================================================================
-       SECCIONES NUMERADAS
-       ========================================================================== */
+    /* SECCIONES */
     .section-card {
       background-color: var(--bg-white);
       border: 2px solid var(--border-neutral);
@@ -313,9 +294,7 @@
       color: var(--text-charcoal);
     }
 
-    /* ==========================================================================
-       CONTROLES DE PROGRESO Y NAVEGACIÓN DEL LIENZO PANORÁMICO
-       ========================================================================== */
+    /* CONTROLES DEL LIENZO */
     .canvas-toolbar {
       display: flex;
       align-items: center;
@@ -381,17 +360,12 @@
       font-weight: 800;
       font-size: 0.82rem;
       cursor: pointer;
-      transition: background-color 0.15s ease, transform 0.1s ease;
     }
 
     .btn-zoom.active {
       background-color: var(--blue-river);
       color: var(--bg-white);
       border-color: var(--blue-dark);
-    }
-
-    .btn-zoom:active {
-      transform: scale(0.96);
     }
 
     .pan-hint-bar {
@@ -409,9 +383,7 @@
       color: #78350F;
     }
 
-    /* ==========================================================================
-       2. LIENZO PANORÁMICO INTERACTIVO (PAN / SWIPE + 15 PINES PORCENTUALES)
-       ========================================================================== */
+    /* LIENZO PANORÁMICO */
     .panorama-viewport {
       position: relative;
       width: 100%;
@@ -430,7 +402,6 @@
       cursor: grabbing;
     }
 
-    /* En modo panorámico móvil/tablet permite deslizar con fluidez sin deformar la imagen */
     .panorama-stage {
       position: relative;
       width: 980px;
@@ -465,9 +436,7 @@
       pointer-events: none;
     }
 
-    /* ==========================================================================
-       PINES INTERACTIVOS NUMERADOS (1 AL 15) CON PULSO KEYFRAMES
-       ========================================================================== */
+    /* PINES INTERACTIVOS (1 AL 15) */
     @keyframes pinPulse {
       0% {
         box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.75), 0 4px 10px rgba(0, 0, 0, 0.45);
@@ -522,10 +491,6 @@
       outline: none;
     }
 
-    .map-pin:active {
-      transform: translate(-50%, -50%) scale(0.95);
-    }
-
     .map-pin.visited {
       background: radial-gradient(circle at 30% 30%, #22C55E, #15803D);
       animation: pinPulseVisited 2.6s infinite;
@@ -549,7 +514,6 @@
       justify-content: center;
     }
 
-    /* Tooltip flotante en escritorio */
     .map-pin-tooltip {
       position: absolute;
       bottom: calc(100% + 8px);
@@ -575,9 +539,7 @@
       }
     }
 
-    /* ==========================================================================
-       GRILLA RÁPIDA DE LOS 15 PUNTOS DEBAJO DEL LIENZO
-       ========================================================================== */
+    /* ÍNDICE RÁPIDO DE LOS 15 PUNTOS */
     .points-quick-header {
       display: flex;
       align-items: center;
@@ -624,10 +586,6 @@
       background-color: var(--bg-green-tint);
     }
 
-    .point-card-btn:active {
-      transform: scale(0.98);
-    }
-
     .point-card-num {
       width: 32px;
       height: 32px;
@@ -670,9 +628,7 @@
       margin-top: 2px;
     }
 
-    /* ==========================================================================
-       3. VENTANA MODAL EMERGENTE / DRAWER DE CONTENIDO DEL PUNTO (1 AL 15)
-       ========================================================================== */
+    /* VENTANA MODAL */
     .point-modal-backdrop {
       position: fixed;
       inset: 0;
@@ -941,12 +897,6 @@
       min-height: 82px;
     }
 
-    .critical-textarea:focus {
-      outline: none;
-      border-color: var(--green-accent);
-      box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.2);
-    }
-
     .critical-save-row {
       display: flex;
       align-items: center;
@@ -983,14 +933,7 @@
       cursor: pointer;
     }
 
-    .btn-modal-step:hover {
-      border-color: var(--green-accent);
-      background-color: var(--bg-green-tint);
-    }
-
-    /* ==========================================================================
-       DOSSIER TEÓRICO DESPLEGABLE Y FORMULARIO DE EVIDENCIA (SESIÓN 04)
-       ========================================================================== */
+    /* DOSSIER Y ENTREGA */
     .dossier-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -1041,10 +984,6 @@
       color: var(--text-black);
     }
 
-    .activity-instructions-box li {
-      margin-bottom: 5px;
-    }
-
     .form-field {
       margin-bottom: 15px;
     }
@@ -1066,12 +1005,6 @@
       border: 2px solid var(--text-charcoal);
       border-radius: 10px;
       font-size: 0.98rem;
-    }
-
-    .form-control:focus {
-      outline: none;
-      border-color: var(--green-accent);
-      box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.2);
     }
 
     textarea.form-control {
@@ -1164,11 +1097,6 @@
       gap: 8px;
     }
 
-    .btn-submit-firestore:hover:not(:disabled) {
-      background-color: var(--green-accent);
-      border-color: var(--green-accent);
-    }
-
     .btn-submit-firestore:disabled {
       background-color: #94A3B8;
       border-color: #94A3B8;
@@ -1259,9 +1187,7 @@
       <p>En Iquitos y todo Loreto, el río no es un simple paisaje estático: es la <strong>base material</strong> que fertiliza los barriales con limo andino, abastece más del 70% de la proteína mediante la pesca, regula el clima con los <strong>ríos aéreos</strong> y opera como nuestra única autopista estructural.</p>
     </aside>
 
-    <!-- ========================================================================
-         1. LIENZO INTERACTIVO PANORÁMICO DE LOS 15 PUNTOS DE LA CUENCA
-         ======================================================================== -->
+    <!-- 1. LIENZO INTERACTIVO PANORÁMICO DE LOS 15 PUNTOS DE LA CUENCA -->
     <section class="section-card" id="seccion-mapa-cuenca">
       <div class="section-title-row">
         <span class="section-badge-num">1</span>
@@ -1271,7 +1197,6 @@
         Desplázate por la ilustración panorámica (arrastra con el mouse o desliza con el dedo) y haz clic sobre los <strong>15 pines numerados</strong> para abrir su análisis científico, su impacto económico en Loreto y su reto de reflexión crítica.
       </p>
 
-      <!-- BARRA DE PROGRESO Y CONTROLES DE VISTA -->
       <div class="canvas-toolbar">
         <div class="progress-group" aria-live="polite">
           <span class="progress-label" id="points-progress-text">Nodos explorados: 0 / 15</span>
@@ -1294,13 +1219,7 @@
       <!-- LIENZO PANORÁMICO PRINCIPAL -->
       <div class="panorama-viewport" id="panorama-viewport">
         <div class="panorama-stage" id="panorama-stage">
-          <img
-            src="../imagenes/mapa.jpg"
-            alt="Ilustración panorámica de la cuenca amazónica desde la Divisoria de Aguas en los Andes hasta la llanura aluvial de Loreto con 15 puntos hidrográficos numerados"
-            class="panorama-img"
-            id="panorama-main-img"
-          >
-          <!-- Los 15 pines interactivos se inyectan dinámicamente aquí mediante puntosSemana4 -->
+          <img id="mapa-img" src="../img/mapa.jpg" alt="Mapa Cuenca Amazónica" class="panorama-img">
           <div id="pins-layer"></div>
         </div>
       </div>
@@ -1313,9 +1232,7 @@
       <div class="points-grid" id="points-quick-grid"></div>
     </section>
 
-    <!-- ========================================================================
-         2. SÍNTESIS DEL DOSSIER CONCEPTUAL (SEPARATA DE CLASE)
-         ======================================================================== -->
+    <!-- 2. SÍNTESIS DEL DOSSIER CONCEPTUAL -->
     <section class="section-card" id="seccion-dossier">
       <div class="section-title-row">
         <span class="section-badge-num">2</span>
@@ -1345,9 +1262,7 @@
       </div>
     </section>
 
-    <!-- ========================================================================
-         3. ACTIVIDAD Y ENTREGA DE EVIDENCIA (MAPA TEMÁTICO + FICHA EXPLICATIVA)
-         ======================================================================== -->
+    <!-- 3. ACTIVIDAD Y ENTREGA DE EVIDENCIA -->
     <section class="section-card" id="seccion-entrega">
       <div class="section-title-row">
         <span class="section-badge-num">3</span>
@@ -1389,21 +1304,9 @@
           ></textarea>
         </div>
 
-        <!-- CÁMARA Y COMPRESIÓN AUTOMÁTICA EN CANVAS (< 100 KB) -->
         <div class="camera-box">
-          <input
-            type="file"
-            id="input-camera-capture"
-            accept="image/*"
-            capture="environment"
-            style="display:none;"
-          >
-          <input
-            type="file"
-            id="input-gallery-pick"
-            accept="image/*"
-            style="display:none;"
-          >
+          <input type="file" id="input-camera-capture" accept="image/*" capture="environment" style="display:none;">
+          <input type="file" id="input-gallery-pick" accept="image/*" style="display:none;">
 
           <button type="button" id="btn-trigger-camera" class="btn-camera-primary">
             📷 Tomar Foto a mi Mapa Temático Amazónico
@@ -1428,7 +1331,6 @@
         </p>
       </form>
 
-      <!-- CONFIRMACIÓN DE ENVÍO -->
       <div class="submission-success-card" id="submission-success-card" aria-live="polite">
         <div style="font-size:2.3rem;">✅</div>
         <h3 id="submission-success-title">¡Evidencia de la Semana 04 Registrada!</h3>
@@ -1446,9 +1348,7 @@
 
   </main>
 
-  <!-- ==========================================================================
-       VENTANA MODAL DE DETALLE PARA CADA UNO DE LOS 15 PUNTOS DE LA CUENCA
-       ========================================================================== -->
+  <!-- VENTANA MODAL DE DETALLE PARA CADA UNO DE LOS 15 PUNTOS -->
   <div class="point-modal-backdrop" id="point-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-point-title">
     <div class="point-modal-dialog">
       <div class="modal-topbar">
@@ -1465,11 +1365,7 @@
         <h2 class="modal-point-title" id="modal-point-title">Título del Punto</h2>
 
         <div class="modal-media-frame">
-          <img
-            id="modal-point-img"
-            src=""
-            alt=""
-          >
+          <img id="modal-point-img" src="" alt="">
           <span class="modal-img-caption" id="modal-img-filename"></span>
         </div>
 
@@ -1513,14 +1409,14 @@
 
   <script>
     /* ==========================================================================
-       4. DATASET OFICIAL DE LOS 15 PUNTOS (JSON OBLIGATORIO)
+       DATASET OFICIAL DE LOS 15 PUNTOS (RUTA EXCLUSIVA ../img/imagen1.jpg ... 15)
        ========================================================================== */
     const puntosSemana4 = [
       {
         id: 1,
         x: 13.5,
         y: 6.2,
-        archivo_imagen: "../imagenes/1.jpg",
+        imagen: "../img/imagen1.jpg",
         titulo: "Divisoria de Aguas (Divortium Aquarum)",
         categoria: "Geografía Física y Geología",
         concepto: "Línea orográfica imaginaria que sigue las crestas y cumbres más elevadas de la Cordillera de los Andes. Actúa como el límite material continental: una gota de lluvia que precipita un centímetro hacia el oeste drena hacia las costas del Océano Pacífico, mientras que si cae hacia la vertiente oriental inicia su recorrido por la cuenca del Amazonas rumbo al Atlántico.",
@@ -1531,7 +1427,7 @@
         id: 2,
         x: 15.2,
         y: 30.5,
-        archivo_imagen: "../imagenes/2.jpg",
+        imagen: "../img/imagen2.jpg",
         titulo: "Cuenca Alta: Cabeceras y Torrentes",
         categoria: "Mecánica Fluvial",
         concepto: "Zona de cabecera caracterizada por fuertes pendientes topográficas, bajas temperaturas y alta energía cinética del agua. La fuerza hidráulica genera un proceso dominante de meteorización y erosión vertical del lecho rocoso, desprendiendo los minerales que alimentarán la cuenca.",
@@ -1542,7 +1438,7 @@
         id: 3,
         x: 38.0,
         y: 32.8,
-        archivo_imagen: "../imagenes/3.jpg",
+        imagen: "../img/imagen3.jpg",
         titulo: "Cuenca Media: Valles de Transición",
         categoria: "Dinámica Fluvial",
         concepto: "Zona donde el relieve pierde inclinación abrupta al ingresar a la selva alta o rupa-rupa. La energía del río disminuye su poder erosivo directo y se convierte en un vector fundamental de transporte masivo de sedimentos y carga sólida.",
@@ -1553,7 +1449,7 @@
         id: 4,
         x: 59.5,
         y: 41.5,
-        archivo_imagen: "../imagenes/4.jpg",
+        imagen: "../img/imagen4.jpg",
         titulo: "Cuenca Baja: Llanura Aluvial",
         categoria: "Geomorfología",
         concepto: "Zona de mínima gradiente altimétrica (con desniveles menores a 100 m s.n.m.). Al perder velocidad de arrastre, el agua serpentea libremente formando amplios meandros, lagunas de herradura (tipishcas o cochas) y extensas llanuras de inundación periódica.",
@@ -1564,7 +1460,7 @@
         id: 5,
         x: 63.0,
         y: 16.5,
-        archivo_imagen: "../imagenes/5.jpg",
+        imagen: "../img/imagen5.jpg",
         titulo: "Ríos Aéreos: La Bomba Biótica",
         categoria: "Climatología y Termodinámica",
         concepto: "Corrientes atmosféricas masivas compuestas por millones de toneladas de vapor de agua. Son generadas por la evapotranspiración de los árboles del bosque continuo; viajan hacia el oeste hasta chocar con la muralla andina, condensándose y descargando las lluvias torrenciales que alimentan la red fluvial sudamericana.",
@@ -1575,7 +1471,7 @@
         id: 6,
         x: 72.0,
         y: 34.2,
-        archivo_imagen: "../imagenes/6.jpg",
+        imagen: "../img/imagen6.jpg",
         titulo: "Dosel Forestal y Evapotranspiración",
         categoria: "Ecología Vegetal",
         concepto: "Estructura vegetal continua de copas arbóreas que intercepta el impacto directo de las gotas de lluvia, evitando la erosión del suelo arenoso selvático y liberando compuestos orgánicos volátiles que nuclean las gotas de agua en las nubes.",
@@ -1586,7 +1482,7 @@
         id: 7,
         x: 77.2,
         y: 53.8,
-        archivo_imagen: "../imagenes/7.jpg",
+        imagen: "../img/imagen7.jpg",
         titulo: "Aguas Blancas (Turbias): Riqueza Andina",
         categoria: "Limnología",
         concepto: "Cursos fluviales que nacen en los Andes (como el Marañón, Ucayali y Amazonas). Su color café con leche se debe a la inmensa carga de sedimentos minerales en suspensión; poseen pH neutro (6.5 - 7.5) y alta conductividad eléctrica, constituyendo los ecosistemas más productivos biológicamente.",
@@ -1597,7 +1493,7 @@
         id: 8,
         x: 86.8,
         y: 61.5,
-        archivo_imagen: "../imagenes/8.jpg",
+        imagen: "../img/imagen8.jpg",
         titulo: "Aguas Negras: El Río Nanay",
         categoria: "Limnología y Bioquímica",
         concepto: "Ríos autóctonos de la llanura amazónica que drenan bosques de varillal y suelos de arena blanca podzólica. Sus aguas son químicamente ácidas (pH 4.0 - 5.0), pobres en nutrientes minerales disueltos y de color té oscuro debido a la lixiviación de taninos y ácidos húmicos de la hojarasca descompuesta.",
@@ -1608,7 +1504,7 @@
         id: 9,
         x: 60.5,
         y: 57.5,
-        archivo_imagen: "../imagenes/9.jpg",
+        imagen: "../img/imagen9.jpg",
         titulo: "Confluencia Marañón - Ucayali (Nauta)",
         categoria: "Hidrografía",
         concepto: "Punto geográfico e hidrológico exacto donde convergen el río Marañón y el río Ucayali para dar nacimiento formal y nominal al Río Amazonas en territorio peruano, multiplicando exponencialmente el caudal hidráulico.",
@@ -1619,7 +1515,7 @@
         id: 10,
         x: 41.2,
         y: 53.5,
-        archivo_imagen: "../imagenes/10.jpg",
+        imagen: "../img/imagen10.jpg",
         titulo: "Afluente Huallaga: Aporte Longitudinal",
         categoria: "Red Fluvial",
         concepto: "Gran afluente andino de la margen derecha del río Marañón. Drena valles interandinos y de selva alta, arrastrando una gran carga de sedimentos agrícolas antes de que el Marañón se una con el Ucayali.",
@@ -1630,7 +1526,7 @@
         id: 11,
         x: 43.8,
         y: 72.8,
-        archivo_imagen: "../imagenes/11.jpg",
+        imagen: "../img/imagen11.jpg",
         titulo: "Barriales y Playas: Agricultura de Vaciante",
         categoria: "Materialidad y Economía Agrícola",
         concepto: "Suelos aluviales recientes depositados durante la época de vaciante fluvial. Son barros ricos en limo y nutrientes andinos que no requieren abono químico, aprovechados para la siembra intensiva de ciclo corto (arroz, frijol chiclayo, maní, maíz).",
@@ -1641,7 +1537,7 @@
         id: 12,
         x: 59.8,
         y: 73.0,
-        archivo_imagen: "../imagenes/12.jpg",
+        imagen: "../img/imagen12.jpg",
         titulo: "Restingas: Terrazas No Inundables",
         categoria: "Geomorfología y Asentamientos",
         concepto: "Franjas de tierra más elevadas ubicadas a lo largo de las riberas aluviales. Al sufrir inundaciones muy cortas o no inundarse durante la creciente regular, permiten cultivos de ciclo largo (yuca, plátano, frutales nativos) y la instalación de viviendas comunitarias.",
@@ -1652,7 +1548,7 @@
         id: 13,
         x: 54.0,
         y: 75.0,
-        archivo_imagen: "../imagenes/13.jpg",
+        imagen: "../img/imagen13.jpg",
         titulo: "Vías de Comunicación y Transporte",
         categoria: "Infraestructura Fluvial",
         concepto: "En un territorio sin conectividad terrestre con el resto del país, los cursos de agua operan como las verdaderas autopistas estructurales. Lanchas de carga, motonaves y peque-peques sostienen el transporte de mercancías, combustibles y personas.",
@@ -1663,7 +1559,7 @@
         id: 14,
         x: 70.2,
         y: 62.5,
-        archivo_imagen: "../imagenes/14.jpg",
+        imagen: "../img/imagen14.jpg",
         titulo: "Seguridad Alimentaria y Migración Ictiológica",
         categoria: "Soberanía Alimentaria y Biología",
         concepto: "La pesca artesanal provee más del 70% de la proteína consumida por los loretanos. Peces reofílicos (como bagres migratorios: zúngaros, dorados) recorren miles de kilómetros río arriba conectando biológicamente la llanura con los ríos andinos para desovar.",
@@ -1674,7 +1570,7 @@
         id: 15,
         x: 75.5,
         y: 75.5,
-        archivo_imagen: "../imagenes/15.jpg",
+        imagen: "../img/imagen15.jpg",
         titulo: "Vulnerabilidad: Vaciante y Sequía Extrema",
         categoria: "Crisis Climática y Presión Antrópica",
         concepto: "Pérdida drástica del caudal fluvial ocasionada por la combinación de calentamiento global, el fenómeno de El Niño y la deforestación de cabeceras. La vaciante récord expone fondos de lodo seco, encalla embarcaciones y desestabiliza las tomas de captación de agua potable.",
@@ -1683,96 +1579,11 @@
       }
     ];
 
-    /* ==========================================================================
-       SISTEMA DE FALLBACK MULTINIVEL (UNSPLASH TEMÁTICO + SVG PLACEHOLDER)
-       Si aún no se ha subido ../imagenes/[id].jpg, carga Unsplash nítido y,
-       si no hay red, genera un SVG temático para que la interfaz jamás se rompa.
-       ========================================================================== */
-    const UNSPLASH_FALLBACKS = {
-      1: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=80",
-      2: "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=900&q=80",
-      3: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=900&q=80",
-      4: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=900&q=80",
-      5: "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=900&q=80",
-      6: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=900&q=80",
-      7: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=900&q=80",
-      8: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=900&q=80",
-      9: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80",
-      10: "https://images.unsplash.com/photo-1439066615861-d1af74d74000?auto=format&fit=crop&w=900&q=80",
-      11: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=900&q=80",
-      12: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=900&q=80",
-      13: "https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?auto=format&fit=crop&w=900&q=80",
-      14: "https://images.unsplash.com/photo-1534043464124-3be32fe000c9?auto=format&fit=crop&w=900&q=80",
-      15: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=900&q=80"
-    };
-
-    function obtenerRutaRelativaImagen(archivo) {
-      const limpio = String(archivo || "").trim();
-      if (limpio.startsWith("../imagenes/")) return limpio;
-      return `../imagenes/${limpio}`;
-    }
-
-    function crearPlaceholderSVG(punto) {
-      const rutaImg = obtenerRutaRelativaImagen(punto.archivo_imagen);
-      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
-        <defs>
-          <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#0C4A6E"/>
-            <stop offset="55%" stop-color="#15803D"/>
-            <stop offset="100%" stop-color="#166534"/>
-          </linearGradient>
-        </defs>
-        <rect width="800" height="450" fill="url(#bg)"/>
-        <path d="M0 340 Q200 290 400 340 T800 320 L800 450 L0 450 Z" fill="rgba(255,255,255,0.12)"/>
-        <circle cx="400" cy="145" r="46" fill="#DC2626" stroke="#FFFFFF" stroke-width="5"/>
-        <text x="400" y="160" text-anchor="middle" fill="#FFFFFF" font-family="sans-serif" font-size="38" font-weight="bold">${punto.id}</text>
-        <text x="400" y="245" text-anchor="middle" fill="#FFFFFF" font-family="sans-serif" font-size="26" font-weight="bold">${punto.titulo}</text>
-        <text x="400" y="285" text-anchor="middle" fill="#BAE6FD" font-family="sans-serif" font-size="18">${punto.categoria}</text>
-        <text x="400" y="395" text-anchor="middle" fill="#DCFCE7" font-family="monospace" font-size="15">${rutaImg}</text>
-      </svg>`;
-      return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
-    }
-
-    function crearMapaPanoramicoFallbackSVG() {
-      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 559" width="1024" height="559">
-        <defs>
-          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#F8FAFC"/>
-            <stop offset="100%" stop-color="#E0F2FE"/>
-          </linearGradient>
-          <linearGradient id="plain" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#86EFAC"/>
-            <stop offset="60%" stop-color="#22C55E"/>
-            <stop offset="100%" stop-color="#15803D"/>
-          </linearGradient>
-        </defs>
-        <rect width="1024" height="559" fill="url(#sky)"/>
-        <!-- Cordillera de los Andes -->
-        <polygon points="30,360 135,35 245,190 310,95 450,310" fill="#78716C" stroke="#44403C" stroke-width="3"/>
-        <polygon points="135,35 95,125 140,145 180,115" fill="#FFFFFF"/>
-        <polygon points="310,95 270,155 315,175 350,145" fill="#FFFFFF"/>
-        <!-- Llanura Amazónica -->
-        <path d="M220,310 Q540,220 990,210 L980,460 Q640,540 360,520 Z" fill="url(#plain)"/>
-        <!-- Ríos Aéreos -->
-        <path d="M420,140 Q560,70 670,110 T840,100" fill="none" stroke="#38BDF8" stroke-width="18" stroke-linecap="round" stroke-dasharray="16 10"/>
-        <!-- Cauce Principal Amazonas / Marañón / Ucayali -->
-        <path d="M150,165 Q230,290 390,340 T610,320 T960,235" fill="none" stroke="#D97706" stroke-width="26" stroke-linecap="round"/>
-        <path d="M400,500 Q520,410 610,320" fill="none" stroke="#D97706" stroke-width="32" stroke-linecap="round"/>
-        <!-- Río Nanay (Aguas Negras) -->
-        <path d="M840,320 Q890,360 910,415" fill="none" stroke="#1E293B" stroke-width="18" stroke-linecap="round"/>
-        <!-- Zona de Sequía -->
-        <ellipse cx="770" cy="425" rx="75" ry="42" fill="#FDE68A" stroke="#92400E" stroke-width="3"/>
-        <text x="512" y="538" text-anchor="middle" fill="#0F172A" font-family="sans-serif" font-size="16" font-weight="bold">Esquema de respaldo activo — Sube ../imagenes/mapa.jpg para ver la ilustración completa</text>
-      </svg>`;
-      return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
-    }
-
-    // Configurar fallback para la ilustración panorámica principal
-    const mainPanoramaImg = document.getElementById("panorama-main-img");
-    mainPanoramaImg.onerror = function () {
-      this.onerror = null;
-      this.src = crearMapaPanoramicoFallbackSVG();
-    };
+    // Reporte natural en consola si el mapa principal no puede cargarse
+    const mapaImgEl = document.getElementById("mapa-img");
+    mapaImgEl.addEventListener("error", function () {
+      console.error("Error al cargar el mapa principal:", this.getAttribute("src"));
+    });
 
     /* ==========================================================================
        SISTEMA DE AUDIO WEB AUDIO API (CERO ARCHIVOS EXTERNOS)
@@ -1890,7 +1701,6 @@
         const visitado = Boolean(puntosVisitados[punto.id]);
         const respondido = (reflexionesCriticas[punto.id] || "").trim().length >= 5;
 
-        // 1. Pin circular sobre la ilustración panorámica
         const pinBtn = document.createElement("button");
         pinBtn.type = "button";
         pinBtn.className = "map-pin" + (visitado ? " visited" : "") + (respondido ? " answered" : "");
@@ -1907,7 +1717,6 @@
         });
         pinsLayer.appendChild(pinBtn);
 
-        // 2. Tarjeta de acceso rápido debajo del mapa
         const cardBtn = document.createElement("button");
         cardBtn.type = "button";
         cardBtn.className = "point-card-btn" + (visitado ? " visited" : "");
@@ -1922,7 +1731,6 @@
         quickGrid.appendChild(cardBtn);
       });
 
-      // Actualizar contadores de progreso
       const totalVisitados = puntosSemana4.filter((p) => puntosVisitados[p.id]).length;
       const totalReflexiones = puntosSemana4.filter((p) => (reflexionesCriticas[p.id] || "").trim().length >= 5).length;
 
@@ -1989,7 +1797,7 @@
     });
 
     /* ==========================================================================
-       3. APERTURA Y GESTIÓN DE LA VENTANA MODAL DE LOS 15 PUNTOS
+       APERTURA Y GESTIÓN DE LA VENTANA MODAL DE LOS 15 PUNTOS
        ========================================================================== */
     const modalBackdrop = document.getElementById("point-modal-backdrop");
     const modalImg = document.getElementById("modal-point-img");
@@ -2006,35 +1814,21 @@
       renderizarPinesYGrilla();
       sonarEfecto("pin");
 
-      // Poblar datos oficiales del punto
       document.getElementById("modal-point-number").textContent = punto.id;
       document.getElementById("modal-point-category").textContent = punto.categoria;
       document.getElementById("modal-point-title").textContent = `${punto.id}. ${punto.titulo}`;
       document.getElementById("modal-point-concepto").textContent = punto.concepto;
       document.getElementById("modal-point-impacto").textContent = punto.impacto_local;
       document.getElementById("modal-point-pregunta").textContent = punto.pregunta_critica;
-      const rutaRelativa = obtenerRutaRelativaImagen(punto.archivo_imagen);
-      document.getElementById("modal-img-filename").textContent = rutaRelativa;
+      document.getElementById("modal-img-filename").textContent = punto.imagen;
       document.getElementById("modal-step-indicator").textContent = `Punto ${punto.id} de 15`;
 
-      // Ruta relativa obligatoria ../imagenes/[nombre-archivo].jpg + Fallback automático en onerror
-      const fallbackUnsplash = UNSPLASH_FALLBACKS[punto.id];
-      const fallbackSvg = crearPlaceholderSVG(punto);
-
       modalImg.onerror = function () {
-        if (this.dataset.fallbackStep !== "unsplash" && fallbackUnsplash) {
-          this.dataset.fallbackStep = "unsplash";
-          this.src = fallbackUnsplash;
-        } else {
-          this.onerror = null;
-          this.src = fallbackSvg;
-        }
+        console.error(`Error al cargar la imagen del punto ${punto.id}:`, punto.imagen);
       };
-      modalImg.dataset.fallbackStep = "";
       modalImg.alt = `${punto.titulo} - ${punto.categoria}`;
-      modalImg.src = rutaRelativa;
+      modalImg.src = punto.imagen;
 
-      // Cargar reflexión crítica guardada para este punto
       const textoGuardado = reflexionesCriticas[punto.id] || "";
       modalRespuesta.value = textoGuardado;
       modalSaveStatus.textContent = textoGuardado.trim().length >= 5
@@ -2085,7 +1879,6 @@
     document.getElementById("btn-prev-point").addEventListener("click", () => navegarPuntoModal(-1));
     document.getElementById("btn-next-point").addEventListener("click", () => navegarPuntoModal(1));
 
-    // Inicializar los 15 pines al cargar
     renderizarPinesYGrilla();
 
     /* ==========================================================================
@@ -2153,7 +1946,6 @@
     const hintEl = document.getElementById("form-validation-hint");
     let envioCompletado = false;
 
-    // Restaurar borrador de la ficha explicativa
     try {
       const fichaBorrador = JSON.parse(localStorage.getItem(STORAGE_KEY_FICHA) || "null");
       if (fichaBorrador) {
