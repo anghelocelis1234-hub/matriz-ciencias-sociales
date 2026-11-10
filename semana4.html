@@ -1,0 +1,2395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title>Sesión 04: La Materialidad del Agua y la Cuenca Amazónica | Ciencias Sociales 4.° Sec. - C.E. UNAP</title>
+
+  <!-- SDKs oficiales de Firebase (v9.23.0 compat - sincronizado con la Matriz General) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <style>
+    /* ==========================================================================
+       SISTEMA DE DISEÑO MOBILE-FIRST Y ALTO CONTRASTE (C.E. APLICACIÓN UNAP)
+       ========================================================================== */
+    :root {
+      --bg-white: #FFFFFF;
+      --bg-slate: #F8FAFC;
+      --bg-green-tint: #F0FDF4;
+      --bg-green-badge: #DCFCE7;
+      --bg-amber-tint: #FFFBEB;
+      --bg-blue-tint: #EFF6FF;
+      --green-accent: #15803D;
+      --green-dark: #166534;
+      --blue-river: #0369A1;
+      --blue-dark: #0C4A6E;
+      --pin-red: #DC2626;
+      --pin-amber: #D97706;
+      --text-black: #000000;
+      --text-charcoal: #0F172A;
+      --text-muted: #334155;
+      --border-strong: #15803D;
+      --border-neutral: #CBD5E1;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+      --topbar-h: 62px;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      margin: 0;
+      padding: calc(var(--topbar-h) + 14px) 0 56px 0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-slate);
+      color: var(--text-charcoal);
+      font-size: 16px;
+      line-height: 1.58;
+      overflow-x: hidden;
+    }
+
+    img, svg, canvas {
+      max-width: 100%;
+      display: block;
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: 1rem;
+    }
+
+    /* ==========================================================================
+       BARRA SUPERIOR FIJA: RETORNO A LA MATRIZ Y CONTROL DE AUDIO
+       ========================================================================== */
+    .top-fixed-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--topbar-h);
+      background-color: var(--bg-white);
+      border-bottom: 3px solid var(--green-accent);
+      z-index: 900;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      gap: 10px;
+      box-shadow: 0 2px 12px rgba(15, 23, 42, 0.08);
+    }
+
+    .btn-back-matriz {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background-color: var(--green-accent);
+      color: var(--bg-white);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 0.9rem;
+      padding: 10px 14px;
+      border-radius: 10px;
+      min-height: 44px;
+      border: 2px solid var(--green-dark);
+      transition: transform 0.12s ease, background-color 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn-back-matriz:hover {
+      background-color: var(--green-dark);
+    }
+
+    .btn-back-matriz:active {
+      transform: scale(0.97);
+    }
+
+    .top-nav-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .session-badge-top {
+      display: none;
+      background-color: var(--bg-blue-tint);
+      color: var(--blue-dark);
+      border: 1.5px solid #BAE6FD;
+      font-weight: 800;
+      font-size: 0.82rem;
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+
+    @media (min-width: 640px) {
+      .session-badge-top {
+        display: inline-block;
+      }
+    }
+
+    .btn-audio {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      background-color: var(--bg-green-tint);
+      color: var(--text-black);
+      border: 2px solid var(--green-accent);
+      border-radius: 10px;
+      padding: 8px 12px;
+      min-height: 44px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .btn-audio:active {
+      transform: scale(0.96);
+    }
+
+    /* ==========================================================================
+       CONTENEDOR CENTRAL Y CABECERA PEDAGÓGICA
+       ========================================================================== */
+    .app-container {
+      width: 100%;
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 14px;
+    }
+
+    .hero-header {
+      background: linear-gradient(135deg, #F0FDF4 0%, #E0F2FE 100%);
+      border: 2px solid var(--green-accent);
+      border-radius: var(--radius-lg);
+      padding: 20px 18px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+    }
+
+    .meta-pills-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .school-pill {
+      display: inline-block;
+      background-color: var(--green-accent);
+      color: var(--bg-white);
+      font-weight: 800;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .water-pill {
+      display: inline-block;
+      background-color: var(--blue-river);
+      color: var(--bg-white);
+      font-weight: 800;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+
+    .hero-header h1 {
+      margin: 0 0 8px 0;
+      color: var(--text-black);
+      font-size: clamp(1.35rem, 4.5vw, 2.05rem);
+      line-height: 1.22;
+      font-weight: 900;
+    }
+
+    .hero-header p {
+      margin: 0;
+      color: var(--text-charcoal);
+      font-size: 0.98rem;
+      font-weight: 500;
+    }
+
+    .auth-status-bar {
+      margin-top: 14px;
+      padding: 9px 12px;
+      background-color: var(--bg-white);
+      border: 1.5px solid var(--border-neutral);
+      border-radius: var(--radius-sm);
+      font-size: 0.86rem;
+      color: var(--text-black);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .thesis-box {
+      background-color: var(--bg-white);
+      border-left: 6px solid var(--blue-river);
+      border-top: 1.5px solid var(--border-neutral);
+      border-right: 1.5px solid var(--border-neutral);
+      border-bottom: 1.5px solid var(--border-neutral);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: 15px 16px;
+      margin-bottom: 22px;
+    }
+
+    .thesis-box h2 {
+      margin: 0 0 6px 0;
+      font-size: 1rem;
+      color: var(--blue-river);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .thesis-box p {
+      margin: 0;
+      color: var(--text-black);
+      font-size: 0.95rem;
+    }
+
+    /* ==========================================================================
+       SECCIONES NUMERADAS
+       ========================================================================== */
+    .section-card {
+      background-color: var(--bg-white);
+      border: 2px solid var(--border-neutral);
+      border-radius: var(--radius-lg);
+      padding: 18px 15px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+    }
+
+    .section-title-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--bg-green-tint);
+    }
+
+    .section-badge-num {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background-color: var(--green-accent);
+      color: var(--bg-white);
+      font-weight: 900;
+      font-size: 1.08rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .section-title-row h2 {
+      margin: 0;
+      font-size: 1.22rem;
+      line-height: 1.25;
+      color: var(--text-black);
+      font-weight: 900;
+    }
+
+    .section-instruction {
+      margin: 0 0 14px 0;
+      font-size: 0.95rem;
+      color: var(--text-charcoal);
+    }
+
+    /* ==========================================================================
+       CONTROLES DE PROGRESO Y NAVEGACIÓN DEL LIENZO PANORÁMICO
+       ========================================================================== */
+    .canvas-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      background-color: var(--bg-green-tint);
+      border: 1.5px solid var(--green-accent);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      margin-bottom: 12px;
+    }
+
+    .progress-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .progress-label {
+      font-size: 0.88rem;
+      font-weight: 900;
+      color: var(--text-black);
+      white-space: nowrap;
+    }
+
+    .progress-track {
+      flex: 1;
+      max-width: 200px;
+      height: 11px;
+      background-color: #CBD5E1;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--green-accent), var(--blue-river));
+      transition: width 0.3s ease;
+    }
+
+    .zoom-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .btn-zoom {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      background-color: var(--bg-white);
+      color: var(--text-black);
+      border: 2px solid var(--text-charcoal);
+      border-radius: 8px;
+      padding: 6px 11px;
+      min-height: 38px;
+      font-weight: 800;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: background-color 0.15s ease, transform 0.1s ease;
+    }
+
+    .btn-zoom.active {
+      background-color: var(--blue-river);
+      color: var(--bg-white);
+      border-color: var(--blue-dark);
+    }
+
+    .btn-zoom:active {
+      transform: scale(0.96);
+    }
+
+    .pan-hint-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background-color: var(--bg-amber-tint);
+      border: 1.5px solid #F59E0B;
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      margin-bottom: 12px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #78350F;
+    }
+
+    /* ==========================================================================
+       2. LIENZO PANORÁMICO INTERACTIVO (PAN / SWIPE + 15 PINES PORCENTUALES)
+       ========================================================================== */
+    .panorama-viewport {
+      position: relative;
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      border: 3px solid var(--text-charcoal);
+      border-radius: var(--radius-md);
+      background-color: #F5F5F0;
+      cursor: grab;
+      user-select: none;
+      -webkit-overflow-scrolling: touch;
+      box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .panorama-viewport.dragging {
+      cursor: grabbing;
+    }
+
+    /* En modo panorámico móvil/tablet permite deslizar con fluidez sin deformar la imagen */
+    .panorama-stage {
+      position: relative;
+      width: 980px;
+      aspect-ratio: 1024 / 559;
+      margin: 0 auto;
+      transition: width 0.25s ease;
+    }
+
+    .panorama-viewport.fit-mode .panorama-stage {
+      width: 100%;
+      min-width: 100%;
+    }
+
+    .panorama-viewport.zoom-lg .panorama-stage {
+      width: 1320px;
+    }
+
+    @media (min-width: 1024px) {
+      .panorama-stage {
+        width: 100%;
+      }
+      .panorama-viewport.zoom-lg .panorama-stage {
+        width: 1480px;
+      }
+    }
+
+    .panorama-img {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      display: block;
+      pointer-events: none;
+    }
+
+    /* ==========================================================================
+       PINES INTERACTIVOS NUMERADOS (1 AL 15) CON PULSO KEYFRAMES
+       ========================================================================== */
+    @keyframes pinPulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.75), 0 4px 10px rgba(0, 0, 0, 0.45);
+      }
+      70% {
+        box-shadow: 0 0 0 14px rgba(220, 38, 38, 0), 0 4px 10px rgba(0, 0, 0, 0.45);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0), 0 4px 10px rgba(0, 0, 0, 0.45);
+      }
+    }
+
+    @keyframes pinPulseVisited {
+      0% {
+        box-shadow: 0 0 0 0 rgba(21, 128, 61, 0.65), 0 3px 8px rgba(0, 0, 0, 0.4);
+      }
+      70% {
+        box-shadow: 0 0 0 11px rgba(21, 128, 61, 0), 0 3px 8px rgba(0, 0, 0, 0.4);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(21, 128, 61, 0), 0 3px 8px rgba(0, 0, 0, 0.4);
+      }
+    }
+
+    .map-pin {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #EF4444, #B91C1C);
+      color: var(--bg-white);
+      border: 3px solid var(--bg-white);
+      font-weight: 900;
+      font-size: 0.92rem;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 20;
+      padding: 0;
+      animation: pinPulse 2.1s infinite;
+      transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s ease;
+    }
+
+    .map-pin:hover,
+    .map-pin:focus-visible {
+      transform: translate(-50%, -50%) scale(1.22);
+      background: radial-gradient(circle at 30% 30%, #F59E0B, #B45309);
+      z-index: 35;
+      outline: none;
+    }
+
+    .map-pin:active {
+      transform: translate(-50%, -50%) scale(0.95);
+    }
+
+    .map-pin.visited {
+      background: radial-gradient(circle at 30% 30%, #22C55E, #15803D);
+      animation: pinPulseVisited 2.6s infinite;
+    }
+
+    .map-pin.answered::after {
+      content: "✓";
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background-color: #0F172A;
+      color: #FFFFFF;
+      border: 1.5px solid #FFFFFF;
+      font-size: 0.65rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Tooltip flotante en escritorio */
+    .map-pin-tooltip {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(15, 23, 42, 0.95);
+      color: #FFFFFF;
+      font-size: 0.76rem;
+      font-weight: 800;
+      padding: 5px 9px;
+      border-radius: 6px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.16s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    @media (hover: hover) {
+      .map-pin:hover .map-pin-tooltip,
+      .map-pin:focus-visible .map-pin-tooltip {
+        opacity: 1;
+      }
+    }
+
+    /* ==========================================================================
+       GRILLA RÁPIDA DE LOS 15 PUNTOS DEBAJO DEL LIENZO
+       ========================================================================== */
+    .points-quick-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 18px 0 10px 0;
+    }
+
+    .points-quick-header h3 {
+      margin: 0;
+      font-size: 1.02rem;
+      font-weight: 900;
+      color: var(--text-black);
+    }
+
+    .points-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+      gap: 10px;
+    }
+
+    .point-card-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      background-color: var(--bg-white);
+      border: 2px solid var(--border-neutral);
+      border-radius: 12px;
+      padding: 10px 12px;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 0.15s ease, transform 0.12s ease, background-color 0.15s ease;
+    }
+
+    .point-card-btn:hover {
+      border-color: var(--pin-red);
+      background-color: #FEF2F2;
+    }
+
+    .point-card-btn.visited {
+      border-color: var(--green-accent);
+      background-color: var(--bg-green-tint);
+    }
+
+    .point-card-btn:active {
+      transform: scale(0.98);
+    }
+
+    .point-card-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: var(--pin-red);
+      color: var(--bg-white);
+      font-weight: 900;
+      font-size: 0.88rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .point-card-btn.visited .point-card-num {
+      background-color: var(--green-accent);
+    }
+
+    .point-card-info {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .point-card-title {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 900;
+      color: var(--text-black);
+      line-height: 1.25;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .point-card-cat {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* ==========================================================================
+       3. VENTANA MODAL EMERGENTE / DRAWER DE CONTENIDO DEL PUNTO (1 AL 15)
+       ========================================================================== */
+    .point-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(15, 23, 42, 0.76);
+      z-index: 1050;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 0;
+      backdrop-filter: blur(3px);
+    }
+
+    .point-modal-backdrop.open {
+      display: flex;
+    }
+
+    @media (min-width: 720px) {
+      .point-modal-backdrop {
+        align-items: center;
+        padding: 20px;
+      }
+    }
+
+    .point-modal-dialog {
+      width: 100%;
+      max-width: 820px;
+      max-height: 92vh;
+      background-color: var(--bg-white);
+      border-radius: 20px 20px 0 0;
+      border-top: 4px solid var(--pin-red);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+      animation: modalSlideUp 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @media (min-width: 720px) {
+      .point-modal-dialog {
+        border-radius: 18px;
+        border: 3px solid var(--text-charcoal);
+        max-height: 88vh;
+      }
+    }
+
+    @keyframes modalSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 14px 16px;
+      background-color: var(--bg-slate);
+      border-bottom: 2px solid var(--border-neutral);
+    }
+
+    .modal-topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .modal-pin-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background-color: var(--pin-red);
+      color: var(--bg-white);
+      font-weight: 900;
+      font-size: 1.05rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 2px solid var(--text-black);
+    }
+
+    .modal-category-pill {
+      display: inline-block;
+      background-color: var(--bg-blue-tint);
+      color: var(--blue-dark);
+      border: 1.5px solid var(--blue-river);
+      font-weight: 800;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .btn-modal-close {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      background-color: var(--text-charcoal);
+      color: var(--bg-white);
+      border: none;
+      border-radius: 10px;
+      padding: 9px 14px;
+      min-height: 42px;
+      font-weight: 900;
+      font-size: 0.88rem;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .btn-modal-close:hover {
+      background-color: var(--pin-red);
+    }
+
+    .modal-body-scroll {
+      padding: 18px 16px 22px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    @media (min-width: 720px) {
+      .modal-body-scroll {
+        padding: 22px 26px 26px;
+      }
+    }
+
+    .modal-point-title {
+      margin: 0 0 14px 0;
+      font-size: clamp(1.25rem, 3.5vw, 1.65rem);
+      font-weight: 900;
+      color: var(--text-black);
+      line-height: 1.24;
+    }
+
+    .modal-media-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      max-height: 330px;
+      background-color: #E2E8F0;
+      border: 2px solid var(--text-charcoal);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .modal-media-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .modal-img-caption {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background-color: rgba(15, 23, 42, 0.82);
+      color: #FFFFFF;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-family: monospace;
+    }
+
+    .modal-info-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    @media (min-width: 720px) {
+      .modal-info-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .info-panel {
+      border-radius: var(--radius-md);
+      padding: 14px 15px;
+      border: 2px solid var(--border-neutral);
+    }
+
+    .info-panel.science-panel {
+      background-color: var(--bg-blue-tint);
+      border-color: var(--blue-river);
+    }
+
+    .info-panel.loreto-panel {
+      background-color: var(--bg-green-tint);
+      border-color: var(--green-accent);
+    }
+
+    .info-panel-kicker {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin: 0 0 6px 0;
+    }
+
+    .science-panel .info-panel-kicker {
+      color: var(--blue-dark);
+    }
+
+    .loreto-panel .info-panel-kicker {
+      color: var(--green-dark);
+    }
+
+    .info-panel p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: var(--text-black);
+      line-height: 1.56;
+    }
+
+    .critical-question-card {
+      background-color: var(--bg-amber-tint);
+      border: 2px solid var(--pin-amber);
+      border-radius: var(--radius-md);
+      padding: 15px 16px;
+    }
+
+    .critical-kicker {
+      display: inline-block;
+      background-color: var(--pin-amber);
+      color: var(--bg-white);
+      font-weight: 900;
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      padding: 3px 9px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+
+    .critical-question-text {
+      margin: 0 0 10px 0;
+      font-size: 1rem;
+      font-weight: 900;
+      color: var(--text-black);
+      line-height: 1.4;
+    }
+
+    .critical-textarea {
+      width: 100%;
+      border: 2px solid var(--text-charcoal);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.94rem;
+      background-color: var(--bg-white);
+      color: var(--text-black);
+      resize: vertical;
+      min-height: 82px;
+    }
+
+    .critical-textarea:focus {
+      outline: none;
+      border-color: var(--green-accent);
+      box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.2);
+    }
+
+    .critical-save-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 6px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--green-dark);
+    }
+
+    .modal-footer-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 16px;
+      background-color: var(--bg-slate);
+      border-top: 2px solid var(--border-neutral);
+    }
+
+    .btn-modal-step {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background-color: var(--bg-white);
+      color: var(--text-black);
+      border: 2px solid var(--text-charcoal);
+      border-radius: 10px;
+      padding: 9px 14px;
+      min-height: 44px;
+      font-weight: 800;
+      font-size: 0.88rem;
+      cursor: pointer;
+    }
+
+    .btn-modal-step:hover {
+      border-color: var(--green-accent);
+      background-color: var(--bg-green-tint);
+    }
+
+    /* ==========================================================================
+       DOSSIER TEÓRICO DESPLEGABLE Y FORMULARIO DE EVIDENCIA (SESIÓN 04)
+       ========================================================================== */
+    .dossier-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .dossier-card {
+      background-color: var(--bg-slate);
+      border: 1.5px solid var(--border-neutral);
+      border-left: 5px solid var(--green-accent);
+      border-radius: 10px;
+      padding: 13px 14px;
+    }
+
+    .dossier-card h3 {
+      margin: 0 0 6px 0;
+      font-size: 0.98rem;
+      font-weight: 900;
+      color: var(--text-black);
+    }
+
+    .dossier-card p {
+      margin: 0;
+      font-size: 0.88rem;
+      color: var(--text-charcoal);
+    }
+
+    .activity-instructions-box {
+      background-color: var(--bg-blue-tint);
+      border: 2px solid var(--blue-river);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      margin-bottom: 18px;
+    }
+
+    .activity-instructions-box h3 {
+      margin: 0 0 8px 0;
+      font-size: 1.02rem;
+      font-weight: 900;
+      color: var(--blue-dark);
+    }
+
+    .activity-instructions-box ul {
+      margin: 0;
+      padding-left: 20px;
+      font-size: 0.92rem;
+      color: var(--text-black);
+    }
+
+    .activity-instructions-box li {
+      margin-bottom: 5px;
+    }
+
+    .form-field {
+      margin-bottom: 15px;
+    }
+
+    .form-field label {
+      display: block;
+      font-weight: 900;
+      color: var(--text-black);
+      margin-bottom: 6px;
+      font-size: 0.95rem;
+    }
+
+    .form-control {
+      width: 100%;
+      min-height: 48px;
+      padding: 11px 13px;
+      background-color: var(--bg-white);
+      color: var(--text-black);
+      border: 2px solid var(--text-charcoal);
+      border-radius: 10px;
+      font-size: 0.98rem;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--green-accent);
+      box-shadow: 0 0 0 3px rgba(21, 128, 61, 0.2);
+    }
+
+    textarea.form-control {
+      min-height: 110px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    .camera-box {
+      background-color: var(--bg-green-tint);
+      border: 2px dashed var(--green-accent);
+      border-radius: var(--radius-md);
+      padding: 16px 14px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .btn-camera-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      min-height: 52px;
+      background-color: var(--green-accent);
+      color: var(--bg-white);
+      border: 2px solid var(--green-dark);
+      border-radius: 12px;
+      font-weight: 900;
+      font-size: 0.98rem;
+      padding: 12px 16px;
+      cursor: pointer;
+    }
+
+    .btn-gallery-link {
+      margin-top: 8px;
+      background: transparent;
+      border: none;
+      color: var(--green-dark);
+      font-weight: 800;
+      font-size: 0.88rem;
+      text-decoration: underline;
+      cursor: pointer;
+      padding: 6px 10px;
+    }
+
+    .photo-preview-card {
+      display: none;
+      margin-top: 14px;
+      background-color: var(--bg-white);
+      border: 2px solid var(--green-accent);
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .photo-preview-card.visible {
+      display: block;
+    }
+
+    .photo-preview-card img {
+      max-height: 240px;
+      margin: 0 auto 8px auto;
+      border-radius: 8px;
+      border: 1.5px solid var(--border-neutral);
+      object-fit: contain;
+    }
+
+    .photo-meta-status {
+      font-size: 0.84rem;
+      font-weight: 800;
+      color: var(--green-dark);
+      margin: 0;
+    }
+
+    .btn-submit-firestore {
+      width: 100%;
+      min-height: 54px;
+      background-color: var(--text-black);
+      color: var(--bg-white);
+      border: 2px solid var(--text-black);
+      border-radius: 12px;
+      font-weight: 900;
+      font-size: 1rem;
+      padding: 14px 18px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-submit-firestore:hover:not(:disabled) {
+      background-color: var(--green-accent);
+      border-color: var(--green-accent);
+    }
+
+    .btn-submit-firestore:disabled {
+      background-color: #94A3B8;
+      border-color: #94A3B8;
+      cursor: not-allowed;
+    }
+
+    .validation-hint {
+      font-size: 0.86rem;
+      color: var(--text-charcoal);
+      margin: 8px 0 0 0;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .submission-success-card {
+      display: none;
+      margin-top: 18px;
+      background-color: var(--bg-green-tint);
+      border: 3px solid var(--green-accent);
+      border-radius: var(--radius-lg);
+      padding: 20px 16px;
+      text-align: center;
+    }
+
+    .submission-success-card.visible {
+      display: block;
+    }
+
+    .toast-banner {
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background-color: var(--text-black);
+      color: var(--bg-white);
+      padding: 11px 18px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      z-index: 1200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease, transform 0.22s ease;
+      max-width: 92vw;
+      text-align: center;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+    }
+
+    .toast-banner.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BARRA SUPERIOR FIJA -->
+  <nav class="top-fixed-nav" aria-label="Navegación principal">
+    <a href="../index.html" class="btn-back-matriz">⬅️ Volver a la Matriz Principal</a>
+    <div class="top-nav-right">
+      <span class="session-badge-top">Sesión N.° 04 • Cuenca Amazónica</span>
+      <button type="button" id="btn-toggle-audio" class="btn-audio" aria-label="Activar o silenciar sonidos">
+        <span id="audio-icon">🔊</span>
+        <span id="audio-text">Sonido</span>
+      </button>
+    </div>
+  </nav>
+
+  <main class="app-container">
+
+    <!-- CABECERA INSTITUCIONAL -->
+    <header class="hero-header">
+      <div class="meta-pills-row">
+        <span class="school-pill">I.E. Aplicación UNAP • 4.° A de Secundaria</span>
+        <span class="water-pill">Ciencias Sociales • Geografía y Territorio</span>
+      </div>
+      <h1>Sesión 04: La Materialidad del Agua y la Cuenca Hidrográfica Amazónica</h1>
+      <p>Analizamos la dinámica física, química y socioeconómica de la vertiente del Amazonas (74.5% del Perú), su relación directa con la vida en Loreto y las respuestas críticas frente a la vulnerabilidad hídrica.</p>
+      <div class="auth-status-bar" id="auth-status-bar">
+        <span id="auth-status-text">🔗 Sincronizando sesión activa con la Web Matriz...</span>
+        <span style="font-weight:800; color:var(--green-dark);">Docente: Yuri J. Aspajo • Practicante: Anghelo J. Celis</span>
+      </div>
+    </header>
+
+    <!-- TESIS MATERIALISTA HÍDRICA -->
+    <aside class="thesis-box" aria-label="Tesis central de la sesión">
+      <h2>💧 El Territorio Vivo y la Materialidad Hídrica</h2>
+      <p>En Iquitos y todo Loreto, el río no es un simple paisaje estático: es la <strong>base material</strong> que fertiliza los barriales con limo andino, abastece más del 70% de la proteína mediante la pesca, regula el clima con los <strong>ríos aéreos</strong> y opera como nuestra única autopista estructural.</p>
+    </aside>
+
+    <!-- ========================================================================
+         1. LIENZO INTERACTIVO PANORÁMICO DE LOS 15 PUNTOS DE LA CUENCA
+         ======================================================================== -->
+    <section class="section-card" id="seccion-mapa-cuenca">
+      <div class="section-title-row">
+        <span class="section-badge-num">1</span>
+        <h2>Lienzo Interactivo: Los 15 Nodos de la Cuenca Amazónica</h2>
+      </div>
+      <p class="section-instruction">
+        Desplázate por la ilustración panorámica (arrastra con el mouse o desliza con el dedo) y haz clic sobre los <strong>15 pines numerados</strong> para abrir su análisis científico, su impacto económico en Loreto y su reto de reflexión crítica.
+      </p>
+
+      <!-- BARRA DE PROGRESO Y CONTROLES DE VISTA -->
+      <div class="canvas-toolbar">
+        <div class="progress-group" aria-live="polite">
+          <span class="progress-label" id="points-progress-text">Nodos explorados: 0 / 15</span>
+          <div class="progress-track">
+            <div class="progress-fill" id="points-progress-bar"></div>
+          </div>
+        </div>
+        <div class="zoom-controls" role="group" aria-label="Modo de visualización del mapa">
+          <button type="button" class="btn-zoom active" id="btn-mode-pan">↔️ Modo Deslizable</button>
+          <button type="button" class="btn-zoom" id="btn-mode-fit">🖼️ Ajustar a Pantalla</button>
+          <button type="button" class="btn-zoom" id="btn-mode-zoom">🔍 Zoom Detalle</button>
+        </div>
+      </div>
+
+      <div class="pan-hint-bar">
+        <span>🖐️ <strong>Tip táctil / mouse:</strong> Arrastra el lienzo horizontalmente o toca cualquier número (1 al 15) para inspeccionar la cuenca.</span>
+        <span id="reflection-counter-badge">Reflexiones: 0 / 15</span>
+      </div>
+
+      <!-- LIENZO PANORÁMICO PRINCIPAL -->
+      <div class="panorama-viewport" id="panorama-viewport">
+        <div class="panorama-stage" id="panorama-stage">
+          <img
+            src="../imagenes/mapa.jpg"
+            alt="Ilustración panorámica de la cuenca amazónica desde la Divisoria de Aguas en los Andes hasta la llanura aluvial de Loreto con 15 puntos hidrográficos numerados"
+            class="panorama-img"
+            id="panorama-main-img"
+          >
+          <!-- Los 15 pines interactivos se inyectan dinámicamente aquí mediante puntosSemana4 -->
+          <div id="pins-layer"></div>
+        </div>
+      </div>
+
+      <!-- ACCESO RÁPIDO A LOS 15 PUNTOS -->
+      <div class="points-quick-header">
+        <h3>🧭 Índice Rápido de los 15 Puntos de la Cuenca:</h3>
+        <span style="font-size:0.82rem; font-weight:700; color:var(--text-muted);">Toca cualquier tarjeta para abrir su ventana modal</span>
+      </div>
+      <div class="points-grid" id="points-quick-grid"></div>
+    </section>
+
+    <!-- ========================================================================
+         2. SÍNTESIS DEL DOSSIER CONCEPTUAL (SEPARATA DE CLASE)
+         ======================================================================== -->
+    <section class="section-card" id="seccion-dossier">
+      <div class="section-title-row">
+        <span class="section-badge-num">2</span>
+        <h2>Dossier Conceptual: Organización Hídrica y Marco Legal</h2>
+      </div>
+      <p class="section-instruction">
+        Resumen estructurado de la separata oficial de clase para respaldar tu mapa temático y tu ficha explicativa.
+      </p>
+
+      <div class="dossier-grid">
+        <article class="dossier-card">
+          <h3>🏔️ Las 3 Vertientes del Perú</h3>
+          <p><strong>1. Pacífico:</strong> Ríos cortos, torrentosos y de régimen irregular.<br><strong>2. Titicaca:</strong> Cuenca endorreica cerrada en la meseta del Collao.<br><strong>3. Amazonas:</strong> Abarca el <strong>74.5% del territorio nacional</strong>, mayor colector hídrico y regulador climático continental.</p>
+        </article>
+        <article class="dossier-card">
+          <h3>🧪 Limnología Amazónica</h3>
+          <p><strong>Aguas Blancas (Marañón, Ucayali, Amazonas):</strong> pH neutro (6.5–7.5), ricas en limo andino y pesca.<br><strong>Aguas Negras (Nanay):</strong> pH ácido (4.0–5.0) por ácidos húmicos y taninos sobre arena blanca.<br><strong>Aguas Claras:</strong> Baja carga sedimentaria.</p>
+        </article>
+        <article class="dossier-card">
+          <h3>🌾 Vaciante, Barriales y Restingas</h3>
+          <p>En <strong>vaciante</strong> emergen los <em>barriales y playas</em> fertilizados gratuitamente para cultivos cortos (arroz, chiclayo, maní). Las <em>restingas</em> (terrazas altas) sostienen plátano, yuca y asentamientos ribereños.</p>
+        </article>
+        <article class="dossier-card">
+          <h3>⚖️ Ley N.° 29338 y Soluciones (SbN)</h3>
+          <p>La <strong>Ley de Recursos Hídricos (N.° 29338)</strong> declara el agua bien público inalienable. Frente a sequías (como la de 2024), minería ilegal y deforestación, impulsamos reforestación ribereña, cochas de reserva y monitoreo comunal.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         3. ACTIVIDAD Y ENTREGA DE EVIDENCIA (MAPA TEMÁTICO + FICHA EXPLICATIVA)
+         ======================================================================== -->
+    <section class="section-card" id="seccion-entrega">
+      <div class="section-title-row">
+        <span class="section-badge-num">3</span>
+        <h2>Actividad y Entrega: Mapa Temático Amazónico y Ficha Explicativa</h2>
+      </div>
+      <p class="section-instruction">
+        Registra los dos bloques de tu Ficha Explicativa y adjunta la fotografía de tu <strong>Mapa Temático exclusivo de la Vertiente Amazónica Peruana</strong> elaborado en clase.
+      </p>
+
+      <div class="activity-instructions-box">
+        <h3>📋 Requisitos de tu Mapa Temático (Hoja de trabajo):</h3>
+        <ul>
+          <li><strong>Restricción geográfica:</strong> Delimita exclusivamente la vertiente hidrográfica amazónica peruana (sin detallar costa ni Titicaca).</li>
+          <li><strong>Ríos obligatorios rotulados:</strong> Río Amazonas, Río Marañón, Río Ucayali y Río Huallaga (más la confluencia en Nauta y el Río Nanay).</li>
+          <li><strong>Convenciones cartográficas:</strong> Azul intenso para cauces principales, azul claro para afluentes secundarios y verde para llanuras inundables.</li>
+        </ul>
+      </div>
+
+      <form id="evidence-form" novalidate>
+        <div class="form-field">
+          <label for="bloqueEconomia">Bloque 1: Relación Cuenca – Economía Local (1 párrafo) *</label>
+          <textarea
+            id="bloqueEconomia"
+            class="form-control"
+            rows="4"
+            placeholder="Explica cómo la dinámica hidrológica de la cuenca amazónica (ciclos de creciente/vaciante, barriales, pesca de bagres/boquichico y transporte fluvial en lanchas y peque-peques) condiciona directamente el abastecimiento y los precios en Loreto..."
+            required
+          ></textarea>
+        </div>
+
+        <div class="form-field">
+          <label for="bloquePropuesta">Bloque 2: Propuesta de Solución Local frente a la Vulnerabilidad Hídrica (1 párrafo) *</label>
+          <textarea
+            id="bloquePropuesta"
+            class="form-control"
+            rows="4"
+            placeholder="Plantea una acción concreta, viable y fundamentada críticamente (Soluciones Basadas en la Naturaleza, vigilancia de cuencas, manejo de cochas o tratamiento de aguas bajo la Ley N.° 29338) para mitigar la contaminación o enfrentar las sequías extremas..."
+            required
+          ></textarea>
+        </div>
+
+        <!-- CÁMARA Y COMPRESIÓN AUTOMÁTICA EN CANVAS (< 100 KB) -->
+        <div class="camera-box">
+          <input
+            type="file"
+            id="input-camera-capture"
+            accept="image/*"
+            capture="environment"
+            style="display:none;"
+          >
+          <input
+            type="file"
+            id="input-gallery-pick"
+            accept="image/*"
+            style="display:none;"
+          >
+
+          <button type="button" id="btn-trigger-camera" class="btn-camera-primary">
+            📷 Tomar Foto a mi Mapa Temático Amazónico
+          </button>
+          <div>
+            <button type="button" id="btn-trigger-gallery" class="btn-gallery-link">
+              📂 O seleccionar fotografía desde mi galería
+            </button>
+          </div>
+
+          <div class="photo-preview-card" id="photo-preview-card">
+            <img id="photo-preview-img" src="" alt="Vista previa del mapa temático comprimido">
+            <p class="photo-meta-status" id="photo-meta-status"></p>
+          </div>
+        </div>
+
+        <button type="submit" id="btn-submit-all" class="btn-submit-firestore" disabled>
+          🚀 Enviar Mapa Temático y Ficha Explicativa (Semana 4)
+        </button>
+        <p class="validation-hint" id="form-validation-hint">
+          Completa los 2 bloques de la ficha explicativa y adjunta la foto de tu mapa temático para habilitar el envío.
+        </p>
+      </form>
+
+      <!-- CONFIRMACIÓN DE ENVÍO -->
+      <div class="submission-success-card" id="submission-success-card" aria-live="polite">
+        <div style="font-size:2.3rem;">✅</div>
+        <h3 id="submission-success-title">¡Evidencia de la Semana 04 Registrada!</h3>
+        <p id="submission-summary-text"></p>
+        <a href="../index.html" class="btn-back-matriz" style="width:100%; justify-content:center; padding:13px;">⬅️ Volver a la Matriz Principal</a>
+        <button
+          type="button"
+          id="btn-enable-resubmit"
+          style="margin-top:10px; width:100%; min-height:46px; background:#FFFFFF; color:#15803D; border:2px solid #15803D; border-radius:12px; font-weight:800; font-size:0.95rem; cursor:pointer; padding:10px 16px;"
+        >
+          🔄 Corregir o actualizar mi entrega
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================================================
+       VENTANA MODAL DE DETALLE PARA CADA UNO DE LOS 15 PUNTOS DE LA CUENCA
+       ========================================================================== -->
+  <div class="point-modal-backdrop" id="point-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-point-title">
+    <div class="point-modal-dialog">
+      <div class="modal-topbar">
+        <div class="modal-topbar-left">
+          <span class="modal-pin-badge" id="modal-point-number">1</span>
+          <span class="modal-category-pill" id="modal-point-category">Categoría Científica</span>
+        </div>
+        <button type="button" class="btn-modal-close" id="btn-close-modal" aria-label="Cerrar ventana modal">
+          ✕ Cerrar
+        </button>
+      </div>
+
+      <div class="modal-body-scroll" id="modal-body-scroll">
+        <h2 class="modal-point-title" id="modal-point-title">Título del Punto</h2>
+
+        <div class="modal-media-frame">
+          <img
+            id="modal-point-img"
+            src=""
+            alt=""
+          >
+          <span class="modal-img-caption" id="modal-img-filename"></span>
+        </div>
+
+        <div class="modal-info-grid">
+          <div class="info-panel science-panel">
+            <h3 class="info-panel-kicker">🔬 Base Científica y Material</h3>
+            <p id="modal-point-concepto"></p>
+          </div>
+          <div class="info-panel loreto-panel">
+            <h3 class="info-panel-kicker">🛶 Impacto en Loreto y Economía Local</h3>
+            <p id="modal-point-impacto"></p>
+          </div>
+        </div>
+
+        <div class="critical-question-card">
+          <span class="critical-kicker">🧠 Pregunta de Reflexión Crítica</span>
+          <p class="critical-question-text" id="modal-point-pregunta"></p>
+          <textarea
+            id="modal-point-respuesta"
+            class="critical-textarea"
+            rows="3"
+            placeholder="Escribe aquí tu argumento crítico sobre este punto de la cuenca (se guarda automáticamente)..."
+          ></textarea>
+          <div class="critical-save-row">
+            <span id="modal-save-status">⏳ Reflexión opcional / pendiente</span>
+            <span>Guardado automático en tu dispositivo</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer-nav">
+        <button type="button" class="btn-modal-step" id="btn-prev-point">⬅️ Punto Anterior</button>
+        <span style="font-size:0.84rem; font-weight:800; color:var(--text-muted);" id="modal-step-indicator">1 de 15</span>
+        <button type="button" class="btn-modal-step" id="btn-next-point">Siguiente Punto ➡️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST DE NOTIFICACIONES -->
+  <div class="toast-banner" id="toast-banner" role="status" aria-live="polite"></div>
+
+  <script>
+    /* ==========================================================================
+       4. DATASET OFICIAL DE LOS 15 PUNTOS (JSON OBLIGATORIO)
+       ========================================================================== */
+    const puntosSemana4 = [
+      {
+        id: 1,
+        x: 13.5,
+        y: 6.2,
+        archivo_imagen: "../imagenes/1.jpg",
+        titulo: "Divisoria de Aguas (Divortium Aquarum)",
+        categoria: "Geografía Física y Geología",
+        concepto: "Línea orográfica imaginaria que sigue las crestas y cumbres más elevadas de la Cordillera de los Andes. Actúa como el límite material continental: una gota de lluvia que precipita un centímetro hacia el oeste drena hacia las costas del Océano Pacífico, mientras que si cae hacia la vertiente oriental inicia su recorrido por la cuenca del Amazonas rumbo al Atlántico.",
+        impacto_local: "Determina que el 74.5% del territorio peruano desagüe hacia nuestra llanura, consolidando a Loreto como el gran colector hídrico de toda la cordillera.",
+        pregunta_critica: "¿Por qué una alteración ambiental o minera en las cumbres andinas repercute miles de kilómetros río abajo en la Amazonía?"
+      },
+      {
+        id: 2,
+        x: 15.2,
+        y: 30.5,
+        archivo_imagen: "../imagenes/2.jpg",
+        titulo: "Cuenca Alta: Cabeceras y Torrentes",
+        categoria: "Mecánica Fluvial",
+        concepto: "Zona de cabecera caracterizada por fuertes pendientes topográficas, bajas temperaturas y alta energía cinética del agua. La fuerza hidráulica genera un proceso dominante de meteorización y erosión vertical del lecho rocoso, desprendiendo los minerales que alimentarán la cuenca.",
+        impacto_local: "Aquí se originan los sedimentos andinos ricos en nitrógeno, fósforo y potasio que terminan fertilizando nuestras playas y barriales loretanos.",
+        pregunta_critica: "¿Qué ocurriría con la fertilidad de las tierras agrícolas de Loreto si las nacientes andinas fueran represadas masivamente?"
+      },
+      {
+        id: 3,
+        x: 38.0,
+        y: 32.8,
+        archivo_imagen: "../imagenes/3.jpg",
+        titulo: "Cuenca Media: Valles de Transición",
+        categoria: "Dinámica Fluvial",
+        concepto: "Zona donde el relieve pierde inclinación abrupta al ingresar a la selva alta o rupa-rupa. La energía del río disminuye su poder erosivo directo y se convierte en un vector fundamental de transporte masivo de sedimentos y carga sólida.",
+        impacto_local: "Conecta biológica y comercialmente la sierra con la llanura amazónica, permitiendo el transporte temprano de alimentos y el inicio de la navegación fluvial.",
+        pregunta_critica: "¿Cómo afecta la deforestación de las laderas en la cuenca media al aumento de huaicos y turbidez extrema en los ríos?"
+      },
+      {
+        id: 4,
+        x: 59.5,
+        y: 41.5,
+        archivo_imagen: "../imagenes/4.jpg",
+        titulo: "Cuenca Baja: Llanura Aluvial",
+        categoria: "Geomorfología",
+        concepto: "Zona de mínima gradiente altimétrica (con desniveles menores a 100 m s.n.m.). Al perder velocidad de arrastre, el agua serpentea libremente formando amplios meandros, lagunas de herradura (tipishcas o cochas) y extensas llanuras de inundación periódica.",
+        impacto_local: "Es el piso geográfico donde se asientan Iquitos, Requena y Nauta. Dicta el modelo arquitectónico (palafitos) y los ritmos de vida urbana y rural.",
+        pregunta_critica: "¿Por qué en una llanura casi plana como la nuestra los ríos cambian constantemente de curso y 'tragan' pueblos enteros?"
+      },
+      {
+        id: 5,
+        x: 63.0,
+        y: 16.5,
+        archivo_imagen: "../imagenes/5.jpg",
+        titulo: "Ríos Aéreos: La Bomba Biótica",
+        categoria: "Climatología y Termodinámica",
+        concepto: "Corrientes atmosféricas masivas compuestas por millones de toneladas de vapor de agua. Son generadas por la evapotranspiración de los árboles del bosque continuo; viajan hacia el oeste hasta chocar con la muralla andina, condensándose y descargando las lluvias torrenciales que alimentan la red fluvial sudamericana.",
+        impacto_local: "Garantizan el régimen continuo de lluvias sobre la selva baja. Sin ellos, Loreto enfrentaría regímenes climáticos áridos.",
+        pregunta_critica: "¿Es la lluvia amazónica una bendición pasiva del cielo o un producto directo del trabajo biológico de los árboles?"
+      },
+      {
+        id: 6,
+        x: 72.0,
+        y: 34.2,
+        archivo_imagen: "../imagenes/6.jpg",
+        titulo: "Dosel Forestal y Evapotranspiración",
+        categoria: "Ecología Vegetal",
+        concepto: "Estructura vegetal continua de copas arbóreas que intercepta el impacto directo de las gotas de lluvia, evitando la erosión del suelo arenoso selvático y liberando compuestos orgánicos volátiles que nuclean las gotas de agua en las nubes.",
+        impacto_local: "Mantiene la humedad ambiental y previene el recalentamiento térmico del suelo en áreas como la cuenca del Nanay e Itaya.",
+        pregunta_critica: "¿Por qué al talar una hectárea de selva se interrumpe el ciclo del agua a escala regional?"
+      },
+      {
+        id: 7,
+        x: 77.2,
+        y: 53.8,
+        archivo_imagen: "../imagenes/7.jpg",
+        titulo: "Aguas Blancas (Turbias): Riqueza Andina",
+        categoria: "Limnología",
+        concepto: "Cursos fluviales que nacen en los Andes (como el Marañón, Ucayali y Amazonas). Su color café con leche se debe a la inmensa carga de sedimentos minerales en suspensión; poseen pH neutro (6.5 - 7.5) y alta conductividad eléctrica, constituyendo los ecosistemas más productivos biológicamente.",
+        impacto_local: "Son las aguas que garantizan la alta productividad pesquera de boquichico, lisa y gamitana para el mercado de Belén.",
+        pregunta_critica: "¿Por qué los ríos de aguas blancas son el verdadero soporte nutricional de las ciudades amazónicas?"
+      },
+      {
+        id: 8,
+        x: 86.8,
+        y: 61.5,
+        archivo_imagen: "../imagenes/8.jpg",
+        titulo: "Aguas Negras: El Río Nanay",
+        categoria: "Limnología y Bioquímica",
+        concepto: "Ríos autóctonos de la llanura amazónica que drenan bosques de varillal y suelos de arena blanca podzólica. Sus aguas son químicamente ácidas (pH 4.0 - 5.0), pobres en nutrientes minerales disueltos y de color té oscuro debido a la lixiviación de taninos y ácidos húmicos de la hojarasca descompuesta.",
+        impacto_local: "El río Nanay abastece de agua potable a la ciudad de Iquitos a través de la captación de SEDALORETO y alberga especies ornamentales endémicas.",
+        pregunta_critica: "¿Por qué sembrar barriales en la orilla del Nanay fracasaría en comparación con el río Amazonas?"
+      },
+      {
+        id: 9,
+        x: 60.5,
+        y: 57.5,
+        archivo_imagen: "../imagenes/9.jpg",
+        titulo: "Confluencia Marañón - Ucayali (Nauta)",
+        categoria: "Hidrografía",
+        concepto: "Punto geográfico e hidrológico exacto donde convergen el río Marañón y el río Ucayali para dar nacimiento formal y nominal al Río Amazonas en territorio peruano, multiplicando exponencialmente el caudal hidráulico.",
+        impacto_local: "Consolida a Nauta como puerto bisagra de transferencia geopolítica y comercial entre el bajo y el alto Amazonas.",
+        pregunta_critica: "¿Qué implicancias geopolíticas tiene para el Perú albergar el nacimiento del río más caudaloso del planeta?"
+      },
+      {
+        id: 10,
+        x: 41.2,
+        y: 53.5,
+        archivo_imagen: "../imagenes/10.jpg",
+        titulo: "Afluente Huallaga: Aporte Longitudinal",
+        categoria: "Red Fluvial",
+        concepto: "Gran afluente andino de la margen derecha del río Marañón. Drena valles interandinos y de selva alta, arrastrando una gran carga de sedimentos agrícolas antes de que el Marañón se una con el Ucayali.",
+        impacto_local: "Es la arteria fluvial que articula a Yurimaguas con Iquitos, permitiendo el ingreso de víveres e insumos desde la costa y sierra norte.",
+        pregunta_critica: "¿Por qué un corte de tránsito fluvial en el río Huallaga desabastece las tiendas y mercados de Iquitos en 48 horas?"
+      },
+      {
+        id: 11,
+        x: 43.8,
+        y: 72.8,
+        archivo_imagen: "../imagenes/11.jpg",
+        titulo: "Barriales y Playas: Agricultura de Vaciante",
+        categoria: "Materialidad y Economía Agrícola",
+        concepto: "Suelos aluviales recientes depositados durante la época de vaciante fluvial. Son barros ricos en limo y nutrientes andinos que no requieren abono químico, aprovechados para la siembra intensiva de ciclo corto (arroz, frijol chiclayo, maní, maíz).",
+        impacto_local: "Determinan la abundancia y el abaratamiento estacional de alimentos frescos en los mercados loretanos durante los meses de vaciante.",
+        pregunta_critica: "¿Qué pasa con la soberanía alimentaria cuando los ciclos de vaciante son irregulares o tardíos?"
+      },
+      {
+        id: 12,
+        x: 59.8,
+        y: 73.0,
+        archivo_imagen: "../imagenes/12.jpg",
+        titulo: "Restingas: Terrazas No Inundables",
+        categoria: "Geomorfología y Asentamientos",
+        concepto: "Franjas de tierra más elevadas ubicadas a lo largo de las riberas aluviales. Al sufrir inundaciones muy cortas o no inundarse durante la creciente regular, permiten cultivos de ciclo largo (yuca, plátano, frutales nativos) y la instalación de viviendas comunitarias.",
+        impacto_local: "Espacios clave para la seguridad habitacional de los pueblos originarios y ribereños frente a la creciente anual.",
+        pregunta_critica: "¿Cómo influye la topografía de restingas en la planificación urbana y rural amazónica?"
+      },
+      {
+        id: 13,
+        x: 54.0,
+        y: 75.0,
+        archivo_imagen: "../imagenes/13.jpg",
+        titulo: "Vías de Comunicación y Transporte",
+        categoria: "Infraestructura Fluvial",
+        concepto: "En un territorio sin conectividad terrestre con el resto del país, los cursos de agua operan como las verdaderas autopistas estructurales. Lanchas de carga, motonaves y peque-peques sostienen el transporte de mercancías, combustibles y personas.",
+        impacto_local: "Cualquier alteración en el calado navegable del río aísla de inmediato a comunidades periféricas y eleva el flete comercial.",
+        pregunta_critica: "¿Es el transporte fluvial en Loreto una limitación geográfica o una ventaja sustentable frente a la construcción de carreteras que deforestan?"
+      },
+      {
+        id: 14,
+        x: 70.2,
+        y: 62.5,
+        archivo_imagen: "../imagenes/14.jpg",
+        titulo: "Seguridad Alimentaria y Migración Ictiológica",
+        categoria: "Soberanía Alimentaria y Biología",
+        concepto: "La pesca artesanal provee más del 70% de la proteína consumida por los loretanos. Peces reofílicos (como bagres migratorios: zúngaros, dorados) recorren miles de kilómetros río arriba conectando biológicamente la llanura con los ríos andinos para desovar.",
+        impacto_local: "Sostiene el empleo de miles de familias en puertos de desembarque (como Puerto Pesquero de Iquitos) y alimenta la mesa diaria local.",
+        pregunta_critica: "¿Qué impacto tiene la contaminación por metales pesados en las cadenas tróficas de los peces que consumimos en casa?"
+      },
+      {
+        id: 15,
+        x: 75.5,
+        y: 75.5,
+        archivo_imagen: "../imagenes/15.jpg",
+        titulo: "Vulnerabilidad: Vaciante y Sequía Extrema",
+        categoria: "Crisis Climática y Presión Antrópica",
+        concepto: "Pérdida drástica del caudal fluvial ocasionada por la combinación de calentamiento global, el fenómeno de El Niño y la deforestación de cabeceras. La vaciante récord expone fondos de lodo seco, encalla embarcaciones y desestabiliza las tomas de captación de agua potable.",
+        impacto_local: "Provocó desabastecimiento crítico, aislamiento de distritos enteros en Loreto y subida descontrolada en los precios de verduras y combustibles.",
+        pregunta_critica: "¿Es la sequía extrema en la Amazonía un castigo fortuito del clima o el resultado directo del modelo extractivista regional?"
+      }
+    ];
+
+    /* ==========================================================================
+       SISTEMA DE FALLBACK MULTINIVEL (UNSPLASH TEMÁTICO + SVG PLACEHOLDER)
+       Si aún no se ha subido ../imagenes/[id].jpg, carga Unsplash nítido y,
+       si no hay red, genera un SVG temático para que la interfaz jamás se rompa.
+       ========================================================================== */
+    const UNSPLASH_FALLBACKS = {
+      1: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=80",
+      2: "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=900&q=80",
+      3: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=900&q=80",
+      4: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=900&q=80",
+      5: "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=900&q=80",
+      6: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=900&q=80",
+      7: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=900&q=80",
+      8: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=900&q=80",
+      9: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80",
+      10: "https://images.unsplash.com/photo-1439066615861-d1af74d74000?auto=format&fit=crop&w=900&q=80",
+      11: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=900&q=80",
+      12: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=900&q=80",
+      13: "https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?auto=format&fit=crop&w=900&q=80",
+      14: "https://images.unsplash.com/photo-1534043464124-3be32fe000c9?auto=format&fit=crop&w=900&q=80",
+      15: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=900&q=80"
+    };
+
+    function obtenerRutaRelativaImagen(archivo) {
+      const limpio = String(archivo || "").trim();
+      if (limpio.startsWith("../imagenes/")) return limpio;
+      return `../imagenes/${limpio}`;
+    }
+
+    function crearPlaceholderSVG(punto) {
+      const rutaImg = obtenerRutaRelativaImagen(punto.archivo_imagen);
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+        <defs>
+          <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#0C4A6E"/>
+            <stop offset="55%" stop-color="#15803D"/>
+            <stop offset="100%" stop-color="#166534"/>
+          </linearGradient>
+        </defs>
+        <rect width="800" height="450" fill="url(#bg)"/>
+        <path d="M0 340 Q200 290 400 340 T800 320 L800 450 L0 450 Z" fill="rgba(255,255,255,0.12)"/>
+        <circle cx="400" cy="145" r="46" fill="#DC2626" stroke="#FFFFFF" stroke-width="5"/>
+        <text x="400" y="160" text-anchor="middle" fill="#FFFFFF" font-family="sans-serif" font-size="38" font-weight="bold">${punto.id}</text>
+        <text x="400" y="245" text-anchor="middle" fill="#FFFFFF" font-family="sans-serif" font-size="26" font-weight="bold">${punto.titulo}</text>
+        <text x="400" y="285" text-anchor="middle" fill="#BAE6FD" font-family="sans-serif" font-size="18">${punto.categoria}</text>
+        <text x="400" y="395" text-anchor="middle" fill="#DCFCE7" font-family="monospace" font-size="15">${rutaImg}</text>
+      </svg>`;
+      return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
+    }
+
+    function crearMapaPanoramicoFallbackSVG() {
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 559" width="1024" height="559">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#F8FAFC"/>
+            <stop offset="100%" stop-color="#E0F2FE"/>
+          </linearGradient>
+          <linearGradient id="plain" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#86EFAC"/>
+            <stop offset="60%" stop-color="#22C55E"/>
+            <stop offset="100%" stop-color="#15803D"/>
+          </linearGradient>
+        </defs>
+        <rect width="1024" height="559" fill="url(#sky)"/>
+        <!-- Cordillera de los Andes -->
+        <polygon points="30,360 135,35 245,190 310,95 450,310" fill="#78716C" stroke="#44403C" stroke-width="3"/>
+        <polygon points="135,35 95,125 140,145 180,115" fill="#FFFFFF"/>
+        <polygon points="310,95 270,155 315,175 350,145" fill="#FFFFFF"/>
+        <!-- Llanura Amazónica -->
+        <path d="M220,310 Q540,220 990,210 L980,460 Q640,540 360,520 Z" fill="url(#plain)"/>
+        <!-- Ríos Aéreos -->
+        <path d="M420,140 Q560,70 670,110 T840,100" fill="none" stroke="#38BDF8" stroke-width="18" stroke-linecap="round" stroke-dasharray="16 10"/>
+        <!-- Cauce Principal Amazonas / Marañón / Ucayali -->
+        <path d="M150,165 Q230,290 390,340 T610,320 T960,235" fill="none" stroke="#D97706" stroke-width="26" stroke-linecap="round"/>
+        <path d="M400,500 Q520,410 610,320" fill="none" stroke="#D97706" stroke-width="32" stroke-linecap="round"/>
+        <!-- Río Nanay (Aguas Negras) -->
+        <path d="M840,320 Q890,360 910,415" fill="none" stroke="#1E293B" stroke-width="18" stroke-linecap="round"/>
+        <!-- Zona de Sequía -->
+        <ellipse cx="770" cy="425" rx="75" ry="42" fill="#FDE68A" stroke="#92400E" stroke-width="3"/>
+        <text x="512" y="538" text-anchor="middle" fill="#0F172A" font-family="sans-serif" font-size="16" font-weight="bold">Esquema de respaldo activo — Sube ../imagenes/mapa.jpg para ver la ilustración completa</text>
+      </svg>`;
+      return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
+    }
+
+    // Configurar fallback para la ilustración panorámica principal
+    const mainPanoramaImg = document.getElementById("panorama-main-img");
+    mainPanoramaImg.onerror = function () {
+      this.onerror = null;
+      this.src = crearMapaPanoramicoFallbackSVG();
+    };
+
+    /* ==========================================================================
+       SISTEMA DE AUDIO WEB AUDIO API (CERO ARCHIVOS EXTERNOS)
+       ========================================================================== */
+    let audioHabilitado = localStorage.getItem("unap_semana4_audio") !== "off";
+    let audioCtx = null;
+
+    function asegurarAudioContext() {
+      if (!audioCtx) {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (Ctx) audioCtx = new Ctx();
+      }
+      if (audioCtx && audioCtx.state === "suspended") {
+        audioCtx.resume();
+      }
+    }
+
+    function emitirNota(frecuencia, inicioSeg, duracionSeg, tipoOnda = "sine", volumen = 0.12) {
+      if (!audioHabilitado) return;
+      asegurarAudioContext();
+      if (!audioCtx) return;
+
+      const t0 = audioCtx.currentTime + inicioSeg;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.type = tipoOnda;
+      osc.frequency.setValueAtTime(frecuencia, t0);
+
+      gain.gain.setValueAtTime(0.0001, t0);
+      gain.gain.exponentialRampToValueAtTime(volumen, t0 + 0.015);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t0 + duracionSeg);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start(t0);
+      osc.stop(t0 + duracionSeg + 0.02);
+    }
+
+    function sonarEfecto(tipo) {
+      if (!audioHabilitado) return;
+      if (tipo === "pin") {
+        emitirNota(523.25, 0, 0.09, "sine", 0.13);
+        emitirNota(659.25, 0.07, 0.12, "triangle", 0.12);
+      } else if (tipo === "cerrar") {
+        emitirNota(440, 0, 0.08, "sine", 0.1);
+      } else if (tipo === "exito") {
+        emitirNota(523.25, 0, 0.1, "triangle", 0.14);
+        emitirNota(659.25, 0.09, 0.1, "triangle", 0.14);
+        emitirNota(783.99, 0.18, 0.18, "triangle", 0.15);
+      } else if (tipo === "error") {
+        emitirNota(220, 0, 0.16, "sawtooth", 0.1);
+      }
+    }
+
+    const btnAudio = document.getElementById("btn-toggle-audio");
+    function actualizarBotonAudio() {
+      document.getElementById("audio-icon").textContent = audioHabilitado ? "🔊" : "🔇";
+      document.getElementById("audio-text").textContent = audioHabilitado ? "Sonido" : "Silencio";
+    }
+    actualizarBotonAudio();
+
+    btnAudio.addEventListener("click", () => {
+      audioHabilitado = !audioHabilitado;
+      localStorage.setItem("unap_semana4_audio", audioHabilitado ? "on" : "off");
+      actualizarBotonAudio();
+      if (audioHabilitado) sonarEfecto("pin");
+    });
+
+    function mostrarToast(mensaje) {
+      const toast = document.getElementById("toast-banner");
+      toast.textContent = mensaje;
+      toast.classList.add("show");
+      clearTimeout(mostrarToast._timer);
+      mostrarToast._timer = setTimeout(() => {
+        toast.classList.remove("show");
+      }, 3200);
+    }
+
+    /* ==========================================================================
+       ESTADO DE EXPLORACIÓN Y REFLEXIONES CRÍTICAS DE LOS 15 PUNTOS
+       ========================================================================== */
+    const STORAGE_KEY_VISITED = "unap_semana4_visitados_v1";
+    const STORAGE_KEY_REFLEXIONES = "unap_semana4_reflexiones_v1";
+    const STORAGE_KEY_FICHA = "unap_semana4_ficha_v1";
+
+    let puntosVisitados = {};
+    let reflexionesCriticas = {};
+    let puntoActivoId = 1;
+
+    try {
+      puntosVisitados = JSON.parse(localStorage.getItem(STORAGE_KEY_VISITED) || "{}") || {};
+      reflexionesCriticas = JSON.parse(localStorage.getItem(STORAGE_KEY_REFLEXIONES) || "{}") || {};
+    } catch (e) {}
+
+    function guardarEstadoLocal() {
+      try {
+        localStorage.setItem(STORAGE_KEY_VISITED, JSON.stringify(puntosVisitados));
+        localStorage.setItem(STORAGE_KEY_REFLEXIONES, JSON.stringify(reflexionesCriticas));
+      } catch (e) {}
+    }
+
+    /* ==========================================================================
+       RENDERIZADO DE LOS 15 PINES INTERACTIVOS Y LA GRILLA RÁPIDA
+       ========================================================================== */
+    const pinsLayer = document.getElementById("pins-layer");
+    const quickGrid = document.getElementById("points-quick-grid");
+
+    function renderizarPinesYGrilla() {
+      pinsLayer.innerHTML = "";
+      quickGrid.innerHTML = "";
+
+      puntosSemana4.forEach((punto) => {
+        const visitado = Boolean(puntosVisitados[punto.id]);
+        const respondido = (reflexionesCriticas[punto.id] || "").trim().length >= 5;
+
+        // 1. Pin circular sobre la ilustración panorámica
+        const pinBtn = document.createElement("button");
+        pinBtn.type = "button";
+        pinBtn.className = "map-pin" + (visitado ? " visited" : "") + (respondido ? " answered" : "");
+        pinBtn.style.left = `${punto.x}%`;
+        pinBtn.style.top = `${punto.y}%`;
+        pinBtn.setAttribute("aria-label", `Punto ${punto.id}: ${punto.titulo} (${punto.categoria})`);
+        pinBtn.innerHTML = `
+          <span>${punto.id}</span>
+          <span class="map-pin-tooltip">${punto.id}. ${punto.titulo}</span>
+        `;
+        pinBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          abrirModalPunto(punto.id);
+        });
+        pinsLayer.appendChild(pinBtn);
+
+        // 2. Tarjeta de acceso rápido debajo del mapa
+        const cardBtn = document.createElement("button");
+        cardBtn.type = "button";
+        cardBtn.className = "point-card-btn" + (visitado ? " visited" : "");
+        cardBtn.innerHTML = `
+          <span class="point-card-num">${punto.id}</span>
+          <span class="point-card-info">
+            <span class="point-card-title">${punto.titulo}</span>
+            <span class="point-card-cat">${punto.categoria} ${respondido ? "• ✍️ Respondido" : ""}</span>
+          </span>
+        `;
+        cardBtn.addEventListener("click", () => abrirModalPunto(punto.id));
+        quickGrid.appendChild(cardBtn);
+      });
+
+      // Actualizar contadores de progreso
+      const totalVisitados = puntosSemana4.filter((p) => puntosVisitados[p.id]).length;
+      const totalReflexiones = puntosSemana4.filter((p) => (reflexionesCriticas[p.id] || "").trim().length >= 5).length;
+
+      document.getElementById("points-progress-text").textContent = `Nodos explorados: ${totalVisitados} / 15`;
+      document.getElementById("points-progress-bar").style.width = `${Math.round((totalVisitados / 15) * 100)}%`;
+      document.getElementById("reflection-counter-badge").textContent = `Reflexiones: ${totalReflexiones} / 15`;
+    }
+
+    /* ==========================================================================
+       DESPLAZAMIENTO FLUIDO (DRAG-TO-PAN CON MOUSE Y SWIPE TÁCTIL) + MODOS ZOOM
+       ========================================================================== */
+    const viewport = document.getElementById("panorama-viewport");
+    const btnModePan = document.getElementById("btn-mode-pan");
+    const btnModeFit = document.getElementById("btn-mode-fit");
+    const btnModeZoom = document.getElementById("btn-mode-zoom");
+
+    function activarModoVista(modo) {
+      viewport.classList.remove("fit-mode", "zoom-lg");
+      [btnModePan, btnModeFit, btnModeZoom].forEach((b) => b.classList.remove("active"));
+
+      if (modo === "fit") {
+        viewport.classList.add("fit-mode");
+        btnModeFit.classList.add("active");
+      } else if (modo === "zoom") {
+        viewport.classList.add("zoom-lg");
+        btnModeZoom.classList.add("active");
+      } else {
+        btnModePan.classList.add("active");
+      }
+    }
+
+    btnModePan.addEventListener("click", () => activarModoVista("pan"));
+    btnModeFit.addEventListener("click", () => activarModoVista("fit"));
+    btnModeZoom.addEventListener("click", () => activarModoVista("zoom"));
+
+    let isDown = false;
+    let startX = 0;
+    let scrollLeftStart = 0;
+    let movedDuringDrag = false;
+
+    viewport.addEventListener("mousedown", (e) => {
+      if (e.target.closest(".map-pin")) return;
+      isDown = true;
+      movedDuringDrag = false;
+      viewport.classList.add("dragging");
+      startX = e.pageX - viewport.offsetLeft;
+      scrollLeftStart = viewport.scrollLeft;
+    });
+
+    window.addEventListener("mouseup", () => {
+      isDown = false;
+      viewport.classList.remove("dragging");
+    });
+
+    viewport.addEventListener("mousemove", (e) => {
+      if (!isDown) return;
+      const x = e.pageX - viewport.offsetLeft;
+      const walk = (x - startX) * 1.35;
+      if (Math.abs(walk) > 5) movedDuringDrag = true;
+      if (movedDuringDrag) {
+        e.preventDefault();
+        viewport.scrollLeft = scrollLeftStart - walk;
+      }
+    });
+
+    /* ==========================================================================
+       3. APERTURA Y GESTIÓN DE LA VENTANA MODAL DE LOS 15 PUNTOS
+       ========================================================================== */
+    const modalBackdrop = document.getElementById("point-modal-backdrop");
+    const modalImg = document.getElementById("modal-point-img");
+    const modalRespuesta = document.getElementById("modal-point-respuesta");
+    const modalSaveStatus = document.getElementById("modal-save-status");
+
+    function abrirModalPunto(id) {
+      const punto = puntosSemana4.find((p) => p.id === Number(id));
+      if (!punto) return;
+
+      puntoActivoId = punto.id;
+      puntosVisitados[punto.id] = true;
+      guardarEstadoLocal();
+      renderizarPinesYGrilla();
+      sonarEfecto("pin");
+
+      // Poblar datos oficiales del punto
+      document.getElementById("modal-point-number").textContent = punto.id;
+      document.getElementById("modal-point-category").textContent = punto.categoria;
+      document.getElementById("modal-point-title").textContent = `${punto.id}. ${punto.titulo}`;
+      document.getElementById("modal-point-concepto").textContent = punto.concepto;
+      document.getElementById("modal-point-impacto").textContent = punto.impacto_local;
+      document.getElementById("modal-point-pregunta").textContent = punto.pregunta_critica;
+      const rutaRelativa = obtenerRutaRelativaImagen(punto.archivo_imagen);
+      document.getElementById("modal-img-filename").textContent = rutaRelativa;
+      document.getElementById("modal-step-indicator").textContent = `Punto ${punto.id} de 15`;
+
+      // Ruta relativa obligatoria ../imagenes/[nombre-archivo].jpg + Fallback automático en onerror
+      const fallbackUnsplash = UNSPLASH_FALLBACKS[punto.id];
+      const fallbackSvg = crearPlaceholderSVG(punto);
+
+      modalImg.onerror = function () {
+        if (this.dataset.fallbackStep !== "unsplash" && fallbackUnsplash) {
+          this.dataset.fallbackStep = "unsplash";
+          this.src = fallbackUnsplash;
+        } else {
+          this.onerror = null;
+          this.src = fallbackSvg;
+        }
+      };
+      modalImg.dataset.fallbackStep = "";
+      modalImg.alt = `${punto.titulo} - ${punto.categoria}`;
+      modalImg.src = rutaRelativa;
+
+      // Cargar reflexión crítica guardada para este punto
+      const textoGuardado = reflexionesCriticas[punto.id] || "";
+      modalRespuesta.value = textoGuardado;
+      modalSaveStatus.textContent = textoGuardado.trim().length >= 5
+        ? "✅ Reflexión crítica guardada"
+        : "⏳ Reflexión opcional / pendiente";
+
+      modalBackdrop.classList.add("open");
+      document.body.style.overflow = "hidden";
+      document.getElementById("modal-body-scroll").scrollTop = 0;
+    }
+
+    function cerrarModalPunto() {
+      sonarEfecto("cerrar");
+      modalBackdrop.classList.remove("open");
+      document.body.style.overflow = "";
+    }
+
+    modalRespuesta.addEventListener("input", () => {
+      if (!puntoActivoId) return;
+      reflexionesCriticas[puntoActivoId] = modalRespuesta.value;
+      modalSaveStatus.textContent = modalRespuesta.value.trim().length >= 5
+        ? "✅ Reflexión crítica guardada"
+        : "⏳ Reflexión opcional / pendiente";
+      guardarEstadoLocal();
+      renderizarPinesYGrilla();
+    });
+
+    document.getElementById("btn-close-modal").addEventListener("click", cerrarModalPunto);
+
+    modalBackdrop.addEventListener("click", (e) => {
+      if (e.target === modalBackdrop) cerrarModalPunto();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (!modalBackdrop.classList.contains("open")) return;
+      if (e.key === "Escape") cerrarModalPunto();
+      if (e.key === "ArrowRight") navegarPuntoModal(1);
+      if (e.key === "ArrowLeft") navegarPuntoModal(-1);
+    });
+
+    function navegarPuntoModal(direccion) {
+      let nuevoId = puntoActivoId + direccion;
+      if (nuevoId > 15) nuevoId = 1;
+      if (nuevoId < 1) nuevoId = 15;
+      abrirModalPunto(nuevoId);
+    }
+
+    document.getElementById("btn-prev-point").addEventListener("click", () => navegarPuntoModal(-1));
+    document.getElementById("btn-next-point").addEventListener("click", () => navegarPuntoModal(1));
+
+    // Inicializar los 15 pines al cargar
+    renderizarPinesYGrilla();
+
+    /* ==========================================================================
+       FIREBASE AUTH Y ENVÍO DE EVIDENCIA (COLECCIÓN: evaluaciones, SEMANA 4)
+       ========================================================================== */
+    const firebaseConfig = {
+      apiKey: "AIzaSyCINo4JIVeXkkkfgUx1FLE18W9Xy73DVHk",
+      authDomain: "misclases4to-173c1.firebaseapp.com",
+      projectId: "misclases4to-173c1",
+      storageBucket: "misclases4to-173c1.firebasestorage.app",
+      messagingSenderId: "315238242891",
+      appId: "1:315238242891:web:66496d1140259060684bce"
+    };
+
+    if (typeof firebase !== "undefined" && !firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const auth = typeof firebase !== "undefined" ? firebase.auth() : null;
+    const db = typeof firebase !== "undefined" ? firebase.firestore() : null;
+    let nombrePerfilFirestore = "";
+
+    function escaparHTML(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    if (auth) {
+      auth.onAuthStateChanged(async (user) => {
+        const statusText = document.getElementById("auth-status-text");
+        if (user) {
+          nombrePerfilFirestore = user.displayName || "";
+          if (!nombrePerfilFirestore && db) {
+            try {
+              const docUsr = await db.collection("usuarios").doc(user.uid).get();
+              if (docUsr.exists && docUsr.data().nombre) {
+                nombrePerfilFirestore = docUsr.data().nombre;
+              }
+            } catch (e) {}
+          }
+          const etiqueta = nombrePerfilFirestore || user.email || "Estudiante";
+          statusText.innerHTML = "🔗 Sesión activa en la Matriz: <strong>" + escaparHTML(etiqueta) + "</strong>";
+        } else {
+          statusText.innerHTML = "🔗 Sin sesión iniciada. Puedes explorar toda la cuenca o ingresar desde <a href='../index.html' style='color:#15803D;font-weight:800;'>la Matriz General</a>.";
+        }
+      });
+    }
+
+    /* ==========================================================================
+       COMPRESIÓN DE FOTOGRAFÍA EN CANVAS (< 100 KB) Y FORMULARIO DE ENTREGA
+       ========================================================================== */
+    let imagenComprimidaBase64 = null;
+    let fotoPesoKB = 0;
+    const MAX_LADO_PX = 800;
+    const CALIDAD_INICIAL_JPEG = 0.65;
+    const LIMITE_ESTRICTO_BYTES = 97 * 1024;
+
+    const inputCamera = document.getElementById("input-camera-capture");
+    const inputGallery = document.getElementById("input-gallery-pick");
+    const bloqueEconomiaEl = document.getElementById("bloqueEconomia");
+    const bloquePropuestaEl = document.getElementById("bloquePropuesta");
+    const btnSubmit = document.getElementById("btn-submit-all");
+    const hintEl = document.getElementById("form-validation-hint");
+    let envioCompletado = false;
+
+    // Restaurar borrador de la ficha explicativa
+    try {
+      const fichaBorrador = JSON.parse(localStorage.getItem(STORAGE_KEY_FICHA) || "null");
+      if (fichaBorrador) {
+        bloqueEconomiaEl.value = fichaBorrador.economia || "";
+        bloquePropuestaEl.value = fichaBorrador.propuesta || "";
+      }
+    } catch (e) {}
+
+    [bloqueEconomiaEl, bloquePropuestaEl].forEach((el) => {
+      el.addEventListener("input", () => {
+        try {
+          localStorage.setItem(STORAGE_KEY_FICHA, JSON.stringify({
+            economia: bloqueEconomiaEl.value,
+            propuesta: bloquePropuestaEl.value
+          }));
+        } catch (e) {}
+        validarFormulario();
+      });
+    });
+
+    document.getElementById("btn-trigger-camera").addEventListener("click", () => inputCamera.click());
+    document.getElementById("btn-trigger-gallery").addEventListener("click", () => inputGallery.click());
+
+    [inputCamera, inputGallery].forEach((inp) => {
+      inp.addEventListener("change", (e) => {
+        if (e.target.files && e.target.files[0]) {
+          procesarYComprimirFoto(e.target.files[0]);
+          e.target.value = "";
+        }
+      });
+    });
+
+    function estimarBytesDesdeDataURL(dataUrl) {
+      const base64 = (dataUrl.split(",")[1] || "");
+      return Math.ceil((base64.length * 3) / 4);
+    }
+
+    function procesarYComprimirFoto(archivo) {
+      if (!archivo.type.startsWith("image/")) {
+        sonarEfecto("error");
+        mostrarToast("Selecciona una fotografía o imagen válida.");
+        return;
+      }
+
+      const previewCard = document.getElementById("photo-preview-card");
+      const previewImg = document.getElementById("photo-preview-img");
+      const metaStatus = document.getElementById("photo-meta-status");
+
+      previewCard.classList.add("visible");
+      metaStatus.textContent = "⏳ Escalando y comprimiendo imagen (< 100 KB)...";
+
+      const urlTemporal = URL.createObjectURL(archivo);
+      const imagen = new Image();
+
+      imagen.onload = () => {
+        URL.revokeObjectURL(urlTemporal);
+
+        let anchoOrig = imagen.naturalWidth;
+        let altoOrig = imagen.naturalHeight;
+        let factorEscala = Math.min(1, MAX_LADO_PX / Math.max(anchoOrig, altoOrig));
+
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+
+        let dataUrlResultado = "";
+        let bytesResultado = Infinity;
+        let calidadUsada = CALIDAD_INICIAL_JPEG;
+
+        while (bytesResultado > LIMITE_ESTRICTO_BYTES && factorEscala >= 0.35) {
+          canvas.width = Math.max(240, Math.round(anchoOrig * factorEscala));
+          canvas.height = Math.max(240, Math.round(altoOrig * factorEscala));
+
+          ctx.fillStyle = "#FFFFFF";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(imagen, 0, 0, canvas.width, canvas.height);
+
+          calidadUsada = CALIDAD_INICIAL_JPEG;
+          while (calidadUsada >= 0.35) {
+            dataUrlResultado = canvas.toDataURL("image/jpeg", calidadUsada);
+            bytesResultado = estimarBytesDesdeDataURL(dataUrlResultado);
+            if (bytesResultado <= LIMITE_ESTRICTO_BYTES) break;
+            calidadUsada = Number((calidadUsada - 0.08).toFixed(2));
+          }
+
+          if (bytesResultado <= LIMITE_ESTRICTO_BYTES) break;
+          factorEscala *= 0.85;
+        }
+
+        imagenComprimidaBase64 = dataUrlResultado;
+        fotoPesoKB = Number((bytesResultado / 1024).toFixed(1));
+
+        previewImg.src = dataUrlResultado;
+        metaStatus.textContent = `✅ Mapa confirmado: ${canvas.width}×${canvas.height} px • Peso: ${fotoPesoKB} KB (< 100 KB)`;
+
+        sonarEfecto("exito");
+        mostrarToast(`Fotografía comprimida lista (${fotoPesoKB} KB)`);
+        validarFormulario();
+      };
+
+      imagen.onerror = () => {
+        URL.revokeObjectURL(urlTemporal);
+        sonarEfecto("error");
+        metaStatus.textContent = "❌ No se pudo procesar la foto seleccionada.";
+      };
+
+      imagen.src = urlTemporal;
+    }
+
+    function validarFormulario() {
+      if (envioCompletado) return;
+      const b1Ok = bloqueEconomiaEl.value.trim().length >= 10;
+      const b2Ok = bloquePropuestaEl.value.trim().length >= 10;
+      const fotoOk = Boolean(imagenComprimidaBase64);
+
+      const listo = b1Ok && b2Ok && fotoOk;
+      btnSubmit.disabled = !listo;
+
+      if (listo) {
+        hintEl.style.color = "#15803D";
+        hintEl.textContent = "✅ Ficha explicativa y mapa temático listos para enviar.";
+      } else {
+        const faltan = [];
+        if (!b1Ok) faltan.push("redactar el Bloque 1 (Relación Cuenca-Economía)");
+        if (!b2Ok) faltan.push("redactar el Bloque 2 (Propuesta de Solución Local)");
+        if (!fotoOk) faltan.push("adjuntar la foto de tu Mapa Temático");
+        hintEl.style.color = "#0F172A";
+        hintEl.textContent = "Pendiente: " + faltan.join(", ") + ".";
+      }
+    }
+
+    document.getElementById("evidence-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (envioCompletado || btnSubmit.disabled) return;
+
+      const valEconomia = bloqueEconomiaEl.value.trim();
+      const valPropuesta = bloquePropuestaEl.value.trim();
+
+      btnSubmit.disabled = true;
+      btnSubmit.textContent = "⏳ Guardando entrega de la Semana 4 en Firestore...";
+
+      const user = auth ? auth.currentUser : null;
+      const userEmail = user && user.email ? user.email.toLowerCase() : "sin-correo";
+      const nombreEstudiante = user
+        ? (user.displayName || nombrePerfilFirestore || "Estudiante")
+        : "Estudiante";
+
+      const reflexionesDetalladas = puntosSemana4.map((p) => ({
+        id: p.id,
+        titulo: p.titulo,
+        pregunta: p.pregunta_critica,
+        respuesta: (reflexionesCriticas[p.id] || "").trim() || "Sin respuesta"
+      }));
+
+      const resumenDocente =
+        `🌊 SEMANA 04: CUENCA HIDROGRÁFICA AMAZÓNICA\n` +
+        `📌 BLOQUE 1 (RELACIÓN CUENCA - ECONOMÍA LOCAL):\n${valEconomia}\n\n` +
+        `🌱 BLOQUE 2 (PROPUESTA DE SOLUCIÓN LOCAL - LEY N.° 29338 / SbN):\n${valPropuesta}\n\n` +
+        `🧠 REFLEXIONES CRÍTICAS EN LOS 15 PUNTOS:\n` +
+        reflexionesDetalladas.map((r) => `${r.id}. [${r.titulo}] ${r.pregunta}\n   ↳ Respuesta: ${r.respuesta}`).join("\n\n");
+
+      const payload = {
+        uid: user ? user.uid : "anonimo",
+        estudiante_id: user ? user.uid : "anonimo",
+        estudiante_nombre: nombreEstudiante,
+        estudiante_email: userEmail,
+        semana: "Semana 04",
+        semana_numero: 4,
+        fecha: firebase.firestore.FieldValue.serverTimestamp(),
+        pueblo_analizado: "Vertiente Amazónica Peruana (15 Nodos)",
+        texto_justificacion: `Bloque 1 (Economía Local): ${valEconomia} | Bloque 2 (Propuesta Local): ${valPropuesta}`,
+        texto_interpretacion: resumenDocente,
+        foto_infografia_base64: imagenComprimidaBase64,
+        respuestas_inferencia: reflexionesCriticas,
+        respuestas_inferencia_completas: reflexionesDetalladas,
+        calificado_por_docente: false
+      };
+
+      try {
+        let docsExistentes = [];
+        if (db && userEmail !== "sin-correo") {
+          try {
+            const snap = await db.collection("evaluaciones")
+              .where("estudiante_email", "==", userEmail)
+              .where("semana_numero", "==", 4)
+              .limit(1)
+              .get();
+            docsExistentes = snap.docs;
+          } catch (errIdx) {
+            const respaldo = await db.collection("evaluaciones")
+              .where("estudiante_email", "==", userEmail)
+              .get();
+            docsExistentes = respaldo.docs.filter((d) => {
+              const dt = d.data() || {};
+              return Number(dt.semana_numero) === 4 || dt.semana === "Semana 04";
+            });
+          }
+        }
+
+        const esActualizacion = docsExistentes.length > 0;
+        if (db) {
+          if (esActualizacion) {
+            await db.collection("evaluaciones").doc(docsExistentes[0].id).set(payload, { merge: true });
+          } else {
+            await db.collection("evaluaciones").add(payload);
+          }
+        }
+
+        envioCompletado = true;
+        sonarEfecto("exito");
+        mostrarToast(esActualizacion ? "¡Entrega de la Semana 04 actualizada!" : "¡Evidencia de la Semana 04 registrada!");
+
+        btnSubmit.textContent = "✅ Evidencia Registrada en Firestore";
+        hintEl.style.display = "none";
+
+        const successCard = document.getElementById("submission-success-card");
+        document.getElementById("submission-summary-text").innerHTML =
+          `Estudiante: <strong>${escaparHTML(nombreEstudiante)}</strong> (${escaparHTML(userEmail)})<br>` +
+          `Mapa Temático: <strong>${fotoPesoKB} KB</strong> • Nodos explorados: <strong>${Object.keys(puntosVisitados).length} / 15</strong>`;
+        successCard.classList.add("visible");
+        successCard.scrollIntoView({ behavior: "smooth", block: "center" });
+      } catch (err) {
+        console.error("Error al guardar en Firestore:", err);
+        sonarEfecto("error");
+        btnSubmit.disabled = false;
+        btnSubmit.textContent = "🚀 Enviar Mapa Temático y Ficha Explicativa (Semana 4)";
+        mostrarToast("Error al guardar en Firestore: " + (err.message || "Intenta nuevamente"));
+      }
+    });
+
+    document.getElementById("btn-enable-resubmit").addEventListener("click", () => {
+      envioCompletado = false;
+      hintEl.style.display = "block";
+      document.getElementById("submission-success-card").classList.remove("visible");
+      btnSubmit.textContent = "🔄 Actualizar Mapa Temático y Ficha Explicativa (Semana 4)";
+      validarFormulario();
+    });
+  </script>
+</body>
+</html>
