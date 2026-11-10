@@ -10,52 +10,6 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
-  <!-- FUNCIONES TEMPRANAS DE RESPALDO PARA EVITAR QUE EL MAPA QUEDE EN BLANCO -->
-  <script>
-    function generarMapaRespaldoSVG() {
-      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 559" width="1024" height="559">
-        <defs>
-          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#F8FAFC"/>
-            <stop offset="100%" stop-color="#E0F2FE"/>
-          </linearGradient>
-          <linearGradient id="plain" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#86EFAC"/>
-            <stop offset="55%" stop-color="#22C55E"/>
-            <stop offset="100%" stop-color="#15803D"/>
-          </linearGradient>
-        </defs>
-        <rect width="1024" height="559" fill="url(#sky)"/>
-        <!-- Cordillera de los Andes (Izquierda) -->
-        <polygon points="20,420 135,32 250,195 315,92 465,320 220,450" fill="#78716C" stroke="#44403C" stroke-width="3"/>
-        <polygon points="135,32 95,125 140,145 182,115" fill="#FFFFFF"/>
-        <polygon points="315,92 272,155 318,175 352,145" fill="#FFFFFF"/>
-        <!-- Llanura Aluvial Amazónica -->
-        <path d="M210,310 Q540,210 995,205 L985,470 Q640,545 350,525 Z" fill="url(#plain)"/>
-        <!-- Ríos Aéreos (Bomba Biótica) -->
-        <path d="M430,135 Q560,65 675,105 T850,95" fill="none" stroke="#38BDF8" stroke-width="18" stroke-linecap="round" stroke-dasharray="16 10"/>
-        <!-- Torrente Andino y Río Huallaga -->
-        <path d="M145,140 Q210,270 395,335" fill="none" stroke="#0284C7" stroke-width="16" stroke-linecap="round"/>
-        <!-- Cauce Principal Marañón / Ucayali / Amazonas (Aguas Blancas) -->
-        <path d="M395,335 Q510,330 615,322 T965,235" fill="none" stroke="#D97706" stroke-width="28" stroke-linecap="round"/>
-        <path d="M395,495 Q520,410 615,322" fill="none" stroke="#D97706" stroke-width="34" stroke-linecap="round"/>
-        <!-- Río Nanay (Aguas Negras) -->
-        <path d="M835,315 Q885,355 910,415" fill="none" stroke="#1E293B" stroke-width="18" stroke-linecap="round"/>
-        <!-- Zona de Vaciante / Sequía Extrema -->
-        <ellipse cx="770" cy="425" rx="78" ry="44" fill="#FDE68A" stroke="#92400E" stroke-width="3"/>
-        <text x="512" y="542" text-anchor="middle" fill="#0F172A" font-family="sans-serif" font-size="15" font-weight="bold">Lienzo Ilustrativo de Respaldo Activo (../img/mapa.jpg pendiente de subida)</text>
-      </svg>`;
-      return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
-    }
-
-    function manejarErrorMapa(imgEl) {
-      if (imgEl.dataset.fallbackApplied === "true") return;
-      imgEl.dataset.fallbackApplied = "true";
-      console.warn("No se encontró ../img/mapa.jpg, usando respaldo");
-      imgEl.src = generarMapaRespaldoSVG();
-    }
-  </script>
-
   <style>
     :root {
       --bg-white: #FFFFFF;
@@ -451,7 +405,6 @@
     .panorama-stage {
       position: relative;
       width: 980px;
-      aspect-ratio: 1024 / 559;
       margin: 0 auto;
       transition: width 0.25s ease;
     }
@@ -476,8 +429,7 @@
 
     .panorama-img {
       width: 100%;
-      height: 100%;
-      object-fit: fill;
+      height: auto;
       display: block;
       pointer-events: none;
     }
@@ -820,8 +772,6 @@
     .modal-media-frame {
       position: relative;
       width: 100%;
-      aspect-ratio: 16 / 9;
-      max-height: 330px;
       background-color: #E2E8F0;
       border: 2px solid var(--text-charcoal);
       border-radius: var(--radius-md);
@@ -831,8 +781,9 @@
 
     .modal-media-frame img {
       width: 100%;
-      height: 100%;
+      max-height: 360px;
       object-fit: cover;
+      display: block;
     }
 
     .modal-img-caption {
@@ -1262,16 +1213,10 @@
         <span id="reflection-counter-badge">Reflexiones: 0 / 15</span>
       </div>
 
-      <!-- LIENZO PANORÁMICO PRINCIPAL CON ONERROR DIRECTO -->
+      <!-- LIENZO PANORÁMICO PRINCIPAL CON RUTA RELATIVA DIRECTA ../img/mapa.jpg -->
       <div class="panorama-viewport" id="panorama-viewport">
         <div class="panorama-stage" id="panorama-stage">
-          <img
-            id="mapa-img"
-            src="../img/mapa.jpg"
-            alt="Mapa Cuenca Amazónica"
-            class="panorama-img"
-            onerror="manejarErrorMapa(this)"
-          >
+          <img id="mapa-img" src="../img/mapa.jpg" alt="Mapa Cuenca Amazónica" class="panorama-img">
           <div id="pins-layer"></div>
         </div>
       </div>
@@ -1417,8 +1362,8 @@
         <h2 class="modal-point-title" id="modal-point-title">Título del Punto</h2>
 
         <div class="modal-media-frame">
-          <img id="modal-point-img" src="" alt="">
-          <span class="modal-img-caption" id="modal-img-filename"></span>
+          <img id="modal-point-img" src="../img/imagen1.jpg" alt="Ilustración del punto de la cuenca">
+          <span class="modal-img-caption" id="modal-img-filename">../img/imagen1.jpg</span>
         </div>
 
         <div class="modal-info-grid">
@@ -1461,18 +1406,7 @@
 
   <script>
     /* ==========================================================================
-       1. VERIFICACIÓN EN CONSOLA APENAS INICIE LA PÁGINA
-       ========================================================================== */
-    const mapaImgEl = document.getElementById("mapa-img");
-    console.log("Intentando cargar mapa desde la ruta:", mapaImgEl.getAttribute("src"), "| URL resuelta:", mapaImgEl.src);
-
-    // Si la imagen ya falló antes de terminar de cargar el script, aplicar el respaldo de inmediato
-    if (mapaImgEl.complete && mapaImgEl.naturalWidth === 0) {
-      manejarErrorMapa(mapaImgEl);
-    }
-
-    /* ==========================================================================
-       2. DATASET OFICIAL DE LOS 15 PUNTOS (RUTA ../img/imagen[id].jpg)
+       DATASET OFICIAL DE LOS 15 PUNTOS (RUTA RELATIVA DIRECTA ../img/imagen[id].jpg)
        ========================================================================== */
     const puntosSemana4 = [
       {
@@ -1643,47 +1577,6 @@
     ];
 
     /* ==========================================================================
-       3. FALLBACK TEMPORAL INTELIGENTE PARA LAS IMÁGENES DEL MODAL
-       ========================================================================== */
-    const UNSPLASH_FALLBACKS = {
-      1: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=80",
-      2: "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=900&q=80",
-      3: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=900&q=80",
-      4: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=900&q=80",
-      5: "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=900&q=80",
-      6: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=900&q=80",
-      7: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=900&q=80",
-      8: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=900&q=80",
-      9: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80",
-      10: "https://images.unsplash.com/photo-1439066615861-d1af74d74000?auto=format&fit=crop&w=900&q=80",
-      11: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=900&q=80",
-      12: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=900&q=80",
-      13: "https://images.unsplash.com/photo-1544551763-77ef2d0cfc6c?auto=format&fit=crop&w=900&q=80",
-      14: "https://images.unsplash.com/photo-1534043464124-3be32fe000c9?auto=format&fit=crop&w=900&q=80",
-      15: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=900&q=80"
-    };
-
-    function crearPlaceholderPuntoSVG(punto) {
-      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
-        <defs>
-          <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#0C4A6E"/>
-            <stop offset="55%" stop-color="#15803D"/>
-            <stop offset="100%" stop-color="#166534"/>
-          </linearGradient>
-        </defs>
-        <rect width="800" height="450" fill="url(#bg)"/>
-        <path d="M0 340 Q200 290 400 340 T800 320 L800 450 L0 450 Z" fill="rgba(255,255,255,0.12)"/>
-        <circle cx="400" cy="145" r="46" fill="#DC2626" stroke="#FFFFFF" stroke-width="5"/>
-        <text x="400" y="160" text-anchor="middle" fill="#FFFFFF" font-family="sans-serif" font-size="38" font-weight="bold">${punto.id}</text>
-        <text x="400" y="245" text-anchor="middle" fill="#FFFFFF" font-family="sans-serif" font-size="26" font-weight="bold">${punto.titulo}</text>
-        <text x="400" y="285" text-anchor="middle" fill="#BAE6FD" font-family="sans-serif" font-size="18">${punto.categoria}</text>
-        <text x="400" y="395" text-anchor="middle" fill="#DCFCE7" font-family="monospace" font-size="15">Respaldo activo (${punto.imagen})</text>
-      </svg>`;
-      return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
-    }
-
-    /* ==========================================================================
        SISTEMA DE AUDIO WEB AUDIO API (CERO ARCHIVOS EXTERNOS)
        ========================================================================== */
     let audioHabilitado = localStorage.getItem("unap_semana4_audio") !== "off";
@@ -1786,7 +1679,7 @@
     }
 
     /* ==========================================================================
-       RENDERIZADO DE LOS 15 PINES INTERACTIVOS Y LA GRILLA RÁPIDA
+       RENDERIZADO DE LOS 15 PINES INTERACTIVOS Y LA GRILLA RÁPIDO
        ========================================================================== */
     const pinsLayer = document.getElementById("pins-layer");
     const quickGrid = document.getElementById("points-quick-grid");
@@ -1921,20 +1814,6 @@
       document.getElementById("modal-img-filename").textContent = punto.imagen;
       document.getElementById("modal-step-indicator").textContent = `Punto ${punto.id} de 15`;
 
-      const fallbackUnsplash = UNSPLASH_FALLBACKS[punto.id];
-      const fallbackSvg = crearPlaceholderPuntoSVG(punto);
-
-      modalImg.dataset.fallbackStep = "";
-      modalImg.onerror = function () {
-        if (this.dataset.fallbackStep === "") {
-          console.warn(`No se encontró ${punto.imagen}, usando respaldo`);
-          this.dataset.fallbackStep = "unsplash";
-          this.src = fallbackUnsplash || fallbackSvg;
-        } else {
-          this.onerror = null;
-          this.src = fallbackSvg;
-        }
-      };
       modalImg.alt = `${punto.titulo} - ${punto.categoria}`;
       modalImg.src = punto.imagen;
 
