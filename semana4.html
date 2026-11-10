@@ -383,7 +383,9 @@
       color: #78350F;
     }
 
-    /* LIENZO PANORÁMICO */
+    /* ==========================================================================
+       1. CONTENEDOR INDESTRUCTIBLE DEL MAPA Y PINES (REGLA ESTRICTA)
+       ========================================================================== */
     .panorama-viewport {
       position: relative;
       width: 100%;
@@ -391,46 +393,67 @@
       overflow-y: hidden;
       border: 3px solid var(--text-charcoal);
       border-radius: var(--radius-md);
-      background-color: #F5F5F0;
+      background-color: #0f172a;
       cursor: grab;
       user-select: none;
       -webkit-overflow-scrolling: touch;
-      box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.08);
     }
 
     .panorama-viewport.dragging {
       cursor: grabbing;
     }
 
+    .mapa-wrapper,
+    .mapa-contenedor,
     .panorama-stage {
-      position: relative;
-      width: 980px;
+      position: relative !important;
+      width: 100% !important;
+      max-width: 1100px !important;
+      aspect-ratio: 16 / 9 !important; /* Fuerza la proporción del mapa */
+      min-height: 480px !important;    /* Prohibido colapsar a 0px */
+      background: #0f172a;
       margin: 0 auto;
-      transition: width 0.25s ease;
     }
 
-    .panorama-viewport.fit-mode .panorama-stage {
-      width: 100%;
-      min-width: 100%;
+    /* En modo deslizable sobre móviles mantiene el ancho proporcional a 480px de alto (854x480 = 16:9) */
+    .panorama-viewport:not(.fit-mode) .mapa-contenedor {
+      min-width: 854px;
     }
 
-    .panorama-viewport.zoom-lg .panorama-stage {
-      width: 1320px;
+    .panorama-viewport.zoom-lg .mapa-contenedor {
+      max-width: 1400px !important;
+      min-width: 1280px;
+      min-height: 720px !important;
     }
 
-    @media (min-width: 1024px) {
-      .panorama-stage {
-        width: 100%;
-      }
-      .panorama-viewport.zoom-lg .panorama-stage {
-        width: 1480px;
-      }
-    }
-
+    /* ==========================================================================
+       2. IMAGEN DEL MAPA (OCUPA TODO EL LIENZO SIN DEFORMARSE)
+       ========================================================================== */
+    #mapa-img,
+    .mapa-img,
     .panorama-img {
-      width: 100%;
-      height: auto;
-      display: block;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain !important;
+      display: block !important;
+      position: absolute !important;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* ==========================================================================
+       3. CAPA DE PINES (POSICIONADA DE FORMA ABSOLUTA SOBRE EL ÁREA 16:9)
+       ========================================================================== */
+    #pins-layer,
+    .capa-pines {
+      position: absolute !important;
+      top: 0;
+      left: 0;
+      width: 100% !important;
+      height: 100% !important;
+      z-index: 10;
       pointer-events: none;
     }
 
@@ -460,7 +483,7 @@
     }
 
     .map-pin {
-      position: absolute;
+      position: absolute !important;
       transform: translate(-50%, -50%);
       width: 36px;
       height: 36px;
@@ -477,6 +500,7 @@
       cursor: pointer;
       z-index: 20;
       padding: 0;
+      pointer-events: auto;
       animation: pinPulse 2.1s infinite;
       transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1), background 0.2s ease;
     }
@@ -1213,11 +1237,11 @@
         <span id="reflection-counter-badge">Reflexiones: 0 / 15</span>
       </div>
 
-      <!-- LIENZO PANORÁMICO PRINCIPAL CON RUTA RELATIVA DIRECTA ../img/mapa.jpg -->
+      <!-- LIENZO PANORÁMICO INDESTRUCTIBLE (16:9, min-height: 480px) -->
       <div class="panorama-viewport" id="panorama-viewport">
-        <div class="panorama-stage" id="panorama-stage">
-          <img id="mapa-img" src="../img/mapa.jpg" alt="Mapa Cuenca Amazónica" class="panorama-img">
-          <div id="pins-layer"></div>
+        <div class="mapa-contenedor mapa-wrapper panorama-stage" id="panorama-stage">
+          <img id="mapa-img" src="../img/mapa.jpg" alt="Mapa Cuenca Amazónica" class="mapa-img panorama-img">
+          <div id="pins-layer" class="capa-pines"></div>
         </div>
       </div>
 
@@ -1679,7 +1703,7 @@
     }
 
     /* ==========================================================================
-       RENDERIZADO DE LOS 15 PINES INTERACTIVOS Y LA GRILLA RÁPIDO
+       RENDERIZADO DE LOS 15 PINES INTERACTIVOS Y LA GRILLA RÁPIDA
        ========================================================================== */
     const pinsLayer = document.getElementById("pins-layer");
     const quickGrid = document.getElementById("points-quick-grid");
