@@ -2891,7 +2891,43 @@ function indiceEnLista(nombre) {
     const set = new Set(normalizarTokens(n));
     if (tk.every(t => set.has(t))) cand.push(i);
   });
-  return cand.length === 1 ? cand[0] : -1;
+  return cand.length === 1 ? cand[0] : indiceAproximado(tk);
+}
+
+function puntajeCoincidencia(tk, nombreLista) {
+  const set = new Set(normalizarTokens(nombreLista));
+  return tk.filter(t => set.has(t)).length;
+}
+
+/** Coincidencia aproximada: al menos 2 términos en común y claramente superior a la segunda mejor opción */
+function indiceAproximado(tk) {
+  const pts = LISTA_ESTUDIANTES.map((n, i) => ({ i, p: puntajeCoincidencia(tk, n) })).sort((a, b) => b.p - a.p);
+  if (pts[0].p >= 2 && pts[0].p > pts[1].p) return pts[0].i;
+  return -1;
+}
+
+async function asignarNombreOficial(correo, selectId) {
+  const sel = elem(selectId);
+  if (!sel || !sel.value) { mostrarToast("Elige primero un nombre de la lista oficial.", "warning"); return; }
+  const nuevo = sel.value;
+  try {
+    const c = (correo || "").trim().toLowerCase();
+    const u = listaUsuariosDocente.find(x => x.correo === c);
+    let ref;
+    if (u && u.uid) ref = db.collection("usuarios").doc(u.uid);
+    else {
+      const s = await db.collection("usuarios").where("correo", "==", c).get();
+      ref = s.empty ? db.collection("usuarios").doc() : s.docs[0].ref;
+    }
+    await ref.set({ nombre: nuevo, estudiante_nombre: nuevo, correo: c }, { merge: true });
+    if (!u) listaUsuariosDocente.push({ uid: ref.id, correo: c, nombre: nuevo });
+    sincronizarNombreUsuarioLocal(c, nuevo);
+    await propagarNombreEnEvaluaciones(c, nuevo);
+    mostrarToast(`✅ ${c} asignado a ${nuevo}`, "success");
+    renderizarResumenNotas();
+  } catch (e) {
+    mostrarToast("Error al asignar: " + e.message, "warning");
+  }
 }
 
 function emailDeEvaluacion(ev) {
@@ -3012,7 +3048,9 @@ function construirResumenNotas() {
 
 function renderizarResumenNotas() {
   const q = (elem("filtroResumen").value || "").trim().toLowerCase();
-  const filas = construirResumenNotas().filter(f => !q || f.nombre.toLowerCase().includes(q));
+  const todasFilas = construirResumenNotas();
+  const libres = todasFilas.filter(f => f.enLista && !f.registrado).map(f => f.nombre);
+  const filas = todasFilas.filter(f => !q || f.nombre.toLowerCase().includes(q));
   const reg = filas.filter(f => f.registrado).length;
   elem("resumenInfo").textContent = `${filas.length} estudiante(s) · ${reg} con cuenta registrada · Promedio calculado con las semanas que tienen nota.`;
 
@@ -3034,7 +3072,19 @@ function renderizarResumenNotas() {
       <td>
         <strong>${sanitize(f.nombre)}</strong>
         ${f.registrado ? "" : `<div style="font-size:0.68rem; color:#94a3b8;">sin cuenta registrada</div>`}
-        ${f.enLista ? "" : `<div style="font-size:0.68rem; color:#dc2626;">no figura en la lista oficial</div>`}
+        ${f.enLista ? "" : (() => {
+          const tk = normalizarTokens(f.nombre);
+          const ordenadas = [...libres].sort((a, b) => puntajeCoincidencia(tk, b) - puntajeCoincidencia(tk, a));
+          const correo = f.emails[0] || "";
+          return `<div style="font-size:0.68rem; color:#dc2626;">no figura en la lista oficial (${sanitize(correo)})</div>
+          <div style="display:flex; gap:4px; margin-top:4px;">
+            <select id="selAsignar_${i}" style="max-width:260px; font-size:0.74rem; padding:3px;">
+              <option value="">— Asignar a nombre oficial —</option>
+              ${ordenadas.map(n => `<option value="${sanitize(n)}">${sanitize(n)}</option>`).join("")}
+            </select>
+            <button class="btn btn-pri btn-sm" onclick="asignarNombreOficial('${sanitize(correo)}','selAsignar_${i}')">Asignar</button>
+          </div>`;
+        })()}
       </td>
       ${celdas}
       <td style="text-align:center; font-weight:800;">${prom} ${nivelProm ? `<span class="badge-cneb badge-${nivelProm}" style="font-size:0.68rem; padding:1px 7px;">${nivelProm}</span>` : ""}</td>
