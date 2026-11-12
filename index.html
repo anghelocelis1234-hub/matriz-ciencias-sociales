@@ -2,9 +2,6 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<!-- This site is hosted on Netlify. Anyone can build and deploy a site
-     like this one for free: https://netlify.new/?utm_campaign=loops&utm_source=ai-legible&utm_medium=owned&utm_content=comment&utm_id=23983b06-f694-498f-b350-14ca16f9fc82
-     Netlify hosting facts for this site: static/SSR served via Netlify Edge. -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Matriz Educativa CNEB | Ciencias Sociales - I.E. Aplicación UNAP</title>
 <!-- Librería de partículas para celebración formativa -->
@@ -241,20 +238,17 @@
   }
 
   .card-img-wrap {
-    height: 170px;
+    height: 175px;
     width: 100%;
     overflow: hidden;
     position: relative;
     background-color: #cbd5e1;
-    border-radius: 12px 12px 0 0;
   }
 
   .card-img-wrap img {
     width: 100%;
-    height: 170px;
+    height: 100%;
     object-fit: cover;
-    object-position: center;
-    border-radius: 12px 12px 0 0;
     transition: transform 0.45s ease;
     display: block;
   }
@@ -1261,66 +1255,6 @@
   .toast-notification.toast-success { border-left-color: #10b981; }
   .toast-notification.toast-warning { border-left-color: #f59e0b; }
   .toast-notification.toast-info { border-left-color: #3b82f6; }
-
-  /* ===== AVATAR MINIATURA EN TABLA DE NOTAS ===== */
-  .est-cell { display: flex; align-items: center; gap: 10px; }
-  .avatar-mini-tabla {
-    width: 32px; height: 40px; flex-shrink: 0;
-    border-radius: 8px; overflow: hidden;
-    border: 2px solid #64748b; background: #0f172a;
-  }
-  .avatar-mini-tabla img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
-
-  /* ===== PERFIL DESTACADO EN MODAL DE RESULTADOS ===== */
-  .res-top-row {
-    display: flex; align-items: center; justify-content: center;
-    gap: 20px; flex-wrap: wrap; position: relative; z-index: 2;
-  }
-  .res-top-row .medalla-xl { margin-bottom: 12px; }
-  .res-perfil-card {
-    display: flex; align-items: center; gap: 12px;
-    background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.22);
-    border-radius: 14px; padding: 10px 14px; margin-bottom: 12px;
-    backdrop-filter: blur(4px); text-align: left;
-  }
-  .res-perfil-avatar {
-    width: 70px; height: 90px; flex-shrink: 0; border-radius: 12px; overflow: hidden;
-    border: 3px solid #64748b; background: #0f172a; box-shadow: 0 6px 16px rgba(0,0,0,0.35);
-  }
-  .res-perfil-avatar img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
-  .res-perfil-nombre { font-size: 0.98rem; font-weight: 800; color: #ffffff; line-height: 1.2; }
-  .res-perfil-rango { font-size: 0.78rem; font-weight: 800; margin-top: 6px; display: inline-block; padding: 3px 10px; border-radius: 999px; background: rgba(0,0,0,0.35); color: #fff; }
-
-  /* ===== BURBUJAS DE NOTIFICACIÓN FLOTANTES (CALLOUTS) ===== */
-  @keyframes popIn {
-    0%   { transform: scale(0.6) translateY(8px); opacity: 0; }
-    65%  { transform: scale(1.06) translateY(0); opacity: 1; }
-    100% { transform: scale(1) translateY(0); opacity: 1; }
-  }
-  .burbuja-notif {
-    position: fixed; z-index: 99990; max-width: 290px; min-width: 200px;
-    background: #1e293b; color: #f8fafc; border-radius: 14px;
-    padding: 12px 30px 12px 14px; font-size: 0.84rem; line-height: 1.4; font-weight: 600;
-    box-shadow: 0 10px 30px rgba(15,23,42,0.35), 0 2px 8px rgba(15,23,42,0.2);
-    border: 1px solid rgba(255,255,255,0.14); cursor: pointer;
-    animation: popIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-  }
-  .burbuja-notif.rango-up { background: linear-gradient(135deg, #065f46, #1e293b); }
-  .burbuja-notif.rango-down { background: linear-gradient(135deg, #92400e, #1e293b); }
-  .burbuja-notif.eval { background: linear-gradient(135deg, #1d4ed8, #1e293b); }
-  .burbuja-notif.clase { background: linear-gradient(135deg, #7c3aed, #1e293b); }
-  .burbuja-notif::after {
-    content: ""; position: absolute; width: 0; height: 0;
-    left: var(--flecha-x, 50%); margin-left: -9px;
-    border-left: 9px solid transparent; border-right: 9px solid transparent;
-  }
-  .burbuja-notif.flecha-arriba::after { top: -9px; border-bottom: 9px solid #1e293b; }
-  .burbuja-notif.flecha-abajo::after { bottom: -9px; border-top: 9px solid #1e293b; }
-  .burbuja-notif .burbuja-x {
-    position: absolute; top: 6px; right: 8px; background: transparent; border: 0;
-    color: #cbd5e1; font-size: 1.05rem; line-height: 1; cursor: pointer; padding: 2px 4px;
-  }
-  .burbuja-notif .burbuja-x:hover { color: #ffffff; }
 </style>
 </head>
 <body>
@@ -1434,10 +1368,7 @@
 
     <div id="resHero" class="result-hero">
       <div id="resRays" class="rays-bg" style="display:none;"></div>
-      <div class="res-top-row">
-        <div id="resMedalla" class="medalla-xl">--</div>
-        <div id="resPerfilCard" class="res-perfil-card"></div>
-      </div>
+      <div id="resMedalla" class="medalla-xl">--</div>
       <h3 id="resEstadoTexto" style="font-size:1.15rem; margin-bottom:4px; position:relative; z-index:2;">Evaluación Registrada</h3>
       <div class="nota-vigesimal">
         Puntaje Vigésimal: <strong id="resNotaNum">--</strong> / 20
@@ -1457,6 +1388,7 @@
     <div class="box-texto-estudiante" id="resTextoAlumno">
       (No se encontró texto de análisis registrado para esta semana).
     </div>
+    <div id="resFotoDocente" style="display:none; margin:10px 0;"></div>
 
     <!-- CAJA DESTACADA DE RECOMENDACIÓN DOCENTE -->
     <div class="box-recomendacion-docente">
@@ -1512,9 +1444,46 @@
       <button type="button" class="tab-docente-btn active" id="tabBtnNotas" onclick="cambiarTabDocente('notas')">
         📊 Registro de Calificaciones CNEB
       </button>
-      <button type="button" class="tab-docente-btn" id="tabBtnRangos" onclick="cambiarTabDocente('rangos')">
-        🥋 Gestión de Rangos de Hechicería
+      <button type="button" class="tab-docente-btn" id="tabBtnResumen" onclick="cambiarTabDocente('resumen')">
+        📋 Resumen de Notas por Semana
       </button>
+      <button type="button" class="tab-docente-btn" id="tabBtnRangos" onclick="cambiarTabDocente('rangos')">
+        🥋 Estudiantes y Rangos
+      </button>
+    </div>
+
+    <!-- PESTAÑA RESUMEN: NOTAS SEMANA POR SEMANA (LISTA OFICIAL 4.° A) -->
+    <div id="tabDocenteResumen" class="tab-docente-content" style="display:none;">
+      <div class="toolbar-panel">
+        <button class="btn btn-pri" onclick="cargarEvaluacionesGlobales().then(renderizarResumenNotas)">
+          <span class="spin-icon">🔄</span> Actualizar Resumen
+        </button>
+        <input type="text" id="filtroResumen" placeholder="🔍 Buscar estudiante..." oninput="renderizarResumenNotas()">
+        <button class="btn btn-white" style="border:1px solid #cbd5e1;" onclick="exportarResumenCsv()">
+          📥 Exportar Resumen a CSV / Excel
+        </button>
+      </div>
+      <div id="resumenInfo" style="margin-bottom:8px; font-size:0.84rem; color:#64748b;"></div>
+      <div class="table-responsive" style="max-height:560px;">
+        <table class="tabla-notas" style="min-width:900px;">
+          <thead>
+            <tr>
+              <th style="width:44px; text-align:center;">N°</th>
+              <th>Apellidos y Nombres</th>
+              <th style="text-align:center;">S01</th>
+              <th style="text-align:center;">S02</th>
+              <th style="text-align:center;">S03</th>
+              <th style="text-align:center;">S04</th>
+              <th style="text-align:center;">S05</th>
+              <th style="text-align:center;">S06</th>
+              <th style="text-align:center;">Promedio</th>
+            </tr>
+          </thead>
+          <tbody id="resumenBody">
+            <tr><td colspan="9" style="text-align:center; padding:24px;">Abre esta pestaña para generar el resumen.</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <!-- PESTAÑA 1: REGISTRO DE NOTAS Y RÚBRICAS CNEB -->
@@ -1587,7 +1556,9 @@
           <span class="spin-icon">🔄</span> Actualizar Lista de Estudiantes
         </button>
         <input type="text" id="filtroEstudianteRango" placeholder="🔍 Buscar estudiante por nombre o correo..." oninput="filtrarTablaRangos()">
+        <button class="btn btn-gold" onclick="adaptarNombresALista()">🪄 Adaptar nombres a la lista oficial</button>
       </div>
+      <datalist id="listaNombresOficiales"></datalist>
 
       <div style="margin-bottom:10px; font-size:0.85rem; color:#475569; background:#f1f5f9; padding:8px 12px; border-radius:8px; border:1px solid #e2e8f0;">
         🥋 <strong>Asignación pedagógica de rangos:</strong> Promueve de grado a los estudiantes según su nivel de participación, análisis crítico y logros demostrados en el aula.
@@ -1598,7 +1569,7 @@
           <thead>
             <tr>
               <th style="width:65px; text-align:center;">Avatar</th>
-              <th>Estudiante</th>
+              <th>Nombre (editable, según lista)</th>
               <th>Correo</th>
               <th style="text-align:center;">Rango Actual</th>
               <th style="text-align:center;">Modificar Rango</th>
@@ -1639,8 +1610,14 @@
       (Sin texto de análisis presentado).
     </div>
 
-    <!-- VISOR OBLIGATORIO DE FOTOGRAFÍA / INFOGRAFÍA ENVIADA -->
-    <div id="califContenedorFotoEvidencia"></div>
+    <!-- FOTO DE LA TAREA SUBIDA POR EL DOCENTE (OPCIONAL) -->
+    <div style="margin-top:12px; padding:10px 12px; border:1px dashed #94a3b8; border-radius:8px; background:#f8fafc;">
+      <label style="font-size:0.82rem; font-weight:700; color:#334155; display:block; margin-bottom:6px;">
+        📷 Foto de la tarea (tomada por el docente en clase) — opcional
+      </label>
+      <input type="file" id="inputFotoDocente" accept="image/*" style="font-size:0.82rem;">
+      <div id="previewFotoDocente" style="margin-top:8px;"></div>
+    </div>
 
     <!-- PANEL DE CALIFICACIÓN EN VIVO -->
     <div style="border-top:1px solid var(--borde); padding-top:14px; margin-top:14px;">
@@ -1826,29 +1803,6 @@ const PROGRAMACION_CNEB = [
     }
   }
 ];
-
-/**
- * 2.0 PORTADAS PROPIAS DE LAS 6 SEMANAS
- * Archivos: "imagen semana 01.jpg" ... "imagen semana 06.jpg".
- * Se busca primero en la carpeta configurada y, si no existe, en las alternativas (img/, ./).
- */
-const CARPETA_PORTADAS = "rangos/";
-const CARPETAS_PORTADAS_ALTERNAS = ["img/", ""];
-function rutaPortada(semana, carpeta = CARPETA_PORTADAS) {
-  return encodeURI(`${carpeta}imagen semana ${String(semana).padStart(2, "0")}.jpg`);
-}
-PROGRAMACION_CNEB.forEach(s => { s.img = rutaPortada(s.semana); });
-
-// Si la portada no carga, prueba las carpetas alternas antes de quedarse con el fondo gris
-function portadaError(imgEl, semana) {
-  const intento = Number(imgEl.dataset.intento || 0);
-  if (intento < CARPETAS_PORTADAS_ALTERNAS.length) {
-    imgEl.dataset.intento = intento + 1;
-    imgEl.src = rutaPortada(semana, CARPETAS_PORTADAS_ALTERNAS[intento]);
-  } else {
-    imgEl.onerror = null;
-  }
-}
 
 /**
  * 2.1 SISTEMA DE RANGOS DE HECHICERÍA Y CATÁLOGO DE AVATARES (JUJUTSU KAISEN)
@@ -2104,13 +2058,6 @@ function obtenerDatosAvatar(avatarId) {
   return item || CATALOGO_AVATARES.find(a => a.id === "novato") || CATALOGO_AVATARES[0];
 }
 
-// Avatar predeterminado de un rango: el novato para el rango base; si no, el primero de su grado
-function avatarPredeterminadoDeRango(rango) {
-  if (!rango || rango === "Grado 3 / 4") return "novato";
-  const primero = CATALOGO_AVATARES.find(a => a.grado === rango);
-  return primero ? primero.id : "novato";
-}
-
 // Estado de la aplicación
 let currentUser = null;
 let destinoPendiente = null;
@@ -2150,219 +2097,9 @@ function mostrarToast(mensaje, tipo = "info") {
   }, 3500);
 }
 
-/**
- * EFECTOS DE SONIDO NATIVOS (Web Audio API, sin archivos externos)
- */
-let _audioCtx = null;
-function obtenerAudioCtx() {
-  try {
-    if (!_audioCtx) {
-      const AC = window.AudioContext || window.webkitAudioContext;
-      if (!AC) return null;
-      _audioCtx = new AC();
-    }
-    if (_audioCtx.state === "suspended") _audioCtx.resume().catch(() => {});
-    return _audioCtx;
-  } catch (_) { return null; }
-}
-
-// Reproduce una nota: frecuencia, inicio (s), duración (s), tipo de onda, volumen
-function tono(ctx, freq, inicio, dur, tipo = "sine", vol = 0.12, freqFin = null) {
-  const t0 = ctx.currentTime + inicio;
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
-  osc.type = tipo;
-  osc.frequency.setValueAtTime(freq, t0);
-  if (freqFin) osc.frequency.exponentialRampToValueAtTime(freqFin, t0 + dur);
-  gain.gain.setValueAtTime(0.0001, t0);
-  gain.gain.exponentialRampToValueAtTime(vol, t0 + 0.012);
-  gain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-  osc.start(t0);
-  osc.stop(t0 + dur + 0.05);
-}
-
-function reproducirSonido(nombre) {
-  const ctx = obtenerAudioCtx();
-  if (!ctx) return;
-  try {
-    switch (nombre) {
-      case "click": // tono seco, corto y sutil
-        tono(ctx, 880, 0, 0.05, "triangle", 0.06, 620);
-        break;
-      case "notificacion": // chime de dos tonos armónicos (quinta justa)
-        tono(ctx, 783.99, 0, 0.35, "sine", 0.10);
-        tono(ctx, 1174.66, 0.14, 0.5, "sine", 0.09);
-        tono(ctx, 2349.32, 0.14, 0.3, "sine", 0.015);
-        break;
-      case "fanfarria": // arpegio mayor ascendente retro-moderno
-        [523.25, 659.25, 783.99, 1046.5, 1318.5].forEach((f, i) => {
-          tono(ctx, f, i * 0.09, 0.22, "square", 0.05);
-          tono(ctx, f / 2, i * 0.09, 0.22, "triangle", 0.06);
-        });
-        tono(ctx, 1046.5, 0.5, 0.55, "square", 0.05);
-        tono(ctx, 1318.5, 0.5, 0.55, "square", 0.04);
-        tono(ctx, 1568, 0.5, 0.55, "square", 0.04);
-        break;
-      case "degradacion": // tono descendente sobrio
-        tono(ctx, 440, 0, 0.28, "sawtooth", 0.05, 330);
-        tono(ctx, 330, 0.26, 0.32, "sawtooth", 0.05, 220);
-        tono(ctx, 220, 0.56, 0.45, "sine", 0.07, 165);
-        break;
-    }
-  } catch (e) { console.warn("Aviso de audio:", e); }
-}
-
-// Sonido "click" global: botones, tarjetas, cierre de modales
-document.addEventListener("click", e => {
-  const t = e.target.closest && e.target.closest("button, .btn, .card-semana, .modal-close, [data-close], .card-avatar-netflix, .user-profile-touch, .badge-insignia");
-  if (t) reproducirSonido("click");
-}, true);
-
-/**
- * BURBUJAS DE NOTIFICACIÓN FLOTANTES (CALLOUTS) CON FLECHA DE PUNTERO
- * Una burbuja visible a la vez; las demás esperan en cola.
- * - selector: elemento al que apunta (se resuelve de forma perezosa porque las tarjetas se re-renderizan).
- * - clave: marca en localStorage para no repetir el aviso.
- */
-const colaBurbujas = [];
-let burbujaActiva = null;
-
-function encolarBurbuja(cfg) {
-  if (!cfg || !cfg.clave) return;
-  if (localStorage.getItem(cfg.clave)) return;
-  if (colaBurbujas.some(b => b.clave === cfg.clave) || (burbujaActiva && burbujaActiva.cfg.clave === cfg.clave)) return;
-  colaBurbujas.push(cfg);
-  if (!burbujaActiva) setTimeout(mostrarSiguienteBurbuja, 500);
-}
-
-function mostrarSiguienteBurbuja() {
-  if (burbujaActiva) return;
-  const cfg = colaBurbujas.shift();
-  if (!cfg) return;
-  const el = document.createElement("div");
-  el.className = `burbuja-notif ${cfg.tipo || ""}`;
-  el.setAttribute("role", "status");
-  el.innerHTML = `<span>${sanitize(cfg.texto)}</span><button class="burbuja-x" aria-label="Cerrar" title="Cerrar">&times;</button>`;
-  el.style.visibility = "hidden";
-  document.body.appendChild(el);
-  burbujaActiva = { cfg, el };
-
-  el.querySelector(".burbuja-x").addEventListener("click", ev => {
-    ev.stopPropagation();
-    descartarBurbuja();
-  });
-  // Tocar la burbuja equivale a tocar el elemento al que apunta
-  el.addEventListener("click", () => {
-    const destino = document.querySelector(cfg.selector);
-    descartarBurbuja();
-    if (destino) destino.click();
-  });
-
-  localStorage.setItem(cfg.clave, "1");
-  reproducirSonido(cfg.sonido || "notificacion");
-  posicionarBurbuja();
-}
-
-function posicionarBurbuja() {
-  if (!burbujaActiva) return;
-  const { cfg, el } = burbujaActiva;
-  const destino = document.querySelector(cfg.selector);
-  if (!destino || destino.offsetParent === null && getComputedStyle(destino).position !== "fixed") {
-    el.style.visibility = "hidden";
-    return;
-  }
-  const r = destino.getBoundingClientRect();
-  const w = el.offsetWidth, h = el.offsetHeight;
-  const margen = 10, gap = 14;
-  const centroX = r.left + r.width / 2;
-  let left = Math.min(Math.max(margen, centroX - w / 2), window.innerWidth - w - margen);
-  // Debajo del elemento si cabe; si no, encima
-  const cabeAbajo = r.bottom + gap + h < window.innerHeight - margen;
-  const top = cabeAbajo ? r.bottom + gap : Math.max(margen, r.top - gap - h);
-  el.classList.toggle("flecha-arriba", cabeAbajo);
-  el.classList.toggle("flecha-abajo", !cabeAbajo);
-  el.style.left = left + "px";
-  el.style.top = top + "px";
-  el.style.setProperty("--flecha-x", Math.min(Math.max(20, centroX - left), w - 20) + "px");
-  el.style.visibility = "visible";
-}
-
-function descartarBurbuja() {
-  if (!burbujaActiva) return;
-  burbujaActiva.el.remove();
-  burbujaActiva = null;
-  setTimeout(mostrarSiguienteBurbuja, 700);
-}
-
-// Se descarta automáticamente al tocar el elemento señalado (delegado, sobrevive a re-renderizados)
-document.addEventListener("click", e => {
-  if (!burbujaActiva || burbujaActiva.el.contains(e.target)) return;
-  const destino = document.querySelector(burbujaActiva.cfg.selector);
-  if (destino && destino.contains(e.target)) descartarBurbuja();
-}, true);
-window.addEventListener("resize", posicionarBurbuja);
-window.addEventListener("scroll", posicionarBurbuja, true);
-setInterval(posicionarBurbuja, 800); // mantiene el puntero alineado tras re-renderizados
-
-// Burbuja de rango (apunta al avatar del header)
-function notificarCambioRango(tipoEvento, nuevoRango) {
-  if (!currentUser || !tipoEvento) return;
-  const clave = `visto_notif_rango_${currentUser.uid}_${nuevoRango}`;
-  localStorage.removeItem(clave); // un cambio real de rango siempre se avisa una vez
-  if (tipoEvento === "ascenso") {
-    encolarBurbuja({
-      clave, tipo: "rango-up", selector: "#headerAvatarCard", sonido: "fanfarria",
-      texto: `🎉 ¡Felicidades! Has ascendido a ${nuevoRango}. Tienes nuevos hechiceros desbloqueados. Toca aquí para verlos.`
-    });
-  } else {
-    encolarBurbuja({
-      clave, tipo: "rango-down", selector: "#headerAvatarCard", sonido: "degradacion",
-      texto: `⚠️ Tu rango ha sido actualizado a ${nuevoRango}. Algunos avatares han vuelto a bloquearse.`
-    });
-  }
-}
-
-// Burbuja de evaluación revisada (apunta al botón "Mis Resultados" de la semana)
-function revisarNotificacionesEvaluacion() {
-  if (!currentUser) return;
-  for (let s = 1; s <= 6; s++) {
-    const d = mapaNotasUsuario[s];
-    if (!d || !d.calificado_por_docente) continue;
-    const marca = (d.fecha_revision && d.fecha_revision.toMillis) ? d.fecha_revision.toMillis() : (d.id || "");
-    encolarBurbuja({
-      clave: `visto_notif_eval_${currentUser.uid}_s${s}_${marca}`,
-      tipo: "eval", selector: `[data-btn-resultados="${s}"]`,
-      texto: `📝 Tu docente ha calificado tu entrega de la Semana ${String(s).padStart(2, "0")} y te ha dejado una recomendación formativa. ¡Toca aquí para leerla!`
-    });
-  }
-}
-
-// Burbuja de nueva clase: última semana ya iniciada según el calendario y aún sin entrega
-function revisarNotificacionNuevaClase() {
-  if (!currentUser) return;
-  const meses = { ene: 0, feb: 1, mar: 2, abr: 3, may: 4, jun: 5, jul: 6, ago: 7, sep: 8, set: 8, oct: 9, nov: 10, dic: 11 };
-  const hoy = new Date();
-  let actual = null;
-  PROGRAMACION_CNEB.forEach(ses => {
-    const m = /(\d{1,2})\s+al\s+(\d{1,2})\s+([A-Za-z]{3})/.exec(ses.fecha || "");
-    if (!m) return;
-    const inicio = new Date(hoy.getFullYear(), meses[m[3].toLowerCase()], parseInt(m[1], 10));
-    if (hoy >= inicio) actual = ses;
-  });
-  if (!actual || mapaNotasUsuario[actual.semana]) return;
-  encolarBurbuja({
-    clave: `visto_notif_clase_${currentUser.uid}_s${actual.semana}`,
-    tipo: "clase", selector: `[data-semana-card="${actual.semana}"]`,
-    texto: `✨ ¡Nueva clase habilitada! Comienza aquí la Semana ${String(actual.semana).padStart(2, "0")}.`
-  });
-}
-
 // Verificación y celebración de ascenso de hechicería
 function verificarYNotificarAscenso(uid, nuevoRango) {
-  if (!uid || !nuevoRango) return null;
-  let evento = null;
+  if (!uid || !nuevoRango) return;
   const storageKey = `antigravity_last_rango_${uid}`;
   const rangoAnterior = localStorage.getItem(storageKey);
 
@@ -2393,16 +2130,11 @@ function verificarYNotificarAscenso(uid, nuevoRango) {
           });
         }, 400);
       }
-      reproducirSonido("fanfarria");
-      evento = "ascenso";
-    } else if (nivelNue < nivelAnt) {
-      reproducirSonido("degradacion");
-      evento = "degradacion";
+      mostrarToast(`🎉 ¡FELICITACIONES! Has sido ascendido a ${nuevoRango}. ¡Nuevos avatares han sido desbloqueados!`, "success");
     }
   }
 
   localStorage.setItem(storageKey, nuevoRango);
-  return evento;
 }
 
 // Actualización visual del header con avatar retrato y rango
@@ -2551,27 +2283,19 @@ async function seleccionarAvatar(avatarId) {
 
 // Navegación de pestañas en el panel docente
 function cambiarTabDocente(tab) {
-  const btnNotas = elem("tabBtnNotas");
-  const btnRangos = elem("tabBtnRangos");
-  const secNotas = elem("tabDocenteNotas");
-  const secRangos = elem("tabDocenteRangos");
-
-  if (tab === "notas") {
-    btnNotas.classList.add("active");
-    btnRangos.classList.remove("active");
-    secNotas.style.display = "block";
-    secRangos.style.display = "none";
-  } else if (tab === "rangos") {
-    btnRangos.classList.add("active");
-    btnNotas.classList.remove("active");
-    secRangos.style.display = "block";
-    secNotas.style.display = "none";
-    cargarListaUsuariosRangos();
+  const tabs = { notas: ["tabBtnNotas", "tabDocenteNotas"], resumen: ["tabBtnResumen", "tabDocenteResumen"], rangos: ["tabBtnRangos", "tabDocenteRangos"] };
+  Object.entries(tabs).forEach(([k, [b, s]]) => {
+    elem(b).classList.toggle("active", k === tab);
+    elem(s).style.display = (k === tab) ? "block" : "none";
+  });
+  if (tab === "rangos") cargarListaUsuariosRangos();
+  if (tab === "resumen") {
+    if (!listaEvaluacionesGlobal.length) cargarEvaluacionesGlobales().then(renderizarResumenNotas);
+    else renderizarResumenNotas();
   }
 }
 
 let listaEstudiantesRangos = [];
-let mapaUsuariosPorClave = {}; // { correo|uid: { avatar, rango } }
 
 async function cargarListaUsuariosRangos() {
   if (!esAdmin(currentUser)) return;
@@ -2625,7 +2349,8 @@ function renderizarTablaRangos(lista) {
     return;
   }
 
-  tbody.innerHTML = lista.map((est, idx) => {
+  tbody.innerHTML = lista.map((est) => {
+    const idx = listaEstudiantesRangos.indexOf(est);
     const char = obtenerDatosAvatar(est.avatar);
     const infoR = INFO_RANGOS[est.rango] || INFO_RANGOS["Grado 3 / 4"];
 
@@ -2637,7 +2362,7 @@ function renderizarTablaRangos(lista) {
           </div>
         </td>
         <td>
-          <strong style="color:#0f172a;">${sanitize(est.nombre)}</strong>
+          <input type="text" id="inpNombreDoc_${idx}" list="listaNombresOficiales" value="${sanitize(est.nombre)}" style="width:100%; min-width:220px; padding:6px 8px; border:1px solid #cbd5e1; border-radius:6px; font-size:0.82rem; font-weight:600;">
         </td>
         <td style="color:#64748b; font-size:0.8rem;">
           ${sanitize(est.correo)}
@@ -2655,7 +2380,7 @@ function renderizarTablaRangos(lista) {
         </td>
         <td style="text-align:center;">
           <button class="btn btn-pri btn-sm" onclick="guardarRangoDocente('${sanitize(est.uid)}', '${sanitize(est.correo)}', ${idx}, this)">
-            💾 Guardar Rango
+            💾 Guardar
           </button>
         </td>
       </tr>
@@ -2680,6 +2405,8 @@ async function guardarRangoDocente(uid, correo, index, btn) {
   const select = elem(`selRangoDoc_${index}`);
   if (!select) return;
   const nuevoRango = select.value;
+  const inpNombre = elem(`inpNombreDoc_${index}`);
+  const nuevoNombre = inpNombre ? inpNombre.value.trim() : "";
   const textoOriginal = btn.innerHTML;
   btn.disabled = true;
   btn.innerHTML = `⏳ Guardando...`;
@@ -2697,26 +2424,17 @@ async function guardarRangoDocente(uid, correo, index, btn) {
       }
     }
 
-    // REGLA ESTRICTA DE DEGRADACIÓN: si el avatar equipado pertenece a un rango superior al nuevo, se revoca
-    const nuevoNivel = JERARQUIA_RANGOS[nuevoRango] || 1;
-    let avatarActual = null;
-    try {
-      const snapActual = await docRef.get();
-      if (snapActual.exists) avatarActual = snapActual.data().avatar || null;
-    } catch (_) {}
-    if (!avatarActual) {
-      const estLista = listaEstudiantesRangos.find(e => e.correo === correo || e.uid === uid);
-      avatarActual = estLista ? estLista.avatar : null;
-    }
+    await docRef.set({
+      rango: nuevoRango,
+      correo: correo,
+      ...(nuevoNombre ? { nombre: nuevoNombre, estudiante_nombre: nuevoNombre } : {})
+    }, { merge: true });
 
-    const payloadRango = { rango: nuevoRango, correo: correo };
-    let avatarRevocado = false;
-    if (avatarActual && obtenerDatosAvatar(avatarActual).nivelRequerido > nuevoNivel) {
-      payloadRango.avatar = avatarPredeterminadoDeRango(nuevoRango);
-      avatarRevocado = true;
+    if (nuevoNombre && listaEstudiantesRangos[index] && listaEstudiantesRangos[index].nombre !== nuevoNombre) {
+      listaEstudiantesRangos[index].nombre = nuevoNombre;
+      await propagarNombreEnEvaluaciones(correo, nuevoNombre);
     }
-
-    await docRef.set(payloadRango, { merge: true });
+    sincronizarNombreUsuarioLocal(correo, nuevoNombre);
 
     const infoR = INFO_RANGOS[nuevoRango] || INFO_RANGOS["Grado 3 / 4"];
     const badge = elem(`badgeRangoDoc_${index}`);
@@ -2725,17 +2443,11 @@ async function guardarRangoDocente(uid, correo, index, btn) {
       badge.innerHTML = `${infoR.icono} ${infoR.nombre}`;
     }
 
-    const estGuardado = listaEstudiantesRangos.find(e => e.correo === correo || e.uid === uid) || listaEstudiantesRangos[index];
-    let rangoPrevio = null;
-    if (estGuardado) {
-      rangoPrevio = estGuardado.rango;
-      estGuardado.rango = nuevoRango;
-      if (avatarRevocado) estGuardado.avatar = payloadRango.avatar;
+    if (listaEstudiantesRangos[index]) {
+      listaEstudiantesRangos[index].rango = nuevoRango;
     }
-    if (rangoPrevio && nuevoNivel < (JERARQUIA_RANGOS[rangoPrevio] || 1)) reproducirSonido("degradacion");
-    if (avatarRevocado) filtrarTablaRangos();
 
-    mostrarToast(`✅ Rango actualizado a ${nuevoRango} para ${correo}` + (avatarRevocado ? `. Avatar revocado y restablecido a ${obtenerDatosAvatar(payloadRango.avatar).nombre}.` : ""), avatarRevocado ? "warning" : "success");
+    mostrarToast(`✅ Rango actualizado a ${nuevoRango} para ${correo}`, "success");
   } catch (err) {
     console.error("Error al actualizar rango:", err);
     mostrarToast(`❌ Error al guardar rango: ${err.message}`, "warning");
@@ -2759,19 +2471,18 @@ function renderizarTarjetas() {
     if (!currentUser) {
       badgeHtml = `<span class="badge-insignia pend" onclick="event.stopPropagation(); abrirModalAuth(true);" title="Inicia sesión para ver tu estado">🔒 Acceso Alumno</span>`;
     } else if (!notaData) {
-      badgeHtml = `<span class="badge-insignia pend" onclick="event.stopPropagation(); abrirResultadosEstudiante(${ses.semana});" title="Aún no has registrado esta semana. Haz clic para ver detalles.">⏳ Sin evaluar</span>`;
+      badgeHtml = `<span class="badge-insignia pend" onclick="event.stopPropagation(); abrirResultadosEstudiante(${ses.semana});" title="Aún no has registrado esta semana. Haz clic para ver detalles.">⏳ Pendiente</span>`;
     } else {
-      // La nota manual del docente tiene prioridad absoluta sobre el nivel preliminar del cuestionario
-      const { nivel } = resolverEvaluacion(notaData);
-      const txtNivel = nivel === "AD" ? "AD - Logro Destacado" : nivel === "A" ? "A - Logro Esperado" : nivel === "B" ? "B - En Proceso" : "C - En Inicio";
+      const nivel = (notaData.nivel_logro || notaData.nivel || calcularNivelDesdeNota(notaData.puntaje_vigesimal ?? notaData.puntaje)).toUpperCase();
+      const txtNivel = nivel === "AD" ? "AD · Destacado" : nivel === "A" ? "A · Logrado" : nivel === "B" ? "B · Proceso" : "C · Inicio";
       const iconoNivel = nivel === "AD" ? "👑" : nivel === "A" ? "🔥" : nivel === "B" ? "🥉" : "🌱";
       badgeHtml = `<span class="badge-insignia ${nivel}" onclick="event.stopPropagation(); abrirResultadosEstudiante(${ses.semana});" title="¡Haz clic o toca para ver tus resultados y celebrar tu medalla!"> ${iconoNivel} ${txtNivel}</span>`;
     }
 
     return `
-      <article class="card-semana" data-semana-card="${ses.semana}">
+      <article class="card-semana">
         <div class="card-img-wrap">
-          <img src="${ses.img}" alt="${sanitize(ses.titulo)}" loading="lazy" onerror="portadaError(this, ${ses.semana})">
+          <img src="${ses.img}" alt="${sanitize(ses.titulo)}" loading="lazy">
           <span class="card-badge-sem">Semana ${String(ses.semana).padStart(2, "0")}</span>
           <span class="card-fecha">📅 ${ses.fecha}</span>
           ${badgeHtml}
@@ -2789,7 +2500,7 @@ function renderizarTarjetas() {
               🚀 Ingresar a clase
             </button>
             <!-- Botón 2: Mis Resultados y Recomendaciones -->
-            <button class="btn btn-outline" data-btn-resultados="${ses.semana}" onclick="abrirResultadosEstudiante(${ses.semana})">
+            <button class="btn btn-outline" onclick="abrirResultadosEstudiante(${ses.semana})">
               📋 Mis Resultados y Recomendaciones
             </button>
           </div>
@@ -2845,10 +2556,9 @@ function seleccionarMejorEvaluacion(evaluaciones) {
   const calificados = evaluaciones.filter(e => !!e.calificado_por_docente);
   if (calificados.length > 0) {
     return calificados.sort((a, b) => {
-      // Entre varios calificados: la revisión más reciente
-      const revA = (a.fecha_revision && a.fecha_revision.toMillis) ? a.fecha_revision.toMillis() : 0;
-      const revB = (b.fecha_revision && b.fecha_revision.toMillis) ? b.fecha_revision.toMillis() : 0;
-      if (revB !== revA) return revB - revA;
+      const notaA = Number(a.puntaje_vigesimal ?? a.puntaje ?? 0);
+      const notaB = Number(b.puntaje_vigesimal ?? b.puntaje ?? 0);
+      if (notaB !== notaA) return notaB - notaA;
       return obtenerTimestamp(b) - obtenerTimestamp(a);
     })[0];
   }
@@ -2860,35 +2570,25 @@ function seleccionarMejorEvaluacion(evaluaciones) {
 /**
  * 4. CONSULTA EN TIEMPO REAL DE LAS CALIFICACIONES DEL ESTUDIANTE ACTUAL
  */
-let unsubscribeEvaluacionesListener = null;
-
 async function cargarCalificacionesAlumno() {
-  // Cierra la suscripción anterior (cambio de sesión)
-  if (unsubscribeEvaluacionesListener) {
-    unsubscribeEvaluacionesListener();
-    unsubscribeEvaluacionesListener = null;
-  }
-
   if (!currentUser) {
     mapaNotasUsuario = {};
     renderizarTarjetas();
     return;
   }
 
-  const userEmail = (currentUser.email || "").trim().toLowerCase();
-  const userUid = currentUser.uid;
-
-  // Suscripción en tiempo real: cada vez que el docente guarda una calificación se repintan las tarjetas
-  unsubscribeEvaluacionesListener = db.collection("evaluaciones").onSnapshot(snap => {
+  try {
+    const userEmail = (currentUser.email || "").trim().toLowerCase();
+    const snap = await db.collection("evaluaciones").get();
     mapaNotasUsuario = {};
+
     const agrupadosPorSemana = { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [] };
 
     snap.forEach(doc => {
       const data = doc.data();
       const mailDoc = (data.estudiante_email || data.correo || data.email || data.correo_estudiante || "").trim().toLowerCase();
-      const uidDoc = data.uid || data.estudiante_uid || "";
-      if (mailDoc === userEmail || (uidDoc && uidDoc === userUid)) {
-        const sem = extraerNumeroSemana(data.semana ?? data.semana_numero);
+      if (mailDoc === userEmail) {
+        const sem = extraerNumeroSemana(data.semana);
         if (sem >= 1 && sem <= 6) {
           agrupadosPorSemana[sem].push({ id: doc.id, ...data });
         }
@@ -2901,14 +2601,11 @@ async function cargarCalificacionesAlumno() {
     }
 
     renderizarTarjetas();
-    revisarNotificacionesEvaluacion();
-    revisarNotificacionNuevaClase();
     elem("userStatusNotice").innerHTML = `Conectado como <strong>${sanitize(currentUser.displayName || currentUser.email)}</strong>. Tus medallas y revisiones están sincronizadas.`;
-  }, err => {
+  } catch (err) {
     console.error("Error al consultar evaluaciones del alumno:", err);
-  });
+  }
 }
-
 
 /**
  * 5. FUNCIÓN ROBUSTA DE CELEBRACIÓN Y ANIMACIÓN DE MEDALLA (DOBLE DISPARADOR)
@@ -2938,7 +2635,6 @@ function animarCelebracionMedalla(nivelLogro, sesionLink = "") {
     rays.style.display = "block";
     medalla.classList.add("ad-badge");
     medalla.innerHTML = "👑 AD";
-    reproducirSonido("fanfarria");
     subtitulo.innerHTML = `<span style="color:#fde047;">🌟 ¡Extraordinario! Dominio total del proceso histórico.</span>`;
     
     // Disparo doble de confeti dorado y azul con halo luminoso
@@ -2970,7 +2666,6 @@ function animarCelebracionMedalla(nivelLogro, sesionLink = "") {
     hero.classList.add("esperado");
     medalla.classList.add("a-badge");
     medalla.innerHTML = "🔥 A";
-    reproducirSonido("fanfarria");
     subtitulo.innerHTML = `<span style="color:#a7f3d0;">✨ ¡Excelente trabajo! Has alcanzado los aprendizajes esperados.</span>`;
     
     // Ráfaga verde esmeralda y dorada
@@ -3060,8 +2755,8 @@ async function abrirResultadosEstudiante(semanaNum) {
   }
 
   const sesion = PROGRAMACION_CNEB.find(s => s.semana === semanaNum) || PROGRAMACION_CNEB[0];
-  const nivel = resolverEvaluacion(data).nivel;
-  const notaVigesimal = resolverEvaluacion(data).puntaje ?? "--";
+  const nivel = (data.nivel_logro || data.nivel || calcularNivelDesdeNota(data.puntaje_vigesimal ?? data.puntaje)).toUpperCase();
+  const notaVigesimal = data.puntaje_vigesimal ?? data.puntaje ?? "--";
   const revisadoDocente = !!data.calificado_por_docente;
 
   elem("resEstadoTexto").textContent = revisadoDocente ? "✅ Evaluación Revisada y Calificada por el Docente" : "⏱️ Evaluación Registrada";
@@ -3073,28 +2768,22 @@ async function abrirResultadosEstudiante(semanaNum) {
   const textoAlumno = data.texto_interpretacion || data.analisis_escrito || data.produccion || data.texto || data.interpretacion || "(Sin texto redactado en el taller histórico)";
   elem("resTextoAlumno").textContent = textoAlumno;
 
+  // Foto de la tarea aportada por el docente (si existe)
+  const boxFoto = elem("resFotoDocente");
+  if (data.foto_docente) {
+    boxFoto.style.display = "block";
+    boxFoto.innerHTML = `<div style="font-size:0.8rem; font-weight:700; color:#475569; margin-bottom:4px;">📷 Foto de tu trabajo en clase:</div><img src="${data.foto_docente}" alt="Foto de la tarea" style="max-width:100%; border-radius:10px; border:1px solid #e2e8f0;">`;
+  } else {
+    boxFoto.style.display = "none";
+    boxFoto.innerHTML = "";
+  }
+
   // Cuadro destacado con el feedback del profesor
   const boxFeedback = elem("resFeedbackDocente");
   if (data.retroalimentacion_docente && data.retroalimentacion_docente.trim() !== "") {
     boxFeedback.innerHTML = `<strong>Mensaje de tu profesor:</strong><br>${sanitize(data.retroalimentacion_docente)}`;
   } else {
     boxFeedback.innerHTML = `<em>Tu evaluación fue recibida con éxito. El docente está revisando tu análisis escrito para emitir tu recomendación final.</em>`;
-  }
-
-  // Tarjeta de perfil destacada: avatar equipado, nombre y rango actual
-  const avatarRes = obtenerDatosAvatar(datosUsuarioActual.avatar);
-  const rangoRes = INFO_RANGOS[datosUsuarioActual.rango] || INFO_RANGOS["Grado 3 / 4"];
-  const tarjetaPerfil = elem("resPerfilCard");
-  if (tarjetaPerfil) {
-    tarjetaPerfil.innerHTML = `
-      <div class="res-perfil-avatar" style="border-color:${rangoRes.color};">
-        <img src="${avatarRes.imagen}" alt="${sanitize(avatarRes.nombre)}" onerror="this.onerror=null; this.src='${avatarRes.fallback}';">
-      </div>
-      <div>
-        <div class="res-perfil-nombre">${sanitize(datosUsuarioActual.nombre || currentUser.displayName || "Estudiante")}</div>
-        <div style="font-size:0.74rem; color:#cbd5e1; margin-top:2px;">${sanitize(avatarRes.nombre)}</div>
-        <span class="res-perfil-rango" style="border:1px solid ${rangoRes.color};">${rangoRes.icono} Hechicero ${sanitize(rangoRes.nombre)}</span>
-      </div>`;
   }
 
   // Interacción para volver a detonar la celebración al tocar la medalla grande del modal
@@ -3112,6 +2801,9 @@ async function abrirResultadosEstudiante(semanaNum) {
  */
 function obtenerNombreEstudiante(r) {
   if (!r) return "Estudiante";
+  // Prioridad: nombre editado por el docente en la colección "usuarios"
+  const mailR = (r.estudiante_email || r.correo || r.email || r.correo_estudiante || "").trim().toLowerCase();
+  if (mailR && nombresPorEmail[mailR]) return nombresPorEmail[mailR];
   const nom = r.estudiante_nombre || r.nombre || r.estudiante || r.displayName || "";
   if (nom && nom.trim() !== "") return nom.trim();
   const email = r.estudiante_email || r.correo || r.email || "";
@@ -3121,6 +2813,302 @@ function obtenerNombreEstudiante(r) {
   }
   return "Estudiante";
 }
+
+/**
+ * 5.1 LISTA OFICIAL DE ESTUDIANTES (4.° A - Registro Auxiliar y Lista de Cotejo)
+ * Los nombres de los estudiantes registrados se adaptan a esta lista.
+ */
+const LISTA_ESTUDIANTES = [
+  "ALVARADO PEREZ, CLAUDIA MILAGROS",
+  "AMPUERO ZUMAETA, DIEGO ISER",
+  "AMPUERO ZUMAETA, MATHIAS IVAN",
+  "BANEO GUIMARAES, JHAMIL ANDRE",
+  "BARTRA ZAMBRANO, JOSE GABRIEL",
+  "CHUQUIPIONDO PAREDES, EROS SALVATTORE",
+  "COLCHADO VELA, JAHDIEL ELIAS",
+  "DIAZ RENGIFO, MIA VALENTINA",
+  "ESTRADA VALLES, MATHIAS JOSSIMAR",
+  "HINOSTROZA VILCHEZ, ALDO ALEJANDRO",
+  "INUMA SORIA, JIM BRADDOCK",
+  "JIMENEZ YUMBO, FRANCISCO JAVIER",
+  "LA TORRE ANDERSON, BRYAN",
+  "MARIN ALVIS, MARCOS OTONIEL",
+  "MARIN RAMIREZ, ZULEMA ZOILA",
+  "MELENDEZ RAMIREZ, ALEXANDRA NAOKO",
+  "MENDOZA JULON, JOHAN JHAMIR",
+  "MUJICA HUAYMANA, LEYDI MARYCIELO",
+  "MUJICA YAÑEZ, RONAIKER JESUS",
+  "NAVARRO PEÑA, JOHAN PRINCIPE",
+  "NORIEGA MEDINA, SAORI",
+  "OLORTEGUI ROUTLEDGE, PARIS CAMILA ISABEL",
+  "PACAYA ICOMENA, KAHORI DARLEM",
+  "PEREZ YAICATE, ESTRELLA PIERINA",
+  "PIZANGO PANDURO, JHADIRA THAISS",
+  "ROJAS DEL CASTILLO, MAXIMO",
+  "ROJAS RODRIGUEZ, CARLOS ALBERTO",
+  "SALDAÑA CAREAJANO, JHOFRINA SOLANGER",
+  "SALINAS TAPULLIMA, JUSTIN FABRIZIO",
+  "SANDOVAL PANAIFO, STEFANO ADRIAN",
+  "SINTI GONZALES, HUMBERTO LUCIANO",
+  "SOLLER TAMABI, BRUNO PARK",
+  "SOLOGUREN AQUINO, KIARA KAELA MISHELL",
+  "TIRADO ARIMUYA, DALIA ABIGAIL",
+  "TORRES ACHO, MARIA MERCEDES",
+  "TORRES TANCHIVA, ORISON YARETH",
+  "VASQUEZ ROMAINA, CHEZTHER STHYVEN",
+  "VIENA REATEGUI, DIOGO WILLIAMS"
+];
+
+let nombresPorEmail = {};      // { correo: nombre editado por el docente }
+let listaUsuariosDocente = []; // [{ uid, correo, nombre }]
+let fotoDocenteTemp = undefined; // undefined = sin cambios, "" = quitar, "data:..." = nueva
+
+(function poblarDatalistNombres() {
+  const dl = document.getElementById("listaNombresOficiales");
+  if (dl) dl.innerHTML = LISTA_ESTUDIANTES.map(n => `<option value="${n}"></option>`).join("");
+})();
+
+function normalizarTokens(txt) {
+  return String(txt || "")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .toUpperCase().replace(/[^A-Z\s]/g, " ")
+    .split(/\s+/).filter(Boolean);
+}
+
+/** Devuelve el índice en LISTA_ESTUDIANTES que corresponde al nombre dado, o -1 */
+function indiceEnLista(nombre) {
+  const tk = normalizarTokens(nombre);
+  if (!tk.length) return -1;
+  const clave = [...tk].sort().join(" ");
+  // 1. Coincidencia exacta (sin importar orden / tildes / coma)
+  for (let i = 0; i < LISTA_ESTUDIANTES.length; i++) {
+    if ([...normalizarTokens(LISTA_ESTUDIANTES[i])].sort().join(" ") === clave) return i;
+  }
+  // 2. Coincidencia flexible: todos los términos del nombre están en un único nombre de la lista
+  if (tk.length < 2) return -1;
+  const cand = [];
+  LISTA_ESTUDIANTES.forEach((n, i) => {
+    const set = new Set(normalizarTokens(n));
+    if (tk.every(t => set.has(t))) cand.push(i);
+  });
+  return cand.length === 1 ? cand[0] : -1;
+}
+
+function emailDeEvaluacion(ev) {
+  return (ev.estudiante_email || ev.correo || ev.email || ev.correo_estudiante || "").trim().toLowerCase();
+}
+
+async function cargarUsuariosDocente() {
+  try {
+    const snap = await db.collection("usuarios").get();
+    listaUsuariosDocente = [];
+    nombresPorEmail = {};
+    snap.docs.forEach(doc => {
+      const d = doc.data();
+      const correo = (d.correo || d.email || "").trim().toLowerCase();
+      const nombre = (d.nombre || d.estudiante_nombre || "").trim();
+      listaUsuariosDocente.push({ uid: doc.id, correo, nombre });
+      if (correo && nombre) nombresPorEmail[correo] = nombre;
+    });
+  } catch (e) {
+    console.warn("Aviso cargando usuarios:", e);
+  }
+}
+
+function sincronizarNombreUsuarioLocal(correo, nombre) {
+  const c = (correo || "").trim().toLowerCase();
+  if (c && nombre) nombresPorEmail[c] = nombre;
+  const u = listaUsuariosDocente.find(x => x.correo === c);
+  if (u && nombre) u.nombre = nombre;
+}
+
+/** Actualiza el nombre en todas las evaluaciones de ese correo (mejor esfuerzo) */
+async function propagarNombreEnEvaluaciones(correo, nombre) {
+  const c = (correo || "").trim().toLowerCase();
+  const propias = listaEvaluacionesGlobal.filter(ev => emailDeEvaluacion(ev) === c);
+  if (!propias.length) return;
+  try {
+    const batch = db.batch();
+    propias.forEach(ev => {
+      batch.update(db.collection("evaluaciones").doc(ev.id), { estudiante_nombre: nombre });
+      ev.estudiante_nombre = nombre;
+    });
+    await batch.commit();
+  } catch (e) {
+    console.warn("No se pudo propagar el nombre a evaluaciones:", e);
+  }
+}
+
+async function adaptarNombresALista() {
+  if (!esAdmin(currentUser)) return;
+  const cambios = [];
+  listaEstudiantesRangos.forEach((est, i) => {
+    const idx = indiceEnLista(est.nombre);
+    if (idx >= 0 && LISTA_ESTUDIANTES[idx] !== est.nombre) cambios.push({ i, est, nuevo: LISTA_ESTUDIANTES[idx] });
+  });
+  if (!cambios.length) {
+    mostrarToast("No hay nombres por adaptar: los que coinciden con la lista ya están correctos.", "info");
+    return;
+  }
+  const detalle = cambios.slice(0, 15).map(c => `• ${c.est.nombre}  →  ${c.nuevo}`).join("\n");
+  if (!confirm(`Se adaptarán ${cambios.length} nombre(s) a la lista oficial:\n\n${detalle}${cambios.length > 15 ? "\n…" : ""}\n\n¿Continuar?`)) return;
+
+  let ok = 0;
+  for (const c of cambios) {
+    try {
+      let ref;
+      if (c.est.uid && !String(c.est.uid).includes("@")) {
+        ref = db.collection("usuarios").doc(c.est.uid);
+      } else {
+        const s = await db.collection("usuarios").where("correo", "==", c.est.correo).get();
+        ref = s.empty ? db.collection("usuarios").doc() : s.docs[0].ref;
+      }
+      await ref.set({ nombre: c.nuevo, estudiante_nombre: c.nuevo, correo: c.est.correo }, { merge: true });
+      c.est.nombre = c.nuevo;
+      sincronizarNombreUsuarioLocal(c.est.correo, c.nuevo);
+      await propagarNombreEnEvaluaciones(c.est.correo, c.nuevo);
+      ok++;
+    } catch (e) {
+      console.warn("Error adaptando nombre:", e);
+    }
+  }
+  mostrarToast(`✅ ${ok} nombre(s) adaptados a la lista oficial.`, "success");
+  renderizarTablaRangos(listaEstudiantesRangos);
+}
+
+/* ---------- RESUMEN DE NOTAS SEMANA POR SEMANA ---------- */
+function construirResumenNotas() {
+  const porEmail = {};
+  listaEvaluacionesGlobal.forEach(ev => {
+    const em = emailDeEvaluacion(ev);
+    if (!em) return;
+    (porEmail[em] = porEmail[em] || []).push(ev);
+  });
+
+  const filas = LISTA_ESTUDIANTES.map(n => ({ nombre: n, enLista: true, emails: [] }));
+  const extras = [];
+  const emails = new Set([...Object.keys(porEmail), ...listaUsuariosDocente.map(u => u.correo).filter(Boolean)]);
+  const adminMail = ADMIN_EMAIL.toLowerCase();
+
+  emails.forEach(em => {
+    if (em === adminMail) return;
+    const evs = porEmail[em] || [];
+    const nom = nombresPorEmail[em] || (evs[0] ? obtenerNombreEstudiante(evs[0]) : em);
+    const idx = indiceEnLista(nom);
+    if (idx >= 0) filas[idx].emails.push(em);
+    else extras.push({ nombre: nom, enLista: false, emails: [em] });
+  });
+
+  const todas = filas.concat(extras);
+  todas.forEach(f => {
+    const pool = f.emails.flatMap(e => porEmail[e] || []);
+    f.semanas = [1, 2, 3, 4, 5, 6].map(s => seleccionarMejorEvaluacion(pool.filter(ev => extraerNumeroSemana(ev.semana) === s)));
+    const notas = f.semanas.map(ev => ev ? Number(ev.puntaje_vigesimal ?? ev.puntaje) : NaN).filter(n => !isNaN(n));
+    f.promedio = notas.length ? notas.reduce((a, b) => a + b, 0) / notas.length : null;
+    f.registrado = f.emails.length > 0;
+  });
+  return todas;
+}
+
+function renderizarResumenNotas() {
+  const q = (elem("filtroResumen").value || "").trim().toLowerCase();
+  const filas = construirResumenNotas().filter(f => !q || f.nombre.toLowerCase().includes(q));
+  const reg = filas.filter(f => f.registrado).length;
+  elem("resumenInfo").textContent = `${filas.length} estudiante(s) · ${reg} con cuenta registrada · Promedio calculado con las semanas que tienen nota.`;
+
+  elem("resumenBody").innerHTML = filas.map((f, i) => {
+    const celdas = f.semanas.map(ev => {
+      if (!ev) return `<td style="text-align:center; color:#cbd5e1;">—</td>`;
+      const nota = ev.puntaje_vigesimal ?? ev.puntaje ?? "--";
+      const nivel = (ev.nivel_logro || ev.nivel || calcularNivelDesdeNota(nota)).toUpperCase();
+      return `<td style="text-align:center;">
+        <div style="font-weight:800;">${sanitize(nota)}</div>
+        <span class="badge-cneb badge-${sanitize(nivel)}" style="font-size:0.68rem; padding:1px 7px;">${sanitize(nivel)}</span>
+        ${ev.calificado_por_docente ? "" : `<div style="font-size:0.62rem; color:#b45309;" title="Por calificar">⏳</div>`}
+      </td>`;
+    }).join("");
+    const prom = f.promedio === null ? "—" : f.promedio.toFixed(1);
+    const nivelProm = f.promedio === null ? "" : calcularNivelDesdeNota(Math.round(f.promedio));
+    return `<tr>
+      <td style="text-align:center; color:#64748b;">${f.enLista ? (LISTA_ESTUDIANTES.indexOf(f.nombre) + 1) : "*"}</td>
+      <td>
+        <strong>${sanitize(f.nombre)}</strong>
+        ${f.registrado ? "" : `<div style="font-size:0.68rem; color:#94a3b8;">sin cuenta registrada</div>`}
+        ${f.enLista ? "" : `<div style="font-size:0.68rem; color:#dc2626;">no figura en la lista oficial</div>`}
+      </td>
+      ${celdas}
+      <td style="text-align:center; font-weight:800;">${prom} ${nivelProm ? `<span class="badge-cneb badge-${nivelProm}" style="font-size:0.68rem; padding:1px 7px;">${nivelProm}</span>` : ""}</td>
+    </tr>`;
+  }).join("") || `<tr><td colspan="9" style="text-align:center; padding:20px;">Sin resultados.</td></tr>`;
+}
+
+function exportarResumenCsv() {
+  const filas = construirResumenNotas();
+  const esc = v => `"${String(v ?? "").replace(/"/g, '""')}"`;
+  const cab = ["N°", "Apellidos y Nombres", "Semana 01", "Semana 02", "Semana 03", "Semana 04", "Semana 05", "Semana 06", "Promedio"];
+  const lineas = [cab.map(esc).join(",")].concat(filas.map((f, i) => [
+    f.enLista ? LISTA_ESTUDIANTES.indexOf(f.nombre) + 1 : "*",
+    f.nombre,
+    ...f.semanas.map(ev => ev ? `${ev.puntaje_vigesimal ?? ev.puntaje ?? ""}` : ""),
+    f.promedio === null ? "" : f.promedio.toFixed(1)
+  ].map(esc).join(",")));
+  const blob = new Blob(["\ufeff" + lineas.join("\r\n")], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `Resumen_Notas_4A_${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+/* ---------- FOTO DE LA TAREA SUBIDA POR EL DOCENTE ---------- */
+function pintarPreviewFotoDocente(src) {
+  const box = elem("previewFotoDocente");
+  if (!src) { box.innerHTML = `<span style="font-size:0.78rem; color:#94a3b8;">Sin foto adjunta.</span>`; return; }
+  box.innerHTML = `
+    <img src="${src}" alt="Foto de la tarea" style="max-width:100%; max-height:200px; border-radius:8px; border:1px solid #cbd5e1; display:block;">
+    <button type="button" class="btn btn-outline btn-sm" style="margin-top:6px;" onclick="quitarFotoDocente()">🗑️ Quitar foto</button>`;
+}
+
+function quitarFotoDocente() {
+  fotoDocenteTemp = "";
+  elem("inputFotoDocente").value = "";
+  pintarPreviewFotoDocente("");
+}
+
+function comprimirImagen(file, maxLado = 1000, calidad = 0.72) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = reject;
+    reader.onload = () => {
+      const img = new Image();
+      img.onerror = reject;
+      img.onload = () => {
+        const esc = Math.min(1, maxLado / Math.max(img.width, img.height));
+        const c = document.createElement("canvas");
+        c.width = Math.round(img.width * esc);
+        c.height = Math.round(img.height * esc);
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+        let out = c.toDataURL("image/jpeg", calidad);
+        if (out.length > 700000) out = c.toDataURL("image/jpeg", 0.5);
+        resolve(out);
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+elem("inputFotoDocente").onchange = async (e) => {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  try {
+    fotoDocenteTemp = await comprimirImagen(file);
+    pintarPreviewFotoDocente(fotoDocenteTemp);
+  } catch (err) {
+    mostrarToast("No se pudo procesar la imagen seleccionada.", "warning");
+  }
+};
 
 /**
  * 6. PANEL DOCENTE: RÚBRICAS POR SEMANA (CUADRO DE DOBLE ENTRADA FIJO)
@@ -3188,26 +3176,12 @@ async function cargarEvaluacionesGlobales() {
   elem("tablaBody").innerHTML = `<tr><td colspan="8" style="text-align:center; padding:20px; color:#2563eb;">🔄 Consultando registros en Firestore...</td></tr>`;
 
   try {
+    await cargarUsuariosDocente();
     const snap = await db.collection("evaluaciones").get();
     listaEvaluacionesGlobal = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
     // Ordenar de más reciente a más antigua
     listaEvaluacionesGlobal.sort((a, b) => obtenerTimestamp(b) - obtenerTimestamp(a));
-
-    // Cruce con la colección "usuarios" (por correo y por UID) para obtener avatar y rango actuales
-    mapaUsuariosPorClave = {};
-    try {
-      const snapUsr = await db.collection("usuarios").get();
-      snapUsr.docs.forEach(u => {
-        const d = u.data();
-        const info = { avatar: d.avatar || "novato", rango: d.rango || "Grado 3 / 4" };
-        const mail = (d.correo || d.email || "").trim().toLowerCase();
-        if (mail) mapaUsuariosPorClave[mail] = info;
-        mapaUsuariosPorClave[u.id] = info;
-      });
-    } catch (e) {
-      console.warn("Aviso al cruzar usuarios para avatares:", e);
-    }
     renderizarTablaDocente();
   } catch (err) {
     elem("tablaBody").innerHTML = `<tr><td colspan="8" style="text-align:center; color:#dc2626; padding:20px;">Error al consultar: ${sanitize(err.message)}</td></tr>`;
@@ -3246,7 +3220,7 @@ function filtrarNotasDocente() {
 
   // 4. Filtrar por búsqueda de texto (nombre o correo)
   return consolidados.filter(item => {
-    const nombre = (item.nombre || item.estudiante_nombre || item.estudiante || "").toLowerCase();
+    const nombre = obtenerNombreEstudiante(item).toLowerCase();
     const correo = (item.estudiante_email || item.correo || item.email || item.correo_estudiante || "").toLowerCase();
     return !query || nombre.includes(query) || correo.includes(query);
   });
@@ -3262,34 +3236,16 @@ function renderizarTablaDocente() {
   }
 
   elem("tablaBody").innerHTML = datos.map((r, idx) => {
-    const nivel = resolverEvaluacion(r).nivel;
+    const nivel = (r.nivel_logro || r.nivel || calcularNivelDesdeNota(r.puntaje_vigesimal ?? r.puntaje)).toUpperCase();
     const semTexto = formatoSemanaDosDigitos(r.semana);
-    const nota = resolverEvaluacion(r).puntaje ?? "--";
+    const nota = r.puntaje_vigesimal ?? r.puntaje ?? "--";
     const calificado = !!r.calificado_por_docente;
     const nombreEstudiante = obtenerNombreEstudiante(r);
     const correoEstudiante = r.estudiante_email || r.correo || r.email || "—";
 
-    // Avatar y rango actuales (si no existe en "usuarios": avatar base de novato)
-    const infoUsr = mapaUsuariosPorClave[String(correoEstudiante).trim().toLowerCase()] || mapaUsuariosPorClave[r.uid] || { avatar: "novato", rango: "Grado 3 / 4" };
-    const avatarFila = obtenerDatosAvatar(infoUsr.avatar);
-    const rangoFila = INFO_RANGOS[infoUsr.rango] || INFO_RANGOS["Grado 3 / 4"];
-
-    // Miniatura de infografía para registros de la Semana 03
-    const esSemana03 = extraerNumeroSemana(r.semana ?? r.semana_numero) === 3;
-    const fotoInfografiaTabla = r.foto_infografia_base64 || r.imagen_base64 || "";
-    const tieneMiniaturaSem03 = esSemana03 && typeof fotoInfografiaTabla === "string" && fotoInfografiaTabla.startsWith("data:image");
-
     return `
       <tr>
-        <td>
-          <div class="est-cell">
-            <div class="avatar-mini-tabla" data-export-ignore="true" style="border-color:${rangoFila.color};" title="${sanitize(avatarFila.nombre)} · ${sanitize(rangoFila.nombre)}">
-              <img src="${avatarFila.imagen}" alt="" onerror="this.onerror=null; this.src='${avatarFila.fallback}';">
-            </div>
-            ${tieneMiniaturaSem03 ? `<img src="${fotoInfografiaTabla}" alt="Infografía Semana 03" data-export-ignore="true" title="📸 Infografía entregada — Haz clic para revisar" onclick="abrirModalCalificarDocente('${r.id}')" style="width: 38px; height: 38px; object-fit: cover; border-radius: 4px; vertical-align: middle; margin-right: 8px; cursor: pointer; border: 1px solid #15803d; flex-shrink: 0;">` : ""}
-            <strong>${sanitize(nombreEstudiante)}</strong>
-          </div>
-        </td>
+        <td><strong>${sanitize(nombreEstudiante)}</strong></td>
         <td><small>${sanitize(correoEstudiante)}</small></td>
         <td><span style="font-weight:700; color:#1e40af;">${sanitize(semTexto)}</span></td>
         <td><small>${sanitize(r.competencia || "Construye interpretaciones históricas")}</small></td>
@@ -3313,28 +3269,6 @@ function renderizarTablaDocente() {
 }
 
 /**
- * Abre la fotografía en Base64 en tamaño completo en una nueva pestaña
- * convirtiéndola a Blob URL para evitar el bloqueo de data: URLs en Chrome/Edge.
- */
-function abrirImagenEvidenciaCompleta(dataUrl) {
-  if (!dataUrl) return;
-  try {
-    const partes = dataUrl.split(",");
-    const mimeMatch = partes[0].match(/:(.*?);/);
-    const mime = mimeMatch ? mimeMatch[1] : "image/jpeg";
-    const binStr = atob(partes[1]);
-    const len = binStr.length;
-    const bytes = new Uint8Array(len);
-    for (let i = 0; i < len; i++) bytes[i] = binStr.charCodeAt(i);
-    const blob = new Blob([bytes], { type: mime });
-    const blobUrl = URL.createObjectURL(blob);
-    window.open(blobUrl, "_blank");
-  } catch (e) {
-    window.open(dataUrl, "_blank");
-  }
-}
-
-/**
  * 8. MODAL DOCENTE: REVISAR TRABAJO, CALIFICACIÓN EN VIVO Y RETROALIMENTACIÓN
  */
 function abrirModalCalificarDocente(docId) {
@@ -3342,7 +3276,6 @@ function abrirModalCalificarDocente(docId) {
   if (!doc) return;
 
   evaluacionSeleccionadaParaCalificar = doc;
-  const data = doc;
 
   const semTexto = formatoSemanaDosDigitos(doc.semana);
   const nombreEstudiante = obtenerNombreEstudiante(doc);
@@ -3355,40 +3288,6 @@ function abrirModalCalificarDocente(docId) {
   const texto = doc.texto_interpretacion || doc.analisis_escrito || doc.produccion || doc.texto || doc.interpretacion || "(Sin texto de análisis histórico presentado en esta sesión)";
   elem("califTextoAlumno").textContent = texto;
 
-  // Renderizado visual obligatorio de la fotografía de infografía en Base64
-  const fotoInfografia = data.foto_infografia_base64 || data.imagen_base64 || "";
-  const tieneFoto = Boolean(fotoInfografia && typeof fotoInfografia === "string" && fotoInfografia.startsWith("data:image"));
-  const contenedorFoto = elem("califContenedorFotoEvidencia");
-
-  if (contenedorFoto) {
-    if (tieneFoto) {
-      const nombreArchivoLimpio = (data.estudiante_nombre || nombreEstudiante || "alumno").replace(/\s+/g, "_").replace(/[^a-zA-Z0-9_-]/g, "");
-      contenedorFoto.innerHTML = `
-        <div style="margin: 15px 0; text-align: center; background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
-          <p style="font-weight: bold; margin-bottom: 8px; color: #0f172a;">📸 Evidencia: Infografía del Estudiante</p>
-
-          <!-- Visor de la foto -->
-          <img id="imgEvidenciaDocente"
-               src="${fotoInfografia}"
-               alt="Infografía del estudiante"
-               style="max-width: 100%; max-height: 480px; border-radius: 6px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); cursor: pointer; object-fit: contain; background: #fff;"
-               onclick="abrirImagenEvidenciaCompleta(this.src)"
-               title="Haz clic para abrir en tamaño completo" />
-
-          <div style="margin-top: 10px;">
-            <a href="${fotoInfografia}"
-               download="infografia_${nombreArchivoLimpio || 'alumno'}.jpg"
-               style="display: inline-block; font-size: 13px; color: #15803d; text-decoration: underline; font-weight: 600;">
-               ⬇️ Descargar fotografía original
-            </a>
-          </div>
-        </div>
-      `;
-    } else {
-      contenedorFoto.innerHTML = `<p style="color: #64748b; font-style: italic; margin: 10px 0;">No se adjuntó fotografía en esta entrega.</p>`;
-    }
-  }
-
   // Cargar valores existentes o sugeridos
   const notaActual = doc.puntaje_vigesimal ?? doc.puntaje ?? 16;
   elem("inputNotaVigesimal").value = notaActual;
@@ -3398,6 +3297,11 @@ function abrirModalCalificarDocente(docId) {
 
   elem("inputFeedbackDocente").value = doc.retroalimentacion_docente || "";
   elem("msgGuardarCalif").textContent = "";
+
+  // Foto de la tarea (subida por el docente)
+  fotoDocenteTemp = undefined;
+  elem("inputFotoDocente").value = "";
+  pintarPreviewFotoDocente(doc.foto_docente || "");
 
   elem("modalCalificar").classList.add("open");
 }
@@ -3424,37 +3328,12 @@ function sincronizarDesdeNota(val) {
   seleccionarNivelDocente(nivelCalc, false);
 }
 
-function obtenerNivelDesdePuntaje(puntaje) {
-  const p = Number(puntaje);
-  if (p >= 18) return "AD";
-  if (p >= 14) return "A";
-  if (p >= 11) return "B";
-  return "C";
-}
-
-/**
- * Nivel y puntaje reales de una evaluación.
- * Si el docente calificó (calificado_por_docente === true) su nota manual manda:
- * nota_final_docente, o en su defecto puntaje_vigesimal guardado al calificar.
- * Si no, se usa el nivel preliminar del cuestionario.
- */
-function resolverEvaluacion(ev) {
-  if (!ev) return { nivel: "PENDIENTE", puntaje: null, revisada: false };
-  if (ev.calificado_por_docente === true) {
-    const crudo = (ev.nota_final_docente !== null && ev.nota_final_docente !== undefined && ev.nota_final_docente !== "")
-      ? ev.nota_final_docente
-      : (ev.puntaje_vigesimal ?? ev.puntaje);
-    if (crudo !== null && crudo !== undefined && crudo !== "" && !isNaN(Number(crudo))) {
-      return { nivel: obtenerNivelDesdePuntaje(crudo), puntaje: Number(crudo), revisada: true };
-    }
-  }
-  const pre = ev.puntaje_vigesimal ?? ev.puntaje;
-  const nivel = String(ev.nivel_logro || ev.nivel || (pre !== undefined && pre !== null ? obtenerNivelDesdePuntaje(pre) : "C")).toUpperCase();
-  return { nivel, puntaje: (pre !== undefined && pre !== null) ? pre : null, revisada: false };
-}
-
 function calcularNivelDesdeNota(nota) {
-  return obtenerNivelDesdePuntaje(nota ?? 0);
+  const n = Number(nota ?? 0);
+  if (n >= 18) return "AD";
+  if (n >= 14) return "A";
+  if (n >= 11) return "B";
+  return "C";
 }
 
 // GUARDAR CALIFICACIÓN Y ENVIAR RECOMENDACIÓN
@@ -3476,13 +3355,13 @@ elem("btnGuardarCalificacion").onclick = async () => {
       semana: semPayload,
       puntaje_vigesimal: notaFinal,
       puntaje: notaFinal,
-      nota_final_docente: notaFinal,
       nivel_logro: nivelFinal,
       nivel: nivelFinal,
       retroalimentacion_docente: feedback,
       calificado_por_docente: true,
       fecha_revision: firebase.firestore.FieldValue.serverTimestamp()
     };
+    if (fotoDocenteTemp !== undefined) payload.foto_docente = fotoDocenteTemp;
 
     await db.collection("evaluaciones").doc(docId).update(payload);
 
@@ -3531,20 +3410,17 @@ elem("btnExportarCsv").onclick = () => {
     "Texto del Estudiante"
   ];
 
-  // Exportación limpia: solo texto plano a partir de los datos (nunca del HTML de la tabla),
-  // por lo que el <img> del avatar y su estilo visual quedan excluidos por completo.
-  const textoPlano = v => String(v ?? "").trim();
-  const escapeCsv = val => `"${textoPlano(val).replace(/"/g, '""')}"`;
+  const escapeCsv = val => `"${String(val ?? "").replace(/"/g, '""')}"`;
 
   const filas = [
     cabeceras.map(escapeCsv).join(","),
     ...datos.map(d => [
       obtenerNombreEstudiante(d),
-      d.estudiante_email || d.correo || d.email || d.correo_estudiante || "",
+      d.correo || d.email || "",
       formatoSemanaDosDigitos(d.semana),
       d.competencia || "Construye interpretaciones históricas",
-      resolverEvaluacion(d).puntaje ?? "",
-      resolverEvaluacion(d).nivel,
+      d.puntaje_vigesimal ?? d.puntaje ?? "",
+      (d.nivel_logro || d.nivel || calcularNivelDesdeNota(d.puntaje_vigesimal ?? d.puntaje)).toUpperCase(),
       d.calificado_por_docente ? "Revisada" : "Por Calificar",
       d.retroalimentacion_docente || "",
       (d.texto_interpretacion || d.analisis_escrito || d.produccion || d.texto || "").replace(/\n/g, " ")
@@ -3686,19 +3562,12 @@ function actualizarInterfazUsuario() {
       const nuevoAvatar = data.avatar || "novato";
       const nombreEst = data.nombre || data.estudiante_nombre || defaultNombre;
 
-      // Verificar ascenso / degradación si corresponde
-      const eventoRango = verificarYNotificarAscenso(currentUser.uid, nuevoRango);
-
-      // Regla estricta: un avatar de rango superior al actual no puede seguir equipado
-      let avatarFinal = nuevoAvatar;
-      if (obtenerDatosAvatar(nuevoAvatar).nivelRequerido > (JERARQUIA_RANGOS[nuevoRango] || 1)) {
-        avatarFinal = avatarPredeterminadoDeRango(nuevoRango);
-        db.collection("usuarios").doc(currentUser.uid).set({ avatar: avatarFinal }, { merge: true }).catch(() => {});
-      }
+      // Verificar y notificar ascenso si corresponde
+      verificarYNotificarAscenso(currentUser.uid, nuevoRango);
 
       datosUsuarioActual = {
         rango: nuevoRango,
-        avatar: avatarFinal,
+        avatar: nuevoAvatar,
         nombre: nombreEst
       };
 
@@ -3710,12 +3579,11 @@ function actualizarInterfazUsuario() {
           correo: currentUser.email,
           rol: "estudiante",
           rango: nuevoRango,
-          avatar: avatarFinal
+          avatar: nuevoAvatar
         }, { merge: true }).catch(() => {});
       }
 
       actualizarVistaPerfilHeader();
-      if (eventoRango) notificarCambioRango(eventoRango, nuevoRango);
     }, err => {
       console.warn("Aviso al consultar usuario:", err);
       datosUsuarioActual = {
