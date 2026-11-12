@@ -1581,7 +1581,7 @@
           >
 
           <button type="button" id="btn-trigger-camera" class="btn-camera-primary">
-            📷 Tomar Foto a mi Infografía / Adjuntar
+            📷 Tomar Foto a mi Infografía / Adjuntar (opcional)
           </button>
           <div>
             <button type="button" id="btn-trigger-gallery" class="btn-gallery-link">
@@ -1599,7 +1599,7 @@
           🚀 Enviar Evaluación y Evidencia de la Semana 3
         </button>
         <p class="validation-hint" id="form-validation-hint">
-          Selecciona el pueblo analizado, escribe tu síntesis y adjunta la foto de tu infografía para habilitar el envío.
+          Selecciona el pueblo analizado y escribe tu síntesis para habilitar el envío. La foto de tu infografía es opcional (si no la subes, la registrará tu docente).
         </p>
       </form>
 
@@ -2736,17 +2736,18 @@
       const sintesisOk = document.getElementById("textoJustificacion").value.trim().length >= 10;
       const fotoOk = Boolean(imagenComprimidaBase64);
 
-      const todoListo = puebloOk && sintesisOk && fotoOk;
+      const todoListo = puebloOk && sintesisOk; // La foto es OPCIONAL (el docente puede subirla)
       btnSubmit.disabled = !todoListo;
 
       if (todoListo) {
         hintEl.style.color = "#15803D";
-        hintEl.textContent = "✅ Pueblo, síntesis e infografía listos. Presiona el botón para registrar tu entrega en Firestore.";
+        hintEl.textContent = fotoOk
+          ? "✅ Pueblo, síntesis e infografía listos. Presiona el botón para registrar tu entrega en Firestore."
+          : "✅ Pueblo y síntesis listos. La foto es opcional: si no la subes, la registrará tu docente. Presiona el botón para enviar.";
       } else {
         const faltantes = [];
         if (!puebloOk) faltantes.push("seleccionar el pueblo originario");
         if (!sintesisOk) faltantes.push("escribir la síntesis justificativa");
-        if (!fotoOk) faltantes.push("adjuntar la foto de tu infografía");
         hintEl.style.color = "#0F172A";
         hintEl.textContent = "Pendiente: " + faltantes.join(", ") + ".";
       }
@@ -2771,9 +2772,9 @@
       const puebloVal = document.getElementById("puebloAnalizado").value.trim();
       const justificacionVal = document.getElementById("textoJustificacion").value.trim();
 
-      if (!puebloVal || !justificacionVal || !imagenComprimidaBase64) {
+      if (!puebloVal || !justificacionVal) {
         sonarEfecto("error");
-        mostrarToast("Selecciona el pueblo, redacta la síntesis y adjunta tu infografía.");
+        mostrarToast("Selecciona el pueblo y redacta la síntesis (la foto es opcional).");
         return;
       }
 
@@ -2864,7 +2865,7 @@
         pueblo_analizado: puebloVal,
         texto_justificacion: justificacionVal,
         texto_interpretacion: construirResumenLecturaDocente(puebloVal, justificacionVal, respuestasInferenciaDetalladas),
-        foto_infografia_base64: imagenComprimidaBase64,
+        ...(imagenComprimidaBase64 ? { foto_infografia_base64: imagenComprimidaBase64 } : {}), // no sobrescribe una foto ya existente
         respuestas_inferencia: paqueteInferencias,
         respuestas_inferencia_completas: respuestasInferenciaDetalladas,
         calificado_por_docente: false,
@@ -2937,7 +2938,7 @@
         }
         document.getElementById("submission-summary-text").innerHTML =
           `Estudiante: <strong>${escaparHTML(payloadActualizado.estudiante_nombre)}</strong> (${escaparHTML(payloadActualizado.estudiante_email)})<br>` +
-          `Pueblo analizado: <strong>${escaparHTML(puebloVal)}</strong> • Foto comprimida: <strong>${fotoPesoKB} KB</strong><br>` +
+          `Pueblo analizado: <strong>${escaparHTML(puebloVal)}</strong> • Foto: <strong>${imagenComprimidaBase64 ? fotoPesoKB + " KB" : "la registrará el docente"}</strong><br>` +
           `Inferencias enviadas: <strong>${cantInferencias} / 10</strong> • Estado: <strong>${esActualizacion ? "Reenvío actualizado (sin duplicar registro)" : "Primera entrega registrada"}</strong> — Pendiente de calificación docente en la Matriz.`;
 
         successCard.classList.add("visible");
