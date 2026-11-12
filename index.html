@@ -1470,12 +1470,12 @@
             <tr>
               <th style="width:44px; text-align:center;">N°</th>
               <th>Apellidos y Nombres</th>
-              <th style="text-align:center;">S01</th>
-              <th style="text-align:center;">S02</th>
-              <th style="text-align:center;">S03</th>
-              <th style="text-align:center;">S04</th>
-              <th style="text-align:center;">S05</th>
-              <th style="text-align:center;">S06</th>
+              <th style="text-align:center;" id="thResSem1">S01</th>
+              <th style="text-align:center;" id="thResSem2">S02</th>
+              <th style="text-align:center;" id="thResSem3">S03</th>
+              <th style="text-align:center;" id="thResSem4">S04</th>
+              <th style="text-align:center;" id="thResSem5">S05</th>
+              <th style="text-align:center;" id="thResSem6">S06</th>
               <th style="text-align:center;">Promedio</th>
             </tr>
           </thead>
@@ -1651,6 +1651,41 @@
       </div>
       <div class="alert-msg" id="msgGuardarCalif" style="margin-top:8px;"></div>
     </div>
+  </div>
+</div>
+
+<!-- 9. MODAL DE NOTA MANUAL SIN EVIDENCIA WEB (WHATSAPP / EN CLASE) -->
+<div class="overlay" id="modalNotaManual">
+  <div class="modal-box" style="max-width:460px;">
+    <button class="modal-close" data-close="modalNotaManual">&times;</button>
+    <h3 style="font-size:1.15rem; color:#0f172a; margin-bottom:4px;">📝 Asignar Nota (Sin Evidencia Web)</h3>
+    <p style="font-size:0.84rem; color:#64748b; margin-bottom:14px;">
+      Estudiante: <strong id="notaManualEstudiante" style="color:#0f172a;">—</strong> · <strong id="notaManualSemana" style="color:#1e40af;">—</strong>
+    </p>
+
+    <div class="form-group">
+      <label for="inputNotaManual">Nota Vigesimal (0 a 20):</label>
+      <input type="number" id="inputNotaManual" min="0" max="20" class="form-control" style="font-weight:800; font-size:1.1rem;" oninput="actualizarNivelManual()" placeholder="Ej. 16">
+      <div id="nivelManualTxt" style="margin-top:6px; font-size:0.84rem; font-weight:700;"></div>
+    </div>
+
+    <div class="form-group">
+      <label for="inputFeedbackManual">Observación / Comentario (opcional):</label>
+      <textarea id="inputFeedbackManual" rows="3" class="form-control" placeholder="Ej. Evidencia recibida por WhatsApp o revisada en cuaderno en clase..."></textarea>
+    </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-top:14px;">
+      <button type="button" class="btn btn-outline btn-sm" id="btnQuitarNotaManual" onclick="quitarNotaManual()" style="color:#dc2626; border-color:#fca5a5; display:none;">
+        🗑️ Quitar nota
+      </button>
+      <div style="display:flex; gap:8px; margin-left:auto;">
+        <button type="button" class="btn btn-outline" onclick="cerrarModal('modalNotaManual')">Cancelar</button>
+        <button type="button" class="btn btn-pri" id="btnGuardarNotaManual" onclick="guardarNotaManual()">
+          💾 Guardar Nota
+        </button>
+      </div>
+    </div>
+    <div class="alert-msg" id="msgNotaManual" style="margin-top:8px;"></div>
   </div>
 </div>
 
@@ -3021,14 +3056,25 @@ async function adaptarNombresALista() {
 /* ---------- RESUMEN DE NOTAS SEMANA POR SEMANA ---------- */
 function construirResumenNotas() {
   const porEmail = {};
+  const sinCorreo = []; // notas manuales de estudiantes sin cuenta (se asignan por nombre)
   listaEvaluacionesGlobal.forEach(ev => {
     const em = emailDeEvaluacion(ev);
-    if (!em) return;
+    if (!em) { sinCorreo.push(ev); return; }
     (porEmail[em] = porEmail[em] || []).push(ev);
   });
 
-  const filas = LISTA_ESTUDIANTES.map(n => ({ nombre: n, enLista: true, emails: [] }));
+  const filas = LISTA_ESTUDIANTES.map(n => ({ nombre: n, enLista: true, emails: [], evsExtra: [] }));
   const extras = [];
+  sinCorreo.forEach(ev => {
+    const nom = obtenerNombreEstudiante(ev);
+    const idx = indiceEnLista(nom);
+    if (idx >= 0) filas[idx].evsExtra.push(ev);
+    else {
+      let ex = extras.find(x => x.nombre === nom);
+      if (!ex) { ex = { nombre: nom, enLista: false, emails: [], evsExtra: [] }; extras.push(ex); }
+      ex.evsExtra.push(ev);
+    }
+  });
   const emails = new Set([...Object.keys(porEmail), ...listaUsuariosDocente.map(u => u.correo).filter(Boolean)]);
   const adminMail = ADMIN_EMAIL.toLowerCase();
 
@@ -3043,7 +3089,7 @@ function construirResumenNotas() {
 
   const todas = filas.concat(extras);
   todas.forEach(f => {
-    const pool = f.emails.flatMap(e => porEmail[e] || []);
+    const pool = f.emails.flatMap(e => porEmail[e] || []).concat(f.evsExtra || []);
     f.semanas = [1, 2, 3, 4, 5, 6].map(s => seleccionarMejorEvaluacion(pool.filter(ev => extraerNumeroSemana(ev.semana) === s)));
     const notas = f.semanas.map(ev => ev ? Number(ev.puntaje_vigesimal ?? ev.puntaje) : NaN).filter(n => !isNaN(n));
     f.promedio = notas.length ? notas.reduce((a, b) => a + b, 0) / notas.length : null;
@@ -3052,23 +3098,138 @@ function construirResumenNotas() {
   return todas;
 }
 
+/** Conteo por semana sobre los alumnos de la lista oficial */
+function contarEnviosSemana(filas, semIdx) {
+  const lista = filas.filter(f => f.enLista);
+  let enviaron = 0, conNota = 0;
+  lista.forEach(f => {
+    const ev = f.semanas[semIdx];
+    if (!ev) return;
+    conNota++;
+    if (!ev.entrega_manual) enviaron++;
+  });
+  return { enviaron, conNota, total: lista.length };
+}
+
+let ultimoResumen = [];
+let ctxNotaManual = null;
+
+function abrirNotaManual(i, semana) {
+  const f = ultimoResumen[i];
+  if (!f) return;
+  const ev = f.semanas[semana - 1];
+  if (ev && !ev.entrega_manual) {
+    // Entrega real del estudiante: se califica con el panel habitual
+    abrirModalCalificarDocente(ev.id);
+    return;
+  }
+  ctxNotaManual = { fila: f, semana, doc: ev || null };
+  elem("notaManualEstudiante").textContent = f.nombre;
+  elem("notaManualSemana").textContent = `Semana ${String(semana).padStart(2, "0")}`;
+  elem("inputNotaManual").value = ev ? (ev.puntaje_vigesimal ?? ev.puntaje ?? "") : "";
+  elem("inputFeedbackManual").value = ev ? (ev.retroalimentacion_docente || "") : "";
+  elem("btnQuitarNotaManual").style.display = ev ? "inline-flex" : "none";
+  elem("msgNotaManual").textContent = "";
+  actualizarNivelManual();
+  elem("modalNotaManual").classList.add("open");
+}
+
+function actualizarNivelManual() {
+  const v = elem("inputNotaManual").value;
+  const el = elem("nivelManualTxt");
+  if (v === "") { el.innerHTML = ""; return; }
+  const n = calcularNivelDesdeNota(Number(v));
+  el.innerHTML = `Nivel de logro: <span class="badge-cneb badge-${n}">${n}</span>`;
+}
+
+async function guardarNotaManual() {
+  if (!ctxNotaManual || !esAdmin(currentUser)) return;
+  const raw = elem("inputNotaManual").value;
+  if (raw === "" || isNaN(Number(raw))) { elem("msgNotaManual").textContent = "Escribe una nota entre 0 y 20."; return; }
+  const nota = Math.min(20, Math.max(0, Math.round(Number(raw))));
+  const { fila, semana, doc } = ctxNotaManual;
+  const nivel = calcularNivelDesdeNota(nota);
+  const pad = String(semana).padStart(2, "0");
+  const email = fila.emails[0] || "";
+  const id = doc ? doc.id : `manual_${normalizarTokens(fila.nombre).join("_")}_S${pad}`;
+  const payload = {
+    estudiante_nombre: fila.nombre,
+    estudiante_email: email,
+    semana: `Semana ${pad}`,
+    semana_numero: semana,
+    puntaje_vigesimal: nota,
+    puntaje: nota,
+    nivel_logro: nivel,
+    nivel: nivel,
+    competencia: (PROGRAMACION_CNEB.find(s => s.semana === semana) || {}).competencia || "",
+    retroalimentacion_docente: elem("inputFeedbackManual").value.trim(),
+    calificado_por_docente: true,
+    entrega_manual: true,
+    texto_interpretacion: "(Evidencia recibida por WhatsApp o en clase y registrada manualmente por el docente)",
+    fecha_revision: firebase.firestore.FieldValue.serverTimestamp()
+  };
+  if (!doc) payload.fecha = firebase.firestore.FieldValue.serverTimestamp();
+  elem("btnGuardarNotaManual").disabled = true;
+  try {
+    await db.collection("evaluaciones").doc(id).set(payload, { merge: true });
+    const local = { id, ...(doc || {}), ...payload, fecha: (doc && doc.fecha) || new Date(), fecha_revision: new Date() };
+    const pos = listaEvaluacionesGlobal.findIndex(e => e.id === id);
+    if (pos >= 0) listaEvaluacionesGlobal[pos] = local; else listaEvaluacionesGlobal.unshift(local);
+    cerrarModal("modalNotaManual");
+    mostrarToast(`✅ Nota ${nota} (${nivel}) registrada: ${fila.nombre} · Semana ${pad}`, "success");
+    renderizarResumenNotas();
+    renderizarTablaDocente();
+  } catch (e) {
+    elem("msgNotaManual").textContent = "Error al guardar: " + e.message;
+  } finally {
+    elem("btnGuardarNotaManual").disabled = false;
+  }
+}
+
+async function quitarNotaManual() {
+  if (!ctxNotaManual || !ctxNotaManual.doc) return;
+  if (!confirm("¿Quitar esta nota registrada manualmente?")) return;
+  const id = ctxNotaManual.doc.id;
+  try {
+    await db.collection("evaluaciones").doc(id).delete();
+    listaEvaluacionesGlobal = listaEvaluacionesGlobal.filter(e => e.id !== id);
+    cerrarModal("modalNotaManual");
+    mostrarToast("Nota manual eliminada.", "info");
+    renderizarResumenNotas();
+    renderizarTablaDocente();
+  } catch (e) {
+    elem("msgNotaManual").textContent = "Error al eliminar: " + e.message;
+  }
+}
+
 function renderizarResumenNotas() {
   const q = (elem("filtroResumen").value || "").trim().toLowerCase();
   const todasFilas = construirResumenNotas();
   const libres = todasFilas.filter(f => f.enLista && !f.registrado).map(f => f.nombre);
   const filas = todasFilas.filter(f => !q || f.nombre.toLowerCase().includes(q));
+  ultimoResumen = filas;
+
+  for (let s = 1; s <= 6; s++) {
+    const c = contarEnviosSemana(todasFilas, s - 1);
+    const th = elem(`thResSem${s}`);
+    if (th) {
+      th.innerHTML = `S0${s}<div style="font-size:0.68rem; font-weight:700; color:#1d4ed8; margin-top:2px;" title="${c.enviaron} de ${c.total} alumnos de la lista enviaron trabajo en la web (${c.conNota} con nota en total)">📤 ${c.enviaron}/${c.total}</div>`;
+    }
+  }
+
   const reg = filas.filter(f => f.registrado).length;
-  elem("resumenInfo").textContent = `${filas.length} estudiante(s) · ${reg} con cuenta registrada · Promedio calculado con las semanas que tienen nota.`;
+  elem("resumenInfo").textContent = `${filas.length} estudiante(s) · ${reg} con cuenta registrada · Toca cualquier casilla de S01–S06 para asignar o editar nota (incluso sin evidencia web).`;
 
   elem("resumenBody").innerHTML = filas.map((f, i) => {
-    const celdas = f.semanas.map(ev => {
-      if (!ev) return `<td style="text-align:center; color:#cbd5e1;">—</td>`;
+    const celdas = f.semanas.map((ev, idxSem) => {
+      const s = idxSem + 1;
+      if (!ev) return `<td style="text-align:center; color:#94a3b8; cursor:pointer;" onclick="abrirNotaManual(${i}, ${s})" title="Clic para asignar nota sin evidencia web">+</td>`;
       const nota = ev.puntaje_vigesimal ?? ev.puntaje ?? "--";
       const nivel = (ev.nivel_logro || ev.nivel || calcularNivelDesdeNota(nota)).toUpperCase();
-      return `<td style="text-align:center;">
+      return `<td style="text-align:center; cursor:pointer;" onclick="abrirNotaManual(${i}, ${s})" title="Clic para revisar o editar nota">
         <div style="font-weight:800;">${sanitize(nota)}</div>
         <span class="badge-cneb badge-${sanitize(nivel)}" style="font-size:0.68rem; padding:1px 7px;">${sanitize(nivel)}</span>
-        ${ev.calificado_por_docente ? "" : `<div style="font-size:0.62rem; color:#b45309;" title="Por calificar">⏳</div>`}
+        ${ev.entrega_manual ? `<div style="font-size:0.62rem; color:#0369a1; font-weight:700;" title="Nota manual / WhatsApp">📱</div>` : (ev.calificado_por_docente ? "" : `<div style="font-size:0.62rem; color:#b45309;" title="Por calificar">⏳</div>`)}
       </td>`;
     }).join("");
     const prom = f.promedio === null ? "—" : f.promedio.toFixed(1);
@@ -3258,11 +3419,12 @@ function filtrarNotasDocente() {
   // 1. Filtrar las evaluaciones que corresponden a la semana seleccionada
   const evaluacionesSemana = listaEvaluacionesGlobal.filter(item => coincideSemana(item.semana, semFiltro));
 
-  // 2. Agrupar por estudiante (estudiante_email en minúsculas)
+  // 2. Agrupar por estudiante (y por semana si se ven "Todas las semanas")
   const gruposPorEstudiante = {};
   evaluacionesSemana.forEach(item => {
     const email = (item.estudiante_email || item.correo || item.email || item.correo_estudiante || "").trim().toLowerCase();
-    const key = email || item.id;
+    const semKey = semFiltro ? "" : `_${extraerNumeroSemana(item.semana)}`;
+    const key = (email || item.id) + semKey;
     if (!gruposPorEstudiante[key]) gruposPorEstudiante[key] = [];
     gruposPorEstudiante[key].push(item);
   });
@@ -3284,7 +3446,14 @@ function filtrarNotasDocente() {
 
 function renderizarTablaDocente() {
   const datos = filtrarNotasDocente();
-  elem("cantRegistros").textContent = `${datos.length} registro(s) para la semana seleccionada`;
+  const semFiltro = elem("filtroSemanaDocente").value;
+  const numSem = extraerNumeroSemana(semFiltro);
+  let txtEnvios = "";
+  if (numSem >= 1 && numSem <= 6) {
+    const c = contarEnviosSemana(construirResumenNotas(), numSem - 1);
+    txtEnvios = ` · 📤 ${c.enviaron} / ${c.total} de la lista enviaron trabajo (${c.conNota} con nota)`;
+  }
+  elem("cantRegistros").textContent = `${datos.length} registro(s) para la semana seleccionada${txtEnvios}`;
 
   if (!datos.length) {
     elem("tablaBody").innerHTML = `<tr><td colspan="8" style="text-align:center; padding:24px; color:#64748b;">No hay evaluaciones registradas con los filtros seleccionados.</td></tr>`;
@@ -3313,6 +3482,7 @@ function renderizarTablaDocente() {
           <span style="display:inline-block; padding:3px 9px; border-radius:999px; font-size:0.75rem; font-weight:700; background:${calificado ? '#dcfce7' : '#fef3c7'}; color:${calificado ? '#15803d' : '#b45309'};">
             ${calificado ? "✅ Revisada" : "⏳ Por Calificar"}
           </span>
+          ${r.entrega_manual ? `<div style="font-size:0.68rem; color:#0369a1; font-weight:700; margin-top:2px;">📱 WhatsApp / Manual</div>` : ""}
         </td>
         <td style="text-align:center;">
           <button class="btn btn-outline btn-sm" onclick="abrirModalCalificarDocente('${r.id}')">
