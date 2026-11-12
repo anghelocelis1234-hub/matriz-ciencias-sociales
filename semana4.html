@@ -1330,7 +1330,7 @@
           <input type="file" id="input-gallery-pick" accept="image/*" style="display:none;">
 
           <button type="button" id="btn-trigger-camera" class="btn-camera-primary">
-            📷 Tomar Foto a mi Mapa Temático Amazónico
+            📷 Tomar Foto a mi Mapa Temático Amazónico (opcional)
           </button>
           <div>
             <button type="button" id="btn-trigger-gallery" class="btn-gallery-link">
@@ -1348,7 +1348,7 @@
           🚀 Enviar Mapa Temático y Ficha Explicativa (Semana 4)
         </button>
         <p class="validation-hint" id="form-validation-hint">
-          Completa los 2 bloques de la ficha explicativa y adjunta la foto de tu mapa temático para habilitar el envío.
+          Completa los 2 bloques de la ficha explicativa para habilitar el envío. La foto de tu mapa temático es opcional (si no la subes, la registrará tu docente).
         </p>
       </form>
 
@@ -2072,17 +2072,18 @@
       const b2Ok = bloquePropuestaEl.value.trim().length >= 10;
       const fotoOk = Boolean(imagenComprimidaBase64);
 
-      const listo = b1Ok && b2Ok && fotoOk;
+      const listo = b1Ok && b2Ok; // La foto es OPCIONAL (el docente puede subirla)
       btnSubmit.disabled = !listo;
 
       if (listo) {
         hintEl.style.color = "#15803D";
-        hintEl.textContent = "✅ Ficha explicativa y mapa temático listos para enviar.";
+        hintEl.textContent = fotoOk
+          ? "✅ Ficha explicativa y mapa temático listos para enviar."
+          : "✅ Ficha explicativa lista. La foto es opcional: si no la subes, la registrará tu docente.";
       } else {
         const faltan = [];
         if (!b1Ok) faltan.push("redactar el Bloque 1 (Relación Cuenca-Economía)");
         if (!b2Ok) faltan.push("redactar el Bloque 2 (Propuesta de Solución Local)");
-        if (!fotoOk) faltan.push("adjuntar la foto de tu Mapa Temático");
         hintEl.style.color = "#0F172A";
         hintEl.textContent = "Pendiente: " + faltan.join(", ") + ".";
       }
@@ -2129,7 +2130,7 @@
         pueblo_analizado: "Vertiente Amazónica Peruana (15 Nodos)",
         texto_justificacion: `Bloque 1 (Economía Local): ${valEconomia} | Bloque 2 (Propuesta Local): ${valPropuesta}`,
         texto_interpretacion: resumenDocente,
-        foto_infografia_base64: imagenComprimidaBase64,
+        ...(imagenComprimidaBase64 ? { foto_infografia_base64: imagenComprimidaBase64 } : {}), // no sobrescribe una foto ya existente
         respuestas_inferencia: reflexionesCriticas,
         respuestas_inferencia_completas: reflexionesDetalladas,
         calificado_por_docente: false
@@ -2175,7 +2176,7 @@
         const successCard = document.getElementById("submission-success-card");
         document.getElementById("submission-summary-text").innerHTML =
           `Estudiante: <strong>${escaparHTML(nombreEstudiante)}</strong> (${escaparHTML(userEmail)})<br>` +
-          `Mapa Temático: <strong>${fotoPesoKB} KB</strong> • Nodos explorados: <strong>${Object.keys(puntosVisitados).length} / 15</strong>`;
+          `Mapa Temático: <strong>${imagenComprimidaBase64 ? fotoPesoKB + " KB" : "lo registrará el docente"}</strong> • Nodos explorados: <strong>${Object.keys(puntosVisitados).length} / 15</strong>`;
         successCard.classList.add("visible");
         successCard.scrollIntoView({ behavior: "smooth", block: "center" });
       } catch (err) {
